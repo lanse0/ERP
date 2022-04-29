@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.storage.dao.StorehouseDao">
+    <select id="findByPage" resultType="Storehouse">
+        select * from storehouse
+    </select>
+    <insert id="addStorehouse" parameterType="Storehouse">
+        insert into storehouse(userId,masterId,provinceId,cityId,name,address,tel,des,status,createTime)
+              values(#{userId},#{masterId},#{provinceId},#{cityId},#{name},#{address},#{tel},#{des},#{status},now())
+    </insert>
+    <delete id="delStorehouse" parameterType="Integer">
+        delete from storehouse where id=#{id}
+    </delete>
+    <update id="updateStorehouse" parameterType="Storehouse">
+       update storehouse set name=#{name},masterId=#{masterId},provinceId=#{provinceId},cityId=#{cityId},address=#{address},tel=#{tel},
+        des =#{des},status=#{status},createTimewhere=now() where id=#{id}
+    </update>
+    <select id="getStorehouseById" parameterType="int">
+        select * from storehouse where id={id}
+    </select>
+</mapper>
