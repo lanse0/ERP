@@ -1,9 +1,0 @@
-# Default ignored files
-.idea
-#target
-target
-*.iml
-*.class
-*.jar
-*.war
-src/main/resources/db.properties
