@@ -1,60 +1,95 @@
 <%--
   Created by IntelliJ IDEA.
-  storehouse: 26584
-  Date: 2022/4/28
-  Time: 17:23
+  User: 26584
+  Date: 2022/5/2
+  Time: 19:17
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Title</title>
+    <title>仓库管理</title>
+    <!-- 引入外部css和js文件 -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/storehouseList.js"></script>
+    <style>
+        .layui-form-label.layui-required:after{
+            content:'*';
+            color:red;
+            font-weight: bold;
+            position: absolute;
+            top:5px;
+            left:15px;
+        }
+
+        .frm {
+            margin-top: 20px;
+        }
+
+        .div-hide {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<form action="/storehouse/findByPage" method="post">
-<input type="submit" value="提交">
-</form>
-<form action="/storehouse/delStorehouse" method="post">
-    <input  id="id">
-    <input type="submit" value="提交">
-</form>
-<form action="/storehouse/upload" method="post" enctype="multipart/form-data">
-    <input type="text" name="id">
-    <input type="file" name="photoSource">
-    <input type="submit" value="提交">
-</form>
-<table width="800px" border="1px" cellpadding="0" cellspacing="0" align="center">
-    <tr>
-        <td>id</td><td>name</td><td>address</td><td>tel</td><td>describe</td><td>status</td><td>createTime</td>
-    </tr>
-    <c:forEach items="${pageInfo.list}" var="storehouse">
+<blockquote class="layui-elem-quote layui-text">
+    <table>
         <tr>
-            <td>${storehouse.id}</td>
-            <td>${storehouse.name}</td>
-            <td>${storehouse.address}</td>
-            <td>${storehouse.tel}</td>
-            <td>${storehouse.des}</td>
-            <td>${storehouse.status}</td>
-            <td><fmt:formatDate value="${storehouse.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+            <td>
+                <input type="text" id="p_id" placeholder="编号" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <td>
+                <input type="text" id="p_name" placeholder="姓名" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <td>
+                <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
+                <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
+                <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
+                <button class="layui-btn layui-btn-danger btn-del"><i class="layui-icon">&#xe640;</i>删除</button>
+            </td>
         </tr>
-    </c:forEach>
-    <tr>
-        <td colspan="7">
-            共 ${pageInfo.total}条记录，每页显示 ${pageInfo.pageSize} 条
-            当前第 ${pageInfo.pageNum}页, 共 ${pageInfo.pages}页
-
-            <a href="${pageContext.request.contextPath}/storehouse/findByPage?pageNum=1">首页</a>
-            <c:if test="${pageInfo.hasPreviousPage}">
-                <a href="${pageContext.request.contextPath}/storehouse/findByPage?pageNum=${pageInfo.prePage}">上一页</a>
-            </c:if>
-            <c:if test="${pageInfo.hasNextPage}">
-                <a href="${pageContext.request.contextPath}/storehouse/findByPage?pageNum=${pageInfo.nextPage}">下一页</a>
-            </c:if>
-            <a href="${pageContext.request.contextPath}/storehouse/findByPage?pageNum=${pageInfo.pages}">尾页</a>
-        </td>
-    </tr>
-</table>
+    </table>
+</blockquote>
+<!--数据表格-->
+<table id="PersonTable" class="layui-hide" lay-filter="person-table"></table>
+<!--人员表单-->
+<div id="box" class="div-hide">
+    <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">编号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="pid" name="id"  placeholder="编号"
+                       autocomplete="off" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" required lay-verify="required" placeholder="姓名"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">年龄</label>
+            <div class="layui-input-inline">
+                <input type="text" name="age" required lay-verify="required" placeholder="年龄"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <input name="sex" value="男" title="男" checked type="radio">
+            <input name="sex" value="女" title="女" type="radio">
+        </div>
+        <div>
+            <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
+            <button type="reset" class="layui-btn form-reset layui-hide"></button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
