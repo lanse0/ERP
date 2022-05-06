@@ -10,15 +10,15 @@
         <result column="userName" property="userName"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
-        <association property="dept" javaType="Department" column="deptId">
-            <id property="id" column="deptId"/>
-            <result property="deptNo" column="deptNo"/>
-            <result property="deptName" column="deptName"/>
-        </association>
-        <association property="role" javaType="Role" column="roleId">
-            <id property="id" column="roleId"/>
-            <result property="roleName" column="roleName"/>
-        </association>
+<!--        <association property="dept" javaType="Department" column="deptId">-->
+<!--            <id property="id" column="deptId"/>-->
+<!--            <result property="deptNo" column="deptNo"/>-->
+<!--            <result property="deptName" column="deptName"/>-->
+<!--        </association>-->
+<!--        <association property="role" javaType="Role" column="roleId">-->
+<!--            <id property="id" column="roleId"/>-->
+<!--            <result property="roleName" column="roleName"/>-->
+<!--        </association>-->
         <result column="sex" property="sex"/>
         <result column="birthDay" property="birthDay"/>
         <result column="hireDate" property="hireDate"/>
@@ -29,7 +29,7 @@
     </resultMap>
 
 
-    <select id="getAllEmpByPage" resultType="EmpResultMap" parameterType="map">
+    <select id="getAllEmpByPage" resultMap="EmpResultMap" parameterType="map">
         SELECT
         e.*,d.deptNo,d.deptName,r.roleName
         FROM
