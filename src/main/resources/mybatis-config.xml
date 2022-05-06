@@ -15,5 +15,6 @@
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
         <mapper resource="com/qf/sys/dao/EmpDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/DepartmentDaoMapping.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/RegionDaoMapping.xml"></mapper>
     </mappers>
 </configuration>
