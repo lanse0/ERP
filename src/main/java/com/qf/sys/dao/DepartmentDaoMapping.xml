@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.DepartmentDao">
+    <resultMap id="DeptMap" type="Department">
+        <id property="id" column="id"/>
+        <result column="deptNo" property="deptNo"/>
+        <result column="deptName" property="deptName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="status" property="status"/>
+        <association property="region" javaType="Region">
+            <id property="id" column="regionId"/>
+            <result property="regionName" column="regionName"/>
+            <result property="regionShortName" column="regionShortName"/>
+            <result property="regionCode" column="regionCode"/>
+            <result property="regionLevel" column="regionLevel"/>
+        </association>
+    </resultMap>
+    <select id="getSelectDept" resultMap="DeptMap">
+        SELECT * FROM department WHERE STATUS = 1 GROUP BY deptName
+    </select>
+</mapper>

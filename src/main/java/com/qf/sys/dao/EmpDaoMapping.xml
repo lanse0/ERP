@@ -10,15 +10,6 @@
         <result column="userName" property="userName"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
-<!--        <association property="dept" javaType="Department" column="deptId">-->
-<!--            <id property="id" column="deptId"/>-->
-<!--            <result property="deptNo" column="deptNo"/>-->
-<!--            <result property="deptName" column="deptName"/>-->
-<!--        </association>-->
-<!--        <association property="role" javaType="Role" column="roleId">-->
-<!--            <id property="id" column="roleId"/>-->
-<!--            <result property="roleName" column="roleName"/>-->
-<!--        </association>-->
         <result column="sex" property="sex"/>
         <result column="birthDay" property="birthDay"/>
         <result column="hireDate" property="hireDate"/>
@@ -26,6 +17,15 @@
         <result column="createTime" property="createTime"/>
         <result column="updateTime" property="updateTime"/>
         <result column="status" property="status"/>
+        <association property="dept" javaType="Department">
+            <id property="id" column="deptId"/>
+            <result property="deptNo" column="deptNo"/>
+            <result property="deptName" column="deptName"/>
+        </association>
+        <association property="role" javaType="Role">
+            <id property="id" column="roleId"/>
+            <result property="roleName" column="roleName"/>
+        </association>
     </resultMap>
 
 

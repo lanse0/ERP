@@ -20,7 +20,7 @@ import java.util.Map;
  * Date:2022/5/6 10:33
  */
 @Controller
-@RequestMapping("/emp")
+@RequestMapping("/users")
 public class EmpController {
     @Resource
     private EmpService empService;
