@@ -9,6 +9,7 @@
     </settings>
     <typeAliases>
         <package name="com.qf.storage.po"></package>
+        <package name="com.qf.sys.po"></package>
     </typeAliases>
     <mappers>
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
