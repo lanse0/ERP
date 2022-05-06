@@ -13,5 +13,6 @@
     </typeAliases>
     <mappers>
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/EmpDaoMapping.xml"></mapper>
     </mappers>
 </configuration>
