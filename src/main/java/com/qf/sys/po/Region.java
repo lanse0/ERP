@@ -13,9 +13,8 @@ public class Region {
     private Region parentReg;//父级地区
     private int regionLevel;//地区级别
 
-    public Region() {
-    }
-
+    public Region() { }
+    public Region(int id) {this.id=id; }
     public Region(String regionName, String regionShortName, String regionCode, Region parentReg, int regionLevel) {
         this.regionName = regionName;
         this.regionShortName = regionShortName;

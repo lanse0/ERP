@@ -1,16 +1,17 @@
 package com.qf.storage.po;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.qf.sys.po.Emp;
+import com.qf.sys.po.Region;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 public class Storehouse {
     public int id;//仓库id 主键自增
-    public int userId;//创建者id
-    public int masterId;//负责人id
-    public int provinceId;//省id
-    public int cityId;//市id
+    Emp user;  //用户表1 创建人
+    Emp master;//用户表  负责人
+    Region region;// 区域表
     public String address;//仓库地址
     public String name;//仓库名称
     public String tel;//仓库电话
@@ -21,12 +22,11 @@ public class Storehouse {
     public Storehouse() {
     }
 
-    public Storehouse(int id, int userId, int masterId, int provinceId,int cityId, String address, String name, String tel, String des, String status, Date createTime) {
+    public Storehouse(int id, Emp user, Emp master, Region region, String address, String name, String tel, String des, String status, Date createTime) {
         this.id = id;
-        this.userId = userId;
-        this.masterId = masterId;
-        this.provinceId = provinceId;
-        this.cityId = cityId;
+        this.user = user;
+        this.master = master;
+        this.region = region;
         this.address = address;
         this.name = name;
         this.tel = tel;
@@ -35,18 +35,26 @@ public class Storehouse {
         this.createTime = createTime;
     }
 
-    public Storehouse(int userId, int masterId, int provinceId, String address, String name, String tel, String des, String status) {
-        this.userId = userId;
-        this.masterId = masterId;
-        this.provinceId = provinceId;
-        this.cityId = cityId;
+    public Storehouse(Emp user, Emp master, Region region, String address, String name, String tel, String des, String status, Date createTime) {
+        this.user = user;
+        this.master = master;
+        this.region = region;
         this.address = address;
         this.name = name;
         this.tel = tel;
         this.des = des;
         this.status = status;
+        this.createTime = createTime;
     }
-
+    public String getMasterName() {
+        return master.getEmpName();
+    }
+    public String getUserName() {
+        return user.getEmpName();
+    }
+    public String getRegionName() {
+        return region.getRegionName();
+    }
     public int getId() {
         return id;
     }
@@ -55,36 +63,28 @@ public class Storehouse {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public Emp getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(Emp user) {
+        this.user = user;
     }
 
-    public int getMasterId() {
-        return masterId;
+    public Emp getMaster() {
+        return master;
     }
 
-    public void setMasterId(int masterId) {
-        this.masterId = masterId;
+    public void setMaster(Emp master) {
+        this.master = master;
     }
 
-    public int getProvinceId() {
-        return provinceId;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setProvinceId(int provinceId) {
-        this.provinceId = provinceId;
-    }
-
-    public int getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     public String getAddress() {
@@ -139,10 +139,9 @@ public class Storehouse {
     public String toString() {
         return "Storehouse{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", masterId=" + masterId +
-                ", provinceId=" + provinceId +
-                ", cityId=" + cityId +
+                ", user=" + user +
+                ", master=" + master +
+                ", region=" + region +
                 ", address='" + address + '\'' +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +

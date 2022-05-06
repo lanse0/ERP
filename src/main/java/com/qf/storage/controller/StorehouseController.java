@@ -6,14 +6,19 @@ import com.qf.storage.po.Storehouse;
 import com.qf.storage.service.StorehouseService;
 import com.qf.storage.utils.PageUtils;
 import com.qf.storage.utils.TableData;
+import com.qf.sys.po.Emp;
+import com.qf.sys.po.Region;
+import com.qf.utils.LayUIOperate;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,15 +38,10 @@ public class StorehouseController {
         int pageSize =Integer.parseInt(request.getParameter("limit"));
         int pageNumber = Integer.parseInt(request.getParameter("page"));
 
-        String _id = request.getParameter("id");
-        int id = 0;
-        if (_id != null && !"".equals(_id)) {
-            id = Integer.parseInt(_id);
-        }
+        String regionName = request.getParameter("regionName");
         String name = request.getParameter("name");
-
         Map params = new HashMap();
-        params.put("id", id);
+        params.put("regionName", regionName);
         params.put("name", name);
         PageHelper.startPage(pageNumber, pageSize);
         PageInfo<Storehouse> data = storehouseService.findByPage(params);
@@ -54,19 +54,53 @@ public class StorehouseController {
     }
 
     @RequestMapping("/addStorehouse")
-    public String addStorehouse(Storehouse storehouse){
-        storehouseService.addStorehouse(storehouse);
-        return "storehouseList2";
+    @ResponseBody
+    public LayUIOperate addStorehouse(Storehouse storehouse,@RequestParam("regionId") Integer regionId,
+                                      @RequestParam("masterId") Integer masterId,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Emp emp=(Emp)session.getAttribute("emp");
+        emp.setId(1);
+        LayUIOperate operate=new LayUIOperate();
+        storehouse.setMaster(new Emp(masterId));
+        storehouse.setUser(emp);
+        storehouse.setRegion(new Region(regionId));
+        boolean f= storehouseService.addStorehouse(storehouse);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户添加成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户添加失败");
+        }
+        return operate;
     }
     @RequestMapping("/delStorehouse")
-    public String delStorehouse(Integer id){
-        storehouseService.delStorehouse(id);
-        return "storehouseList2";
+    @ResponseBody
+    public LayUIOperate delStorehouse(Integer id){
+        LayUIOperate operate=new LayUIOperate();
+        boolean f= storehouseService.delStorehouse(id);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户删除成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户删除失败");
+        }
+        return operate;
     }
     @RequestMapping("/updateStorehouse")
-    public String updateStorehouse(Storehouse storehouse){
-        storehouseService.updateStorehouse(storehouse);
-        return "storehouseList2";
+    @ResponseBody
+    public LayUIOperate updateStorehouse(Storehouse storehouse){
+        LayUIOperate operate=new LayUIOperate();
+        boolean f= storehouseService.updateStorehouse(storehouse);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户更新成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户更新失败");
+        }
+        return operate;
     }
     @RequestMapping("/getStorehouseById")
     public String getStorehouseById(int id){

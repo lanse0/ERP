@@ -36,7 +36,6 @@ public class StorehouseServiceImpl implements StorehouseService {
         boolean b;
         try {
             b = storehouseDao.delStorehouse(id);
-            int a=1/0;
         } catch (Exception e) {
             b=false;
             System.out.println("删除操作撤销");

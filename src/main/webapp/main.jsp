@@ -54,7 +54,7 @@
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;">仓库管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('A_icon.html')">用户管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/storehouseList.jsp')">仓库管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
                         <dd><a href="">the links</a></dd>

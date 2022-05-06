@@ -12,7 +12,6 @@
     <title>仓库管理</title>
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/storehouseList.js"></script>
     <style>
         .layui-form-label.layui-required:after{
@@ -34,11 +33,17 @@
     </style>
 </head>
 <body>
-<blockquote class="layui-elem-quote layui-text">
+<blockquote class="layui-elem-quote layui-text layui-form">
     <table>
         <tr>
             <td>
-                <input type="text" id="p_id" placeholder="编号" autocomplete="off" class="layui-input ipt1">
+                        <select id="province1" lay-filter="province1" lay-verify="required">
+                            <option>省份</option>
+                        </select>
+            </td>
+            <td>
+                <select id="city1"   lay-verify="required">
+                </select>
             </td>
             <td width="10">&nbsp;</td>
             <td>
@@ -60,30 +65,55 @@
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <div class="layui-form-item">
-            <label class="layui-form-label">编号</label>
+            <label class="layui-form-label">仓库名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="pid" name="id"  placeholder="编号"
-                       autocomplete="off" class="layui-input" readonly="readonly">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">姓名</label>
-            <div class="layui-input-inline">
-                <input type="text" name="name" required lay-verify="required" placeholder="姓名"
+                <input type="text" name="name" required lay-verify="required" placeholder="仓库名称"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">年龄</label>
+            <label class="layui-form-label">仓库地址</label>
             <div class="layui-input-inline">
-                <input type="text" name="age" required lay-verify="required" placeholder="年龄"
+                <input type="text" name="address" required lay-verify="required" placeholder="仓库地址"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">性别</label>
-            <input name="sex" value="男" title="男" checked type="radio">
-            <input name="sex" value="女" title="女" type="radio">
+            <label class="layui-form-label">所属区域</label>
+            <div class="layui-input-block">
+                <select id="province" lay-filter="province" lay-verify="required">
+                </select>
+            </div>
+            <div class="layui-input-block">
+                <select id="city" name="regionId" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">负责人</label>
+            <div class="layui-input-block">
+                <select id="masterId" name="masterId" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tel" required lay-verify="required" placeholder="仓库地址"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-inline">
+                <input type="text" name="des" required lay-verify="required" placeholder="仓库地址"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <input name="status" value="1" title="可用" checked type="radio">
+            <input name="status" value="0" title="不可用" type="radio">
         </div>
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>

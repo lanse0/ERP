@@ -26,6 +26,7 @@ public class Emp {
 
     public Emp() {
     }
+    public Emp(int id) {this.id=id; }
 
     public String getDeptName() {
         return dept.getDeptName();

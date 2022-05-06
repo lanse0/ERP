@@ -3,12 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qf.storage.dao.StorehouseDao">
-    <select id="findByPage" resultType="Storehouse" parameterType="map">
-        select * from storehouse
-        <if test="id != 0">
-            AND id = #{id}
+    <resultMap id="storehouseMap" type="Storehouse">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="tel" property="tel"/>
+        <result column="des" property="des"/>
+        <result column="status" property="status"/>
+        <result column="createTime" property="createTime"/>
+        <association property="user" javaType="Emp">
+            <id property="id" column="id" />
+            <result property="empName" column="empName" />
+        </association>
+        <association property="master" javaType="Emp">
+            <id property="id" column="id" />
+            <result property="empName" column="empName" />
+        </association>
+        <association property="region" javaType="Region">
+            <id property="id" column="id" />
+            <result property="regionName" column="regionName" />
+        </association>
+    </resultMap>
+    <select id="findByPage" resultMap="storehouseMap" parameterType="map">
+        select s.*,e.id,e.empName,ee.id,ee.empName,r.id,r.regionName from storehouse s left join emp e on s.userId=e.id
+        left join emp ee on s.masterId=ee.id
+        left join region r on s.regionId=r.id
+        where 1=1
+        <if test="regionName != null and regionName != ''">
+            AND regionName like concat('%',#{regionName},'%')
         </if>
-
         <if test="name != null and name != ''">
             AND name like concat('%',#{name},'%')
         </if>

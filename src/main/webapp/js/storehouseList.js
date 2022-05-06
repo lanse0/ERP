@@ -13,14 +13,13 @@ layui.use(['table', 'form'], function () {
             {type: 'radio'},
             {field: 'id', title: '编号'},
             {field: 'name', title: '仓库名称'},
-            {field: 'masterId', title: '负责人'},
+            {field: 'masterName', title: '负责人'},
             {field: 'tel', title: '联系电话'},
-            {field: 'provinceId', title: '省份'},
-            {field: 'cityId', title: '城市'},
+            {field: 'regionName', title: '所属区域'},
             {field: 'status', title: '状态'},
             {field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
             },
-            {field: 'userId', title: '创建人'}
+            {field: 'userName', title: '创建人'}
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -33,18 +32,24 @@ layui.use(['table', 'form'], function () {
             table.resize('PersonTable');
         }
     });
-
+    getProvince('1');
+    form.on('select(province1)', function(data){
+        getCity('1',data.value);
+    });
+    form.on('select(province)', function(data){
+        getCity('',data.value)
+    });
     //查询
     $('.btn-search').on('click', function () {
         var p_name = $('#p_name').val();
-        var p_id = $('#p_id').val();
+        var regionName = $('#city1').val();
         table.reload('PersonTable', {
-            url: 'getAllPersonList',
+            url: '/storehouse/findByPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
                 name: p_name,
-                id: p_id
+                regionName: regionName
             },
             page: {
                 curr: 1 //重新从第 1 页开始
@@ -55,13 +60,15 @@ layui.use(['table', 'form'], function () {
     //添加人员
     $('.btn-add').on('click', function () {
         $('.form-reset').click();
-        // $('#pid').attr('disabled', true);
+        getProvince('');
+        getMaster();
         $('#pid').removeClass('layui-disabled');
         layer.open({
             type: 1,
             shift: 2,
+            shade: 0,
             title: '添加人员信息',
-            area: ['370px', '340px'],
+            area: ['402px', '520px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -77,7 +84,6 @@ layui.use(['table', 'form'], function () {
         });
         form.render();
     });
-
     //修改
     $('.btn-edit').on('click', function () {
         var cs = table.checkStatus('PersonTable');
@@ -85,7 +91,6 @@ layui.use(['table', 'form'], function () {
         var i = data.length;
         if (i === 1) {
             form.val('person-form', data[0]);
-            $('#pid').attr('disabled', true);
             $('#pid').addClass('layui-disabled');
             layer.open({
                 type: 1,
@@ -123,7 +128,7 @@ layui.use(['table', 'form'], function () {
         }
         layer.confirm('确定要删除选中的人员信息吗？', function (index) {
             $.ajax({
-                url: 'deletePerson',
+                url: '/storehouse/delStorehouse',
                 type: 'post',
                 data: {
                     id: data[0].id
@@ -166,7 +171,7 @@ layui.use(['table', 'form'], function () {
                 layer.closeAll('loading');
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('PersonTable', {
+                    table.reload('/storehouse/findByPage', {
                         where: {},
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -184,4 +189,66 @@ layui.use(['table', 'form'], function () {
         });
         return false;
     });
+    function getProvince(p){
+        $.ajax({
+            url: '/area/getProvince',
+            type: 'post',
+            data: {},
+            dataType: 'json',
+            success: function (resp) {
+                console.log(resp);
+               // $("#province"+p).html("<option value=\"0\">请选择</option><option value=\"1\">北京</option><option value=\"2\">上海</option>");
+
+            }
+        });
+        form.render("select");
+    }
+    function getCity(c,v){
+        $("#city"+c).html("<option value=\"0\">请选择</option><option value=\"1\">北京</option><option value=\"2\">上海</option>");
+        // $.ajax({
+        //     url: '/storehouse/delStorehouse',
+        //     type: 'post',
+        //     data: {
+        //         id: v
+        //     },
+        //     dataType: 'json',
+        //     success: function (resp) {
+        //         if (resp.success) {
+        //             table.reload('PersonTable', {
+        //                 where: {},
+        //                 page: {
+        //                     curr: 1 //重新从第 1 页开始
+        //                 }
+        //             });
+        //             layer.msg(resp.message, {icon: 6});
+        //         } else {
+        //             layer.msg(resp.message, {icon: 5});
+        //         }
+        //     }
+        // });
+        form.render("select");
+    }
+    function getMaster(){
+        $("#masterId").html("<option value=\"0\">请选择</option><option value=\"1\">ki</option><option value=\"2\">kii</option>");
+        // $.ajax({
+        //     url: '/storehouse/delStorehouse',
+        //     type: 'post',
+        //     data: {},
+        //     dataType: 'json',
+        //     success: function (resp) {
+        //         if (resp.success) {
+        //             table.reload('PersonTable', {
+        //                 where: {},
+        //                 page: {
+        //                     curr: 1 //重新从第 1 页开始
+        //                 }
+        //             });
+        //             layer.msg(resp.message, {icon: 6});
+        //         } else {
+        //             layer.msg(resp.message, {icon: 5});
+        //         }
+        //     }
+        // });
+        form.render("select");
+    }
 });
