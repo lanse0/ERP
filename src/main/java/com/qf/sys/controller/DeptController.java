@@ -1,6 +1,7 @@
 package com.qf.sys.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Department;
 import com.qf.sys.service.DepartmentService;
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,14 @@ public class DeptController {
     @Resource
     private DepartmentService deptService;
     @RequestMapping("/getSelectDept")
-    public void getSelectDept(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public TableData getSelectDept(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         List<Department> deptList = deptService.getSelectDept();
-        PrintWriter out = response.getWriter();
-        JSONObject jobj = new JSONObject();
-        jobj.put("deptList",deptList);
-        out.write(jobj.toJSONString());
-        out.flush();
-        out.close();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(deptList.size());
+        data.setData(deptList);
+        return data;
     }
 }

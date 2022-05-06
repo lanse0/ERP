@@ -1,6 +1,7 @@
 package com.qf.sys.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Department;
 import com.qf.sys.po.Region;
 import com.qf.sys.service.RegionService;
@@ -27,30 +28,26 @@ public class RegionController {
     private RegionService regionService;
 
     @RequestMapping("/getCityByPId")//根据省份获取城市
-    public void getCityByPId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public TableData getCityByPId(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pidStr = request.getParameter("pid");
         int pid = 0;
         if (pidStr!=null&&pidStr.equals("")){
             pid = Integer.parseInt(pidStr);
         }
         List<Region> cityList = regionService.getCityByPId(pid);
-        PrintWriter out = response.getWriter();
-        JSONObject jobj = new JSONObject();
-        jobj.put("cityList",cityList);
-        out.write(jobj.toJSONString());
-        out.flush();
-        out.close();
-        jobj.clear();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(cityList.size());
+        data.setData(cityList);
+        return data;
     }
     @RequestMapping("/getProvince")//获取所有省份
-    public void getProvince(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public TableData getProvince(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Region> provinceList = regionService.getProvince();
-        PrintWriter out = response.getWriter();
-        JSONObject jobj = new JSONObject();
-        jobj.put("provinceList",provinceList);
-        out.write(jobj.toJSONString());
-        out.flush();
-        out.close();
-        jobj.clear();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(provinceList.size());
+        data.setData(provinceList);
+        return data;
     }
 }

@@ -12,9 +12,10 @@ layui.use(['table', 'form'], function () {
         success: function (data) {
             console.log(data);//下面会提到这个data是什么值
             //使用循环遍历，给下拉列表赋值
-            $.each(data.data, function (index, value) {
-                // console.log(value.department_id);
-                $('#dp').append(new Option(value.department_name, value.department_id));// 下拉菜单里添加元素
+            var depts = JSON.parse(data);
+            $.each(depts.data, function (index, value) {
+                console.log(value.deptName);
+                $('#dept').append(new Option(value.deptName, value.deptName));// 下拉菜单里添加元素
             });
             layui.form.render("select");//重新渲染 固定写
         }
