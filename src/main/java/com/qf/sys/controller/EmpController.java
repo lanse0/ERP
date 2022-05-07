@@ -6,7 +6,9 @@ import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Department;
 import com.qf.sys.po.Emp;
 import com.qf.sys.service.EmpService;
+import com.qf.utils.LayUIOperate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -69,4 +71,19 @@ public class EmpController {
         return data;
     }
 
+    @RequestMapping("/addEmp")
+    @ResponseBody
+    public LayUIOperate addEmp(@RequestBody Emp emp){
+        LayUIOperate operate=new LayUIOperate();
+        System.out.println("addEmp -->"+emp);
+        boolean f= empService.addEmp(emp);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户添加成功！牛逼");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户添加失败");
+        }
+        return operate;
+    }
 }

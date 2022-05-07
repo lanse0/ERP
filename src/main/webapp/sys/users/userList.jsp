@@ -43,11 +43,11 @@
     <table>
         <tr>
             <td>
-                <input type="text" id="empNo" placeholder="编号" autocomplete="off" class="layui-input ipt1">
+                <input type="text" id="empNo1" placeholder="编号" autocomplete="off" class="layui-input ipt1">
             </td>
             <td width="10">&nbsp;</td>
             <td>
-                <input type="text" id="empName" placeholder="姓名" autocomplete="off" class="layui-input ipt1">
+                <input type="text" id="empName1" placeholder="姓名" autocomplete="off" class="layui-input ipt1">
             </td>
             <td width="10">&nbsp;</td>
             <td>
@@ -77,32 +77,78 @@
 <table id="EmpTable" class="layui-hide" lay-filter="person-table"></table>
 <!--人员表单-->
 <div id="box" class="div-hide">
-    <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
+    <form id="EmpForm" class="layui-form frm" lay-filter="emp-form">
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">
-                <input type="text" id="pid" name="id" placeholder="编号"
-                       autocomplete="off" class="layui-input" readonly="readonly">
+                <input type="text" id="empNo" name="empNo" lay-verify="required" placeholder="编号"
+                       autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-inline">
-                <input type="text" name="name" required lay-verify="required" placeholder="姓名"
+                <input type="text" id="empName" name="empName" required lay-verify="required" placeholder="姓名"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">年龄</label>
+            <label class="layui-form-label">账号</label>
             <div class="layui-input-inline">
-                <input type="text" name="age" required lay-verify="required" placeholder="年龄"
+                <input type="text" id="userName" name="userName" required lay-verify="required" placeholder="账号"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="password" name="password" required lay-verify="required" placeholder="密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-inline">
+                <input type="text" id="phone" name="phone" required lay-verify="required" placeholder="电话"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门</label>
+            <div class="layui-input-inline" style="width: 130px;">
+                <select id="province" lay-filter="province">
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 130px;">
+                <select id="city" lay-filter="city">
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 130px;">
+                <select id="dept1" name="dept.id" lay-filter="dept1" lay-verify="required">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职位</label>
+            <div class="layui-input-inline">
+<%--                <select id="role" name="role.id" data-json-type="array">--%>
+                <select id="role" name="role.id" lay-verify="required">
+                    <option class="layui-disabled" value="">先选择部门</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">生日</label>
+            <div class="layui-input-inline">
+                <input type="date" id="birthDay" name="birthDay" required lay-verify="required" placeholder="生日"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
-            <input name="sex" value="男" title="男" checked type="radio">
-            <input name="sex" value="女" title="女" type="radio">
+            <input name="sex" value="1" title="男" checked type="radio">
+            <input name="sex" value="0" title="女" type="radio">
         </div>
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>

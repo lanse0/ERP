@@ -34,4 +34,16 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> getEmpByRole(int roleId){//根据角色获取用户
         return empDao.getEmpByRole(roleId);
     }
+
+    @Override
+    public boolean addEmp(Emp emp) {
+        boolean f = true;
+        try {
+            empDao.addEmp(emp);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
 }

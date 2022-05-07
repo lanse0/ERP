@@ -21,7 +21,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     //获取下拉框数据
     public List<Department> getSelectDept() {
-        List<Department> departmentList = deptDao.getSelectDept();
-        return departmentList;
+        return deptDao.getSelectDept();
+    }
+
+    @Override
+    public List<Department> getDeptByRegion(int regionId) {
+        return deptDao.getDeptByRegion(regionId);
     }
 }

@@ -11,4 +11,7 @@ public interface EmpDao {
     public Emp login(String name);
     public List<Emp> getAllEmpByPage(Map params);
     public List<Emp> getEmpByRole(@Param("roleId") int roleId);//根据角色获取用户
+
+    public boolean addEmp(Emp emp);//添加用户
+    public boolean updEmp(Emp emp);//修改
 }

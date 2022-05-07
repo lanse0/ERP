@@ -64,4 +64,12 @@
             AND e.roleId = #{roleId}
     </select>
 
+    <insert id="addEmp" parameterType="Emp">
+        INSERT INTO emp ( empNo, empName, userName, password, phone, deptId, roleId,sex,birthDay,hireDate,createTime)
+        VALUES( #{empNo}, #{empName}, #{userName},#{password},#{phone},#{dept.id},#{role.id},#{sex},#{birthDay},SYSDATE(),SYSDATE());
+    </insert>
+
+    <update id="updEmp" parameterType="Emp">
+
+    </update>
 </mapper>

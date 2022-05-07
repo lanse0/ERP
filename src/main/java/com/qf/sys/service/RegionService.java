@@ -10,4 +10,5 @@ public interface RegionService {
     public List<Region> getCityByPId(int pId);
     //获取所有省份
     public List<Region> getProvince();
+
 }

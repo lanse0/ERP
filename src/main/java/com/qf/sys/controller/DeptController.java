@@ -28,10 +28,18 @@ public class DeptController {
 
     @RequestMapping("/getSelectDept")
     @ResponseBody
-    public TableData getSelectDept(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
+    public TableData getSelectDept(){
         List<Department> deptList = deptService.getSelectDept();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(deptList.size());
+        data.setData(deptList);
+        return data;
+    }
+    @RequestMapping("/getDeptByRegion")
+    @ResponseBody
+    public TableData getDeptByRegion(Integer regionId) {
+        List<Department> deptList = deptService.getDeptByRegion(regionId);
         TableData data = new TableData();
         data.setCode(0);
         data.setCount(deptList.size());

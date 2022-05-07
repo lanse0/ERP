@@ -21,4 +21,15 @@
     <select id="getSelectDept" resultMap="DeptMap">
         SELECT * FROM department WHERE STATUS = 1 GROUP BY deptName
     </select>
+    <select id="getDeptByRegion" resultMap="DeptMap">
+        SELECT
+            d.*, r.id rid, r.regionName regionName,r.regionCode regionCode,r.regionLevel regionLevel
+        FROM
+            department d,
+            region r
+        WHERE
+            d.regionId = r.id
+            AND d.STATUS = 1
+            AND r.id = #{regionId}
+    </select>
 </mapper>

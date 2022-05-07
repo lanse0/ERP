@@ -19,6 +19,10 @@ public class Department {
     public Department() {
     }
 
+    public Department(int id) {
+        this.id = id;
+    }
+
     public Department(String deptNo, String deptName, Region region, Date createTime, Date updateTime) {
         this.deptNo = deptNo;
         this.deptName = deptName;

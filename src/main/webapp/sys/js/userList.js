@@ -3,22 +3,37 @@ layui.use(['table', 'form'], function () {
         form = layui.form,
         $ = layui.jquery;
     //渲染表单元素
-    // form.render();
-    //下拉框初始化
+    //form.render();
+    //搜索栏下拉框初始化
     $.ajax({
         url: '/dept/getSelectDept',
         dataType: 'json',
         type: 'get',
         success: function (data) {
-            console.log(data);//下面会提到这个data是什么值
+            //下面会提到这个data是什么值
             //使用循环遍历，给下拉列表赋值
             $.each(data.data, function (index, value) {
-                console.log(value.deptName);
                 $('#dept').append(new Option(value.deptName, value.deptName));// 下拉菜单里添加元素
             });
             form.render("select");//重新渲染 固定写
         }
     });
+    //省份下拉框
+    getProvince();
+    //省份联动城市
+    form.on('select(province)', function (data) {
+        getCity(data.value);
+        getDept(data.value);
+    });
+    //城市联动部门
+    form.on('select(city)', function (data) {
+        getDept(data.value);
+    });
+    //部门联动职位
+    form.on('select(dept1)', function (data) {
+        getRole(data.value);
+    });
+
     //表格渲染
     table.render({
         elem: '#EmpTable',
@@ -53,11 +68,11 @@ layui.use(['table', 'form'], function () {
     });
     //查询
     $('.btn-search').on('click', function () {
-        var empNo = $('#empNo').val();
-        var empName = $('#empName').val();
+        var empNo = $('#empNo1').val();
+        var empName = $('#empName1').val();
         var dept = $('#dept').val();
         var status = $('#status').val();
-        console.log(empNo+","+empName+","+dept+","+status);
+        // console.log(empNo + "," + empName + "," + dept + "," + status);
         table.reload('EmpTable', {
             url: '/users/getAllEmpList',
             method: 'post',
@@ -77,14 +92,14 @@ layui.use(['table', 'form'], function () {
     //添加人员
     $('.btn-add').on('click', function () {
         $('.form-reset').click();
-        $('#pid').attr('disabled', true);
-        $('#pid').removeClass('layui-disabled');
+        $('#empNo').attr('disabled', false);
+        $('#empNo').removeClass('layui-disabled');
         layer.open({
             type: 1,
             shift: 2,
-            shade:0,
+            shade: 0,//遮罩
             title: '添加人员信息',
-            area: ['370px', '340px'],
+            area: ['570px', '540px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -103,18 +118,19 @@ layui.use(['table', 'form'], function () {
 
     //修改
     $('.btn-edit').on('click', function () {
-        var cs = table.checkStatus('PersonTable');
+        var cs = table.checkStatus('EmpTable');
         var data = cs.data;
         var i = data.length;
         if (i === 1) {
-            form.val('person-form', data[0]);
-            $('#pid').attr('disabled', true);
-            $('#pid').addClass('layui-disabled');
+            form.val('emp-form', data[0]);
+            $('#empNo').attr('disabled', true);
+            $('#empNo').addClass('layui-disabled');
             layer.open({
                 type: 1,
                 shift: 2,
+                shade: 0,
                 title: '修改人员信息',
-                area: ['370px', '340px'],
+                area: ['570px', '540px'],
                 closeBtn: false,
                 shadeClose: false,
                 content: $('#box'),
@@ -135,9 +151,9 @@ layui.use(['table', 'form'], function () {
         }
     });
 
-    //删除
+    //删除(离职)
     $('.btn-del').on('click', function () {
-        var cs = table.checkStatus('PersonTable');
+        var cs = table.checkStatus('EmpTable');
         var data = cs.data;
         var i = data.length;
         if (i < 1) {
@@ -154,7 +170,7 @@ layui.use(['table', 'form'], function () {
                 dataType: 'json',
                 success: function (resp) {
                     if (resp.success) {
-                        table.reload('PersonTable', {
+                        table.reload('EmpTable', {
                             where: {},
                             page: {
                                 curr: 1 //重新从第 1 页开始
@@ -171,17 +187,20 @@ layui.use(['table', 'form'], function () {
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性
     form.on('submit(save)', function (data) {
-        var f = $('#pid').is(":disabled");
+        var json_data = $("#EmpForm").serializeObject();
+        console.log(json_data);
+        var f = $('#empNo').is(":disabled");
         var url = '-';
         if (f) { //修改
             url = 'updatePerson';
         } else {  //添加
-            url = 'addPerson';
+            url = '/users/addEmp';
         }
         layer.load(1);
         $.ajax({
             url: url,
-            data: JSON.stringify(data.field),
+            // data: JSON.stringify(data.field),
+            data: JSON.stringify(json_data),
             type: 'post',
             dataType: 'json',
             contentType: "application/json",
@@ -189,7 +208,7 @@ layui.use(['table', 'form'], function () {
                 layer.closeAll('loading');
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('PersonTable', {
+                    table.reload('EmpTable', {
                         where: {},
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -207,4 +226,109 @@ layui.use(['table', 'form'], function () {
         });
         return false;
     });
+
+    function getProvince() {
+        $.ajax({
+            url: '/area/getProvince',
+            type: 'post',
+            dataType: 'json',
+            success: function (resp) {
+                console.log(resp);
+                $("#province").append(new Option("请选择省份", 0));
+                $.each(resp.data, function (index, value) {
+                    $("#province").append(new Option(value.regionName, value.id));
+                });
+                form.render("select");
+            }
+        });
+    }
+
+    function getCity(pId) {
+        $("#city").html("");
+        $.ajax({
+            url: '/area/getCityByPId',
+            type: 'post',
+            data: {id: pId},
+            dataType: 'json',
+            success: function (resp) {
+                $("#city").append(new Option("请选择城市", pId));
+                console.log(resp);
+                $.each(resp.data, function (index, value) {
+                    $("#city").append(new Option(value.regionName, value.id));
+                });
+                form.render("select");
+            }
+        });
+    }
+
+    function getDept(regionId) {
+        //清空之前的内容
+        $("#dept1").html("");
+        $.ajax({
+            url: '/dept/getDeptByRegion',
+            type: 'post',
+            data: {regionId: regionId},
+            dataType: 'json',
+            success: function (data) {
+                $("#dept1").append(new Option("请选择部门", ''));
+                $.each(data.data, function (index, value) {
+                    $("#dept1").append(new Option(value.deptName, value.id));
+                });
+                form.render("select");
+            }
+        });
+    }
+
+    function getRole(deptId) {
+        //清空之前的内容
+        $("#role").html("");
+        $.ajax({
+            url: '/role/getRoleByDept',
+            type: 'post',
+            data: {deptId: deptId},
+            dataType: 'json',
+            success: function (data) {
+                $("#role").append(new Option("请选择职位", ''));
+                $.each(data.data, function (index, value) {
+                    $("#role").append(new Option(value.roleName, value.id));
+                });
+                form.render("select");
+            }
+        });
+    }
+
+
+    //自定义serializeObject ()函数，格式化
+    $.fn.serializeObject = function () {
+        const o = {};
+        const a = this.serializeArray();
+        $.each(a, function () {
+            //增加嵌套属性支持
+            const names = this.name.split(".")
+            let temp = o;
+            const end = (names.length - 1);
+            //为了支持强制指定单值也可以为json array类型
+            const jsonType = $('[name="' + this.name + '"]').data("json-type");
+            const jsonArray = jsonType && (jsonType === 'array');
+            names.forEach((item, index, array) => {
+                if (temp[item]) {
+                    if (index == end) {
+                        if (!temp[item].push) {
+                            temp[item] = [temp[item]];
+                        }
+                        temp[item].push(this.value || '');
+                    }
+                } else {
+                    if (index == end) {
+                        temp[item] = jsonArray ? [this.value || ''] : (this.value || '');
+                    } else {
+                        temp[item] = jsonArray ? [] : {};
+                    }
+                }
+                temp = temp[item];
+            })
+        });
+        return o;
+    };
+
 });

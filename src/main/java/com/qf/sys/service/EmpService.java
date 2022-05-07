@@ -9,4 +9,5 @@ import java.util.Map;
 public interface EmpService {
     public PageInfo<Emp> getAllEmpByPage(Map params);
     public List<Emp> getEmpByRole(int roleId);//根据角色获取用户
+    public boolean addEmp(Emp emp);//添加用户
 }
