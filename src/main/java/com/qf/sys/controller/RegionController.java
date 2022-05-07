@@ -29,13 +29,9 @@ public class RegionController {
     private RegionService regionService;
 
     @RequestMapping("/getCityByPId")//根据省份获取城市
-    public TableData getCityByPId(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pidStr = request.getParameter("pid");
-        int pid = 0;
-        if (pidStr!=null&&pidStr.equals("")){
-            pid = Integer.parseInt(pidStr);
-        }
-        List<Region> cityList = regionService.getCityByPId(pid);
+    @ResponseBody
+    public TableData getCityByPId(Integer id) throws IOException {
+        List<Region> cityList = regionService.getCityByPId(id);
         TableData data = new TableData();
         data.setCode(0);
         data.setCount(cityList.size());
@@ -43,6 +39,7 @@ public class RegionController {
         return data;
     }
     @RequestMapping("/getProvince")//获取所有省份
+    @ResponseBody
     public TableData getProvince(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Region> provinceList = regionService.getProvince();
         TableData data = new TableData();

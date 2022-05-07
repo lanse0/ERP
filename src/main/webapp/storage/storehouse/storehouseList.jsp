@@ -38,16 +38,15 @@
         <tr>
             <td>
                         <select id="province1" lay-filter="province1" lay-verify="required">
-                            <option>省份</option>
                         </select>
             </td>
             <td>
-                <select id="city1"   lay-verify="required">
+                <select id="city1"  lay-filter="city1"  lay-verify="required">
                 </select>
             </td>
             <td width="10">&nbsp;</td>
             <td>
-                <input type="text" id="p_name" placeholder="姓名" autocomplete="off" class="layui-input ipt1">
+                <input type="text" id="p_name" placeholder="仓库名称" autocomplete="off" class="layui-input ipt1">
             </td>
             <td width="10">&nbsp;</td>
             <td>
@@ -106,8 +105,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-inline">
-                <input type="text" name="des" required lay-verify="required" placeholder="仓库地址"
-                       autocomplete="off" class="layui-input">
+               <textarea name="des"></textarea>
             </div>
         </div>
         <div class="layui-form-item">

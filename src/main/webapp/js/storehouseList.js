@@ -39,17 +39,28 @@ layui.use(['table', 'form'], function () {
     form.on('select(province)', function(data){
         getCity('',data.value)
     });
-    //查询
-    $('.btn-search').on('click', function () {
-        var p_name = $('#p_name').val();
-        var regionName = $('#city1').val();
+    form.on('select(city1)', function(){
         table.reload('PersonTable', {
             url: '/storehouse/findByPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
-                name: p_name,
-                regionName: regionName
+                regionName: $("#city1").val()
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    });
+    //查询
+    $('.btn-search').on('click', function () {
+        var p_name = $('#p_name').val();
+        table.reload('PersonTable', {
+            url: '/storehouse/findByPage',
+            method: 'post',
+            dataType: 'json',
+            where: { //设定异步数据接口的额外参数，任意设
+                name: p_name
             },
             page: {
                 curr: 1 //重新从第 1 页开始
@@ -68,7 +79,7 @@ layui.use(['table', 'form'], function () {
             shift: 2,
             shade: 0,
             title: '添加人员信息',
-            area: ['402px', '520px'],
+            area: ['366px', '520px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -95,6 +106,7 @@ layui.use(['table', 'form'], function () {
             layer.open({
                 type: 1,
                 shift: 2,
+                shade: 0,
                 title: '修改人员信息',
                 area: ['370px', '340px'],
                 closeBtn: false,
@@ -196,13 +208,12 @@ layui.use(['table', 'form'], function () {
             dataType:'json',
             success: function (resp) {
                 console.log(resp);
+                $("#province"+p).append(new Option("省",0));
                 $.each(resp.data, function (index, value) {
                     $("#province"+p).append(new Option(value.regionName,value.id));
                 });
                 form.render("select");
-            }
-        });
-    }
+            }});}
     function getCity(c,v){
         $("#city"+c).html("");
         $.ajax({
@@ -211,7 +222,7 @@ layui.use(['table', 'form'], function () {
             data:{id:v},
             dataType:'json',
             success: function (resp) {
-                $("#city"+c).append(new Option("城市",0));
+                $("#city"+c).append(new Option("市",0));
                 console.log(resp);
                 $.each(resp.data, function (index, value) {
                     $("#city"+c).append(new Option(value.regionName,value.id));
@@ -222,26 +233,21 @@ layui.use(['table', 'form'], function () {
         form.render("select");
     }
     function getMaster(){
-        $("#masterId").html("<option value=\"0\">请选择</option><option value=\"1\">ki</option><option value=\"2\">kii</option>");
-        // $.ajax({
-        //     url: '/storehouse/delStorehouse',
-        //     type: 'post',
-        //     data: {},
-        //     dataType: 'json',
-        //     success: function (resp) {
-        //         if (resp.success) {
-        //             table.reload('PersonTable', {
-        //                 where: {},
-        //                 page: {
-        //                     curr: 1 //重新从第 1 页开始
-        //                 }
-        //             });
-        //             layer.msg(resp.message, {icon: 6});
-        //         } else {
-        //             layer.msg(resp.message, {icon: 5});
-        //         }
-        //     }
-        // });
+        $("#masterId").html("");
+        $.ajax({
+            url: '/users/getEmpByRoleId',
+            type: 'post',
+            data:{roleId:4},
+            dataType:'json',
+            success: function (resp) {
+                $("#masterId").append(new Option("请选择",0));
+                console.log(resp);
+                $.each(resp.data, function (index, value) {
+                    $("#masterId").append(new Option(value.empName,value.id));
+                });
+                form.render("select");
+            }
+        });
         form.render("select");
     }
 });

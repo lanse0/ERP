@@ -29,8 +29,8 @@
         left join emp ee on s.masterId=ee.id
         left join region r on s.regionId=r.id
         where 1=1
-        <if test="regionName != null and regionName != ''">
-            AND regionName like concat('%',#{regionName},'%')
+        <if test="regionName != null and regionName != '' and regionName != 0">
+            AND regionId=${regionName}
         </if>
         <if test="name != null and name != ''">
             AND name like concat('%',#{name},'%')
