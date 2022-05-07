@@ -45,10 +45,23 @@
             and e.empName like concat('%',#{empName},'%')
         </if>
         <if test="deptName!=null and deptName!=''">
-            AND d.deptName = '研发部' #{deptName}
+            AND d.deptName = #{deptName}
         </if>
         <if test="status!=null and status!=''">
             and e.status = #{status}
         </if>
     </select>
+    <select id="getEmpByRole" resultMap="EmpResultMap">
+        SELECT
+            e.*,d.deptNo,d.deptName,r.roleName
+        FROM
+            emp e,
+            department d,
+            role r
+        WHERE
+            e.deptId = d.id
+            AND e.roleId = r.id
+            AND e.roleId = #{roleId}
+    </select>
+
 </mapper>

@@ -51,8 +51,8 @@
             </td>
             <td width="10">&nbsp;</td>
             <td>
-                <select id="dept" name="dept">
-                    <option value="" selected>请选择部门</option>
+                <select id="dept">
+                    <option value="">请选择部门</option>
                 </select>
             </td>
             <td width="10">&nbsp;</td>

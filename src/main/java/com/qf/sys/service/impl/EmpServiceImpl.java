@@ -30,4 +30,8 @@ public class EmpServiceImpl implements EmpService {
         PageInfo<Emp> pageInfo = new PageInfo<Emp>(empList);
         return pageInfo;
     }
+    @Override
+    public List<Emp> getEmpByRole(int roleId){//根据角色获取用户
+        return empDao.getEmpByRole(roleId);
+    }
 }

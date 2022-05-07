@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface DepartmentDao {
     public List<Department> getSelectDept();//获取下拉框数据
+    public List<Department> getDeptByRegion(int regionId);//根据地区获取部门
 }
