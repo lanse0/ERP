@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.market.dao.CustomerDao">
+    <select id="findByCustomerPage" resultType="Customer">
+       select * from customer
+    </select>
+    <insert id="addCustomer" parameterType="Customer">
+        insert into customer(ordersNo,customerId,orderTime,amount,status,auditor,auditTime)
+              values(#{ordersNo},#{customerId},#{orderTime},#{amount},#{status},#{auditor},#{auditTime})
+    </insert>
+    <delete id="delCustomer" parameterType="Integer">
+        delete from customer where id=#{id}
+    </delete>
+    <update id="updateCustomer" parameterType="Customer">
+       update Customer set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},
+                              amount=#{amount},status=#{status},auditor=#{auditor},auditTime=#{auditTime}
+       where id=#{id}
+    </update>
+    <select id="getCustomerById" parameterType="int">
+        select * from customer where id={id}
+    </select>
+</mapper>

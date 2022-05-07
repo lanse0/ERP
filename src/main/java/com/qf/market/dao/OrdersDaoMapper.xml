@@ -3,8 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qf.market.dao.OrdersDao">
-    <select id="findByPage" resultType="Orders">
-        select * from orders
+    <select id="findByOrdersPage" resultType="Orders">
+        select c.customerName,c.phone,o.*
+           from orders o,customer c where o.customerId=c.id
     </select>
     <insert id="addOrders" parameterType="Orders">
         insert into orders(ordersNo,customerId,orderTime,amount,status,auditor,auditTime)
@@ -14,11 +15,11 @@
         delete from orders where id=#{id}
     </delete>
     <update id="updateOrders" parameterType="Orders">
-       update storehouse set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},
+       update orders set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},
                               amount=#{amount},status=#{status},auditor=#{auditor},auditTime=#{auditTime}
        where id=#{id}
     </update>
-    <select id="getStorehouseById" parameterType="int">
+    <select id="getOrdersById" parameterType="int">
         select * from orders where id={id}
     </select>
 </mapper>
