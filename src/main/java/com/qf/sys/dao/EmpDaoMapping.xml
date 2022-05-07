@@ -39,16 +39,16 @@
         AND e.deptId = d.id
         AND e.roleId = r.id
         <if test="empNo!=0">
-            and empNo = #{empNo}
+            and e.empNo = #{empNo}
         </if>
         <if test="empName!=null and empName!=''">
-            and empName like concat('%',#{empName},'%')
+            and e.empName like concat('%',#{empName},'%')
         </if>
-        <if test="deptId!=null and deptId!=''">
-            and deptId = #{deptId}
+        <if test="deptName!=null and deptName!=''">
+            AND d.deptName = '研发部' #{deptName}
         </if>
         <if test="status!=null and status!=''">
-            and status = #{status}
+            and e.status = #{status}
         </if>
     </select>
 </mapper>

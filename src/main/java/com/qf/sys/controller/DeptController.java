@@ -6,6 +6,7 @@ import com.qf.sys.po.Department;
 import com.qf.sys.service.DepartmentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,9 @@ import java.util.List;
 public class DeptController {
     @Resource
     private DepartmentService deptService;
+
     @RequestMapping("/getSelectDept")
+    @ResponseBody
     public TableData getSelectDept(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
