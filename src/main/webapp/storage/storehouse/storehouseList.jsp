@@ -63,6 +63,7 @@
 <!--人员表单-->
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
+        <input type="hidden" name="id" id="id"/>
         <div class="layui-form-item">
             <label class="layui-form-label">仓库名称</label>
             <div class="layui-input-inline">
@@ -80,7 +81,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属区域</label>
             <div class="layui-input-block">
-                <select id="province" lay-filter="province" lay-verify="required">
+                <select id="province" name="parentId" lay-filter="province" lay-verify="required">
                 </select>
             </div>
             <div class="layui-input-block">
@@ -98,14 +99,14 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
             <div class="layui-input-inline">
-                <input type="text" name="tel" required lay-verify="required" placeholder="仓库地址"
+                <input type="text" name="tel" required lay-verify="required" placeholder="联系方式"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-inline">
-               <textarea name="des"></textarea>
+               <textarea name="des" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">

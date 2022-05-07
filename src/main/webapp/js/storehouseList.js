@@ -7,7 +7,7 @@ layui.use(['table', 'form'], function () {
     table.render({
         elem: '#PersonTable',
         url:'/storehouse/findByPage',
-        height: 'full-90',
+        height: 'full-200',
         cellMinWidth: 80,
         cols: [[ //表头
             {type: 'radio'},
@@ -70,15 +70,15 @@ layui.use(['table', 'form'], function () {
 
     //添加人员
     $('.btn-add').on('click', function () {
+        $("#id").val(0);
         $('.form-reset').click();
         getProvince('');
         getMaster();
-        $('#pid').removeClass('layui-disabled');
         layer.open({
             type: 1,
             shift: 2,
             shade: 0,
-            title: '添加人员信息',
+            title: '添加仓库信息',
             area: ['366px', '520px'],
             closeBtn: false,
             shadeClose: false,
@@ -97,18 +97,22 @@ layui.use(['table', 'form'], function () {
     });
     //修改
     $('.btn-edit').on('click', function () {
+        getProvince('');
+        getMaster();
         var cs = table.checkStatus('PersonTable');
         var data = cs.data;
         var i = data.length;
         if (i === 1) {
+            console.log(data)
             form.val('person-form', data[0]);
-            $('#pid').addClass('layui-disabled');
+            getCity('',data[0].parentId);
+            $("#city").val(data[0].regionId);
             layer.open({
                 type: 1,
                 shift: 2,
                 shade: 0,
-                title: '修改人员信息',
-                area: ['370px', '340px'],
+                title: '修改仓库信息',
+                area: ['366px', '520px'],
                 closeBtn: false,
                 shadeClose: false,
                 content: $('#box'),
@@ -121,11 +125,9 @@ layui.use(['table', 'form'], function () {
                 btn2: function (index, layero) {
                     //默认关闭弹窗
                 }
-            });
-            /* 渲染表单 */
-            form.render();
+            });form.render();
         } else {
-            layer.msg('请选择一条人员信息进行修改', {icon: 5});
+            layer.msg('请选择一条仓库信息进行修改', {icon: 5});
         }
     });
 
@@ -135,10 +137,10 @@ layui.use(['table', 'form'], function () {
         var data = cs.data;
         var i = data.length;
         if (i < 1) {
-            layer.msg('请选择需要删除的人员信息', {icon: 5});
+            layer.msg('请选择需要删除的仓库信息', {icon: 5});
             return;
         }
-        layer.confirm('确定要删除选中的人员信息吗？', function (index) {
+        layer.confirm('确定要删除选中的仓库信息吗？', function (index) {
             $.ajax({
                 url: '/storehouse/delStorehouse',
                 type: 'post',
@@ -165,12 +167,14 @@ layui.use(['table', 'form'], function () {
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性
     form.on('submit(save)', function (data) {
-        var f = $('#pid').is(":disabled");
-        var url = '-';
-        if (f) { //修改
-            url = 'updatePerson';
+        console.log(data.field)
+        var f=$("#id").val();
+        console.log("ki"+f)
+        var url = '/storehouse/';
+        if (f==0) { //修改
+            url += 'addStorehouse';
         } else {  //添加
-            url = 'addPerson';
+            url += 'updateStorehouse';
         }
         layer.load(1);
         $.ajax({
@@ -180,10 +184,10 @@ layui.use(['table', 'form'], function () {
             dataType: 'json',
             contentType:"application/json",
             success: function (resp) {
-                layer.closeAll('loading');
+                layer.closeAll();
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('/storehouse/findByPage', {
+                    table.reload('PersonTable', {
                         where: {},
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -195,17 +199,19 @@ layui.use(['table', 'form'], function () {
                 }
             },
             error: function () {
-                layer.closeAll('loading');
+                layer.closeAll();
                 layer.msg('系统错误，请联系管理员', {icon: 5});
             }
         });
         return false;
     });
     function getProvince(p){
+        $("#province"+p).html("");
         $.ajax({
             url: '/area/getProvince',
             type: 'post',
             dataType:'json',
+            async:false,
             success: function (resp) {
                 console.log(resp);
                 $("#province"+p).append(new Option("省",0));
@@ -221,6 +227,7 @@ layui.use(['table', 'form'], function () {
             type: 'post',
             data:{id:v},
             dataType:'json',
+            async:false,
             success: function (resp) {
                 $("#city"+c).append(new Option("市",0));
                 console.log(resp);
@@ -230,7 +237,6 @@ layui.use(['table', 'form'], function () {
                 form.render("select");
             }
         });
-        form.render("select");
     }
     function getMaster(){
         $("#masterId").html("");
@@ -239,6 +245,7 @@ layui.use(['table', 'form'], function () {
             type: 'post',
             data:{roleId:4},
             dataType:'json',
+            async:false,
             success: function (resp) {
                 $("#masterId").append(new Option("请选择",0));
                 console.log(resp);
@@ -248,6 +255,5 @@ layui.use(['table', 'form'], function () {
                 form.render("select");
             }
         });
-        form.render("select");
     }
 });

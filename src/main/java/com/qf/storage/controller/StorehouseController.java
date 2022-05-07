@@ -12,6 +12,7 @@ import com.qf.utils.LayUIOperate;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,15 +56,14 @@ public class StorehouseController {
 
     @RequestMapping("/addStorehouse")
     @ResponseBody
-    public LayUIOperate addStorehouse(Storehouse storehouse,@RequestParam("regionId") Integer regionId,
-                                      @RequestParam("masterId") Integer masterId,HttpServletRequest request){
+    public LayUIOperate addStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
+
         HttpSession session=request.getSession();
-        Emp emp=(Emp)session.getAttribute("emp");
-        emp.setId(1);
+//        Emp emp=(Emp)session.getAttribute("emp");
+//        emp.setId(1);
         LayUIOperate operate=new LayUIOperate();
-        storehouse.setMaster(new Emp(masterId));
-        storehouse.setUser(emp);
-        storehouse.setRegion(new Region(regionId));
+        storehouse.setUser(new Emp(1));
+        System.out.println(storehouse);
         boolean f= storehouseService.addStorehouse(storehouse);
         if(f){
             operate.setSuccess(true);
@@ -90,8 +90,9 @@ public class StorehouseController {
     }
     @RequestMapping("/updateStorehouse")
     @ResponseBody
-    public LayUIOperate updateStorehouse(Storehouse storehouse){
+    public LayUIOperate updateStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
         LayUIOperate operate=new LayUIOperate();
+        storehouse.setUser(new Emp(1));
         boolean f= storehouseService.updateStorehouse(storehouse);
         if(f){
             operate.setSuccess(true);

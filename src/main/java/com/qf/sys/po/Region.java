@@ -12,6 +12,7 @@ public class Region {
     private String regionCode;//地区编码
     private Region parentReg;//父级地区
     private int regionLevel;//地区级别
+    private int parentId;//父id
 
     public Region() { }
     public Region(int id) {this.id=id; }
@@ -33,6 +34,14 @@ public class Region {
                 ", parentReg=" + parentReg +
                 ", regionLevel=" + regionLevel +
                 '}';
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public int getId() {

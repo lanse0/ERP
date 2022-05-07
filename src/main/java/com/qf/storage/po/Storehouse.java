@@ -46,6 +46,7 @@ public class Storehouse {
         this.status = status;
         this.createTime = createTime;
     }
+    //数据库返回参数
     public String getMasterName() {
         return master.getEmpName();
     }
@@ -55,6 +56,13 @@ public class Storehouse {
     public String getRegionName() {
         return region.getRegionName();
     }
+    public int getRegionId() { return region.getId(); }
+    public int getMasterId() { return master.getId(); }
+    public int getParentId() {return region.getParentId();}
+    //传入参数给控制层
+    public void setRegionId(int regionId) { this.region=new Region(regionId); }
+    public void setMasterId(int masterId) { this.master=new Emp(masterId); }
+
     public int getId() {
         return id;
     }
