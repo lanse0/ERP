@@ -193,39 +193,32 @@ layui.use(['table', 'form'], function () {
         $.ajax({
             url: '/area/getProvince',
             type: 'post',
-            data: {},
-            dataType: 'json',
+            dataType:'json',
             success: function (resp) {
                 console.log(resp);
-               // $("#province"+p).html("<option value=\"0\">请选择</option><option value=\"1\">北京</option><option value=\"2\">上海</option>");
-
+                $.each(resp.data, function (index, value) {
+                    $("#province"+p).append(new Option(value.regionName,value.id));
+                });
+                form.render("select");
             }
         });
-        form.render("select");
     }
     function getCity(c,v){
-        $("#city"+c).html("<option value=\"0\">请选择</option><option value=\"1\">北京</option><option value=\"2\">上海</option>");
-        // $.ajax({
-        //     url: '/storehouse/delStorehouse',
-        //     type: 'post',
-        //     data: {
-        //         id: v
-        //     },
-        //     dataType: 'json',
-        //     success: function (resp) {
-        //         if (resp.success) {
-        //             table.reload('PersonTable', {
-        //                 where: {},
-        //                 page: {
-        //                     curr: 1 //重新从第 1 页开始
-        //                 }
-        //             });
-        //             layer.msg(resp.message, {icon: 6});
-        //         } else {
-        //             layer.msg(resp.message, {icon: 5});
-        //         }
-        //     }
-        // });
+        $("#city"+c).html("");
+        $.ajax({
+            url: '/area/getCityByPId',
+            type: 'post',
+            data:{id:v},
+            dataType:'json',
+            success: function (resp) {
+                $("#city"+c).append(new Option("城市",0));
+                console.log(resp);
+                $.each(resp.data, function (index, value) {
+                    $("#city"+c).append(new Option(value.regionName,value.id));
+                });
+                form.render("select");
+            }
+        });
         form.render("select");
     }
     function getMaster(){
