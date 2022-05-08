@@ -2,19 +2,16 @@ package com.qf.storage.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qf.storage.po.Storehouse;
-import com.qf.storage.service.StorehouseService;
-import com.qf.storage.utils.PageUtils;
+import com.qf.storage.po.Warehouse;
+import com.qf.storage.service.WarehouseService;
 import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Emp;
-import com.qf.sys.po.Region;
 import com.qf.utils.LayUIOperate;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,10 +25,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/storehouse")
-public class StorehouseController {
+@RequestMapping("/warehouse")
+public class WarehouseController {
     @Autowired
-    private StorehouseService storehouseService;
+    private WarehouseService warehouseService;
 
     @RequestMapping("/findByPage")
     @ResponseBody
@@ -39,15 +36,11 @@ public class StorehouseController {
         int pageSize =Integer.parseInt(request.getParameter("limit"));
         int pageNumber = Integer.parseInt(request.getParameter("page"));
         //HttpSession session=request.getSession();
-        Emp e=new Emp(3);
-        String regionName = request.getParameter("regionName");
         String name = request.getParameter("name");
         Map params = new HashMap();
-        params.put("regionName", regionName);
         params.put("name", name);
-        if(e.getId()!=6) params.put("masterId", e.getId());
         PageHelper.startPage(pageNumber, pageSize);
-        PageInfo<Storehouse> data = storehouseService.findByPage(params);
+        PageInfo<Warehouse> data = warehouseService.findByPage(params);
         TableData tableData = new TableData();
         tableData.setCode(0);
         tableData.setMsg("成功");
@@ -56,17 +49,15 @@ public class StorehouseController {
         return tableData;
     }
 
-    @RequestMapping("/addStorehouse")
+    @RequestMapping("/addWarehouse")
     @ResponseBody
-    public LayUIOperate addStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
+    public LayUIOperate addStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
 
         HttpSession session=request.getSession();
 //        Emp emp=(Emp)session.getAttribute("emp");
 //        emp.setId(1);
         LayUIOperate operate=new LayUIOperate();
-        storehouse.setUser(new Emp(1));
-        System.out.println(storehouse);
-        boolean f= storehouseService.addStorehouse(storehouse);
+        boolean f= warehouseService.addStorehouse(Warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("添加成功！");
@@ -76,11 +67,11 @@ public class StorehouseController {
         }
         return operate;
     }
-    @RequestMapping("/delStorehouse")
+    @RequestMapping("/delWarehouse")
     @ResponseBody
     public LayUIOperate delStorehouse(Integer id){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= storehouseService.delStorehouse(id);
+        boolean f= warehouseService.delStorehouse(id);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("删除成功！");
@@ -90,12 +81,11 @@ public class StorehouseController {
         }
         return operate;
     }
-    @RequestMapping("/updateStorehouse")
+    @RequestMapping("/updateWarehouse")
     @ResponseBody
-    public LayUIOperate updateStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
+    public LayUIOperate updateStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
         LayUIOperate operate=new LayUIOperate();
-        storehouse.setUser(new Emp(1));
-        boolean f= storehouseService.updateStorehouse(storehouse);
+        boolean f= warehouseService.updateStorehouse(Warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("更新成功！");
@@ -107,34 +97,24 @@ public class StorehouseController {
     }
     @RequestMapping("/getStorehouseById")
     public String getStorehouseById(int id){
-        storehouseService.getStorehouseById(id);
+        warehouseService.getStorehouseById(id);
         return "storehouseList2";
-    }
-    @RequestMapping("/getAllStorehouse")
-    @ResponseBody
-    public TableData getAllStorehouse(){
-        List<Storehouse> empList = storehouseService.findAllStorehouse();
-        TableData data = new TableData();
-        data.setCode(0);
-        data.setCount(empList.size());
-        data.setData(empList);
-        return data;
     }
     @RequestMapping("/fastJson")
     @ResponseBody
-    public Storehouse getFastJson(Storehouse storehouse){
-        return storehouse;
+    public Warehouse getFastJson(Warehouse Warehouse){
+        return Warehouse;
     }
     @RequestMapping("/dateTest")
-    public void dateTest(Storehouse storehouse){
-        System.out.println(storehouse);
+    public void dateTest(Warehouse Warehouse){
+        System.out.println(Warehouse);
     }
     @RequestMapping("/upload")
     @ResponseBody
-    public String upload(MultipartFile photoSource, Storehouse storehouse, HttpServletRequest request) throws IOException {
+    public String upload(MultipartFile photoSource, Warehouse Warehouse, HttpServletRequest request) throws IOException {
         String fileName=photoSource.getOriginalFilename();
         String fileType=photoSource.getContentType();
-        System.out.println(storehouse.id);
+        System.out.println(Warehouse.id);
         System.out.println(fileName+"&"+fileType);
         String newfileName= UUID.randomUUID().toString();
         String ext= FilenameUtils.getExtension(fileName);

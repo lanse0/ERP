@@ -9,14 +9,34 @@
         <result column="regionShortName" property="regionShortName"/>
         <result column="regionCode" property="regionCode"/>
         <result column="regionLevel" property="regionLevel"/>
+        <result column="parentId" property="parentId"/>
         <association property="parentReg" javaType="Region">
-            <id property="id" column="deptId"/>
-            <result property="deptNo" column="deptNo"/>
-            <result property="deptName" column="deptName"/>
+            <id property="id" column="parentId"/>
+            <result property="regionName" column="pRegionName"/>
+            <result property="regionShortName" column="pRegionShortName"/>
+            <result property="regionCode" column="pRegionCode"/>
         </association>
     </resultMap>
 
 
+    <select id="getAllRegionByPage" resultMap="RegionMap" parameterType="map">
+        SELECT r.*,p.regionName pRegionName,p.regionShortName pRegionShortName,p.regionCode pRegionCode
+        FROM region r
+        LEFT JOIN region p ON r.parentId = p.id
+        WHERE 1 = 1
+        AND r.regionLevel = 2
+        <if test="provinceName!=null and provinceName!=''">
+            AND (
+                p.regionName LIKE concat('%',#{provinceName},'%')
+                OR p.regionShortName LIKE concat('%',#{provinceName},'%')
+                OR r.regionName LIKE concat('%',#{provinceName},'%')
+            )
+        </if>
+        <if test="cityName!=null and cityName!=''">
+            AND r.regionName LIKE concat('%',#{cityName},'%')
+        </if>
+        ORDER BY r.regionCode ASC
+    </select>
     <select id="getCityByPId" resultType="Region">
         SELECT * FROM region WHERE parentId = #{pId}
     </select>

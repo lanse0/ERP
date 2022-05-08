@@ -11,4 +11,5 @@ public interface StorehouseDao {
     boolean delStorehouse(Integer id);//删除仓库
     boolean updateStorehouse(Storehouse storehouse);//修改仓库
     Storehouse getStorehouseById(int id);//根据id获取仓库信息
+    List<Storehouse> findAllStorehouse();//查询所有
 }

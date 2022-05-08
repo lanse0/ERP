@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.storage.dao.StockDao">
+    <resultMap id="stockMap" type="Stock">
+        <id property="id" column="id"/>
+        <result column="sum" property="sum"/>
+        <association property="storehouse" javaType="Storehouse">
+            <id property="id" column="stId" />
+            <result property="name" column="sName" />
+        </association>
+    </resultMap>
+    <select id="findByPage" resultMap="stockMap" parameterType="map">
+        select s.*,st.id stId,st.name sName from stock s left join storehouse st on s.storehouseId=st.id
+        where 1=1
+        <if test="name != null and name != ''">
+            AND st.name like concat('%',#{name},'%')
+        </if>
+    </select>
+    <insert id="addStorehouse" parameterType="Stock">
+        insert into Stock(storehouseId,goodsId,firmId,sum)
+              values(#{storehouse.id},#{goods.id},#{firm.id},#{sum})
+    </insert>
+    <delete id="delStorehouse" parameterType="Integer">
+        delete from Stock where id=#{id}
+    </delete>
+    <update id="updateStorehouse" parameterType="Stock">
+       update Stock set storehouseId=#{storehouse.id},goodsId=#{goods.id},firmId=#{firm.id},sum=#{sum}
+         where id=#{id}
+    </update>
+    <select id="getStorehouseById" parameterType="int">
+        select * from Stock where id={id}
+    </select>
+</mapper>

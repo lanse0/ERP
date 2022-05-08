@@ -36,6 +36,9 @@
         <if test="name != null and name != ''">
             AND name like concat('%',#{name},'%')
         </if>
+        <if test="masterId != null and masterId != 0">
+            AND ee.id=#{masterId}
+        </if>
     </select>
     <insert id="addStorehouse" parameterType="Storehouse">
         insert into storehouse(userId,masterId,regionId,name,address,tel,des,status,createTime)
@@ -50,5 +53,8 @@
     </update>
     <select id="getStorehouseById" parameterType="int">
         select * from storehouse where id={id}
+    </select>
+    <select id="getAllStorehouse" resultType="Storehouse">
+        select * from storehouse
     </select>
 </mapper>

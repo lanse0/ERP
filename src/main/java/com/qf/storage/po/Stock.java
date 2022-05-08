@@ -2,7 +2,7 @@ package com.qf.storage.po;
 
 public class Stock {
     public int id; //库存id 主键自增
-    public int storehouseId;//仓库id
+    public Storehouse storehouse;//仓库id
     public int goodsId;//商品id
     public int firmId;//厂商id
     public int sum;//库房数量
@@ -10,20 +10,24 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(int id, int storehouseId, int goodsId, int firmId, int sum) {
+    public Stock(int id, Storehouse storehouse, int goodsId, int firmId, int sum) {
         this.id = id;
-        this.storehouseId = storehouseId;
+        this.storehouse = storehouse;
         this.goodsId = goodsId;
         this.firmId = firmId;
         this.sum = sum;
     }
 
-    public Stock(int storehouseId, int goodsId, int firmId, int sum) {
-        this.storehouseId = storehouseId;
+    public Stock(Storehouse storehouse, int goodsId, int firmId, int sum) {
+        this.storehouse = storehouse;
         this.goodsId = goodsId;
         this.firmId = firmId;
         this.sum = sum;
     }
+    public String getSName() {
+        if(storehouse!=null) return storehouse.getName();
+        return "";
+       }
 
     public int getId() {
         return id;
@@ -33,12 +37,12 @@ public class Stock {
         this.id = id;
     }
 
-    public int getStorehouseId() {
-        return storehouseId;
+    public Storehouse getStorehouse() {
+        return storehouse;
     }
 
-    public void setStorehouseId(int storehouseId) {
-        this.storehouseId = storehouseId;
+    public void setStorehouse(Storehouse storehouse) {
+        this.storehouse = storehouse;
     }
 
     public int getGoodsId() {
@@ -69,7 +73,7 @@ public class Stock {
     public String toString() {
         return "Stock{" +
                 "id=" + id +
-                ", storehouseId=" + storehouseId +
+                ", storehouse=" + storehouse +
                 ", goodsId=" + goodsId +
                 ", firmId=" + firmId +
                 ", sum=" + sum +

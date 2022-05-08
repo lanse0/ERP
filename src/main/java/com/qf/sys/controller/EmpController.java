@@ -86,4 +86,33 @@ public class EmpController {
         }
         return operate;
     }
+    @RequestMapping("/updEmp")
+    @ResponseBody
+    public LayUIOperate updEmp(@RequestBody Emp emp){
+        LayUIOperate operate=new LayUIOperate();
+        System.out.println("addEmp -->"+emp);
+        boolean f= empService.updEmp(emp);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户修改成功！牛逼");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户修改失败");
+        }
+        return operate;
+    }
+    @RequestMapping("/quitEmp")
+    @ResponseBody//离职
+    public LayUIOperate quitEmp(Integer id){
+        LayUIOperate operate=new LayUIOperate();
+        boolean f= empService.quitEmp(id);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("毕业成功！牛逼");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("毕业失败");
+        }
+        return operate;
+    }
 }

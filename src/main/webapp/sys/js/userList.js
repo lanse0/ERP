@@ -52,8 +52,9 @@ layui.use(['table', 'form'], function () {
             {field: 'sex', title: '性别'},
             {field: 'age', title: '年龄'},
             {field: 'status', title: '状态'},
-            {field: 'hireDate', title: '入职时间'},
-            {field: 'termDate', title: '离职时间'}
+            {field: 'hireDate', title: '入职时间', width: 120, templet: "<div>{{ layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }}</div>" },
+            // {field: 'termDate', title: '离职时间', width: 120, templet: '<div>{{# if(d.termDate){}} {{layui.util.toDateString(d.termDate, "yyyy-MM-dd") }} {{#} else{}} {{#}}}</div>' }
+            {field: 'termDate', title: '离职时间', width: 120, templet: "<div>{{# if(d.termDate){}} {{layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }} {{#} else{}} {{#}}}</div>" }
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -152,17 +153,17 @@ layui.use(['table', 'form'], function () {
     });
 
     //删除(离职)
-    $('.btn-del').on('click', function () {
+    $('.btn-quit').on('click', function () {
         var cs = table.checkStatus('EmpTable');
-        var data = cs.data;
-        var i = data.length;
-        if (i < 1) {
-            layer.msg('请选择需要删除的人员信息', {icon: 5});
+        var data = cs.data;//获取单选框勾选的数据
+        var i = data.length;//数据条数
+        if (i < 1) {//数据条数小于1  用户未勾选数据
+            layer.msg('请选择需要毕业的人员', {icon: 5});
             return;
         }
-        layer.confirm('确定要删除选中的人员信息吗？', function (index) {
+        layer.confirm('确定要毕业选中的人员吗？', function (index) {
             $.ajax({
-                url: 'deletePerson',
+                url: '/users/quitEmp',
                 type: 'post',
                 data: {
                     id: data[0].id
@@ -192,7 +193,7 @@ layui.use(['table', 'form'], function () {
         var f = $('#empNo').is(":disabled");
         var url = '-';
         if (f) { //修改
-            url = 'updatePerson';
+            url = '/users/updEmp';
         } else {  //添加
             url = '/users/addEmp';
         }

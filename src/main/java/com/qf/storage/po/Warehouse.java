@@ -1,33 +1,42 @@
 package com.qf.storage.po;
 
+import com.qf.sys.po.Emp;
+
 import java.sql.Date;
 
 public class Warehouse {
     public int id;//入库id 主键自增
     public int orderId;//订购单id
-    public int userId;//入库人id
-    public int storehouseId;//仓库id
     public String status;//入库状态
     public Date warehouseTime;//入库时间
+    public Storehouse storehouse;
+    public Emp user;
 
     public Warehouse() {
     }
 
-    public Warehouse(int id, int orderId, int userId, int storehouseId, String status, Date warehouseTime) {
-        this.id = id;
-        this.orderId = orderId;
-        this.userId = userId;
-        this.storehouseId = storehouseId;
-        this.status = status;
-        this.warehouseTime = warehouseTime;
+    public String getUserName(){
+        if(user!=null)  return user.getEmpName();
+        return "";
+    }
+    public String getSName() {
+        if(storehouse!=null) return storehouse.getName();
+        return "";
+    }
+    public Storehouse getStorehouse() {
+        return storehouse;
     }
 
-    public Warehouse(int orderId, int userId, int storehouseId, String status, Date warehouseTime) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.storehouseId = storehouseId;
-        this.status = status;
-        this.warehouseTime = warehouseTime;
+    public void setStorehouse(Storehouse storehouse) {
+        this.storehouse = storehouse;
+    }
+
+    public Emp getUser() {
+        return user;
+    }
+
+    public void setUser(Emp user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -44,22 +53,6 @@ public class Warehouse {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getStorehouseId() {
-        return storehouseId;
-    }
-
-    public void setStorehouseId(int storehouseId) {
-        this.storehouseId = storehouseId;
     }
 
     public String getStatus() {
@@ -80,13 +73,13 @@ public class Warehouse {
 
     @Override
     public String toString() {
-        return "ExWarehouse{" +
+        return "Warehouse{" +
                 "id=" + id +
                 ", orderId=" + orderId +
-                ", userId=" + userId +
-                ", storehouseId=" + storehouseId +
                 ", status='" + status + '\'' +
                 ", warehouseTime=" + warehouseTime +
+                ", storehouse=" + storehouse +
+                ", user=" + user +
                 '}';
     }
 }

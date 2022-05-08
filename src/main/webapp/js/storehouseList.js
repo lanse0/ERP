@@ -2,7 +2,6 @@ layui.use(['table', 'form'], function () {
     var table = layui.table,
         form = layui.form,
         $ = layui.jquery;
-
     //表格渲染
     table.render({
         elem: '#PersonTable',

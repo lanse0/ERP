@@ -1,9 +1,9 @@
 package com.qf.storage.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qf.storage.dao.StorehouseDao;
-import com.qf.storage.po.Storehouse;
+import com.qf.storage.dao.StockDao;
+import com.qf.storage.po.Stock;
+import com.qf.storage.service.StockService;
 import com.qf.storage.service.StorehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StorehouseServiceImpl implements StorehouseService {
+public class StockServiceImpl implements StockService {
     @Autowired
-    private StorehouseDao storehouseDao;
+    private StockDao stockDao;
     @Override
-    public PageInfo<Storehouse> findByPage(Map params) {
-        List<Storehouse> storehouseList=storehouseDao.findByPage(params);
-        PageInfo<Storehouse> pageInfo=new PageInfo<Storehouse>(storehouseList);
+    public PageInfo<Stock> findByPage(Map params) {
+        List<Stock> storehouseList=stockDao.findByPage(params);
+        PageInfo<Stock> pageInfo=new PageInfo<Stock>(storehouseList);
         return pageInfo;
     }
 
     @Override
-    public boolean addStorehouse(Storehouse storehouse) {
-        return storehouseDao.addStorehouse(storehouse);
+    public boolean addStorehouse(Stock Stock) {
+        return stockDao.addStorehouse(Stock);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class StorehouseServiceImpl implements StorehouseService {
     public boolean delStorehouse(Integer id) {
         boolean b;
         try {
-            b = storehouseDao.delStorehouse(id);
+            b = stockDao.delStorehouse(id);
         } catch (Exception e) {
             b=false;
             System.out.println("删除操作撤销");
@@ -47,15 +47,12 @@ public class StorehouseServiceImpl implements StorehouseService {
     }
 
     @Override
-    public boolean updateStorehouse(Storehouse storehouse) {
-        return storehouseDao.updateStorehouse(storehouse);
+    public boolean updateStorehouse(Stock Stock) {
+        return stockDao.updateStorehouse(Stock);
     }
 
     @Override
-    public Storehouse getStorehouseById(int id) {
-        return storehouseDao.getStorehouseById(id);
+    public Stock getStorehouseById(int id) {
+        return stockDao.getStorehouseById(id);
     }
-
-    @Override
-    public List<Storehouse> findAllStorehouse() { return storehouseDao.findAllStorehouse(); }
 }
