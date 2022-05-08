@@ -29,37 +29,19 @@ public class Emp {
     public Emp(int id){
         this.id = id;
     }
-    public String getDeptName() {
-        return dept.getDeptName();
-    }
-
-    public String getRoleName() {
-        return role.getRoleName();
-    }
-
-    public String getSex() {
-        if (sex.equals("1")){
-            return "男";
-        }
-        return "女";
-    }
 
     public int getAge() {
         int age=0;
         try {
-            age = new Date().getYear()-birthDay.getYear();
+            if (birthDay!=null){
+                age = new Date().getYear()-birthDay.getYear();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return age;
     }
 
-    public String getStatus() {
-        if (status.equals("1")){
-            return "在职";
-        }
-        return "离职";
-    }
     @Override
     public String toString() {
         return "Emp{" +
@@ -79,6 +61,14 @@ public class Emp {
                 ", updateTime=" + updateTime +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public int getId() {
