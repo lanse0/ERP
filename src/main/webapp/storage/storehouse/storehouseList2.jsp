@@ -51,9 +51,6 @@
             <td width="10">&nbsp;</td>
             <td>
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
-               <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
-                <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
-                <button class="layui-btn layui-btn-danger btn-del"><i class="layui-icon">&#xe640;</i>删除</button>
             </td>
         </tr>
     </table>

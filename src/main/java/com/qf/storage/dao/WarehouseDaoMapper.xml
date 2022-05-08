@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.storage.dao.WarehouseDao">
+    <resultMap id="warehouseMap" type="Warehouse">
+        <id property="id" column="id"/>
+        <result column="status" property="status"/>
+        <result column="warehouseTime" property="warehouseTime"/>
+        <association property="user" javaType="Emp">
+            <id property="id" column="eId" />
+            <result property="empName" column="empName" />
+        </association>
+        <association property="storehouse" javaType="Storehouse">
+            <id property="id" column="stId" />
+            <result property="name" column="sName" />
+        </association>
+    </resultMap>
+    <select id="findByPage" resultMap="warehouseMap" parameterType="map">
+        select s.*,st.id stId,st.name sName,e.id eId,e.empName  from Warehouse s left join storehouse st on s.storehouseId=st.id
+        left join emp e on s.userId=e.id
+        where 1=1
+        <if test="name != null and name != ''">
+            AND st.name like concat('%',#{name},'%')
+        </if>
+    </select>
+    <insert id="addStorehouse" parameterType="Warehouse">
+        insert into Warehouse(storehouseId,orderId,userId,warehouseTime,status)
+              values(#{storehouse.id},#{order.id},#{user.id},now(),#{status})
+    </insert>
+    <update id="updateStorehouse" parameterType="Stock">
+       update Warehouse set status=#{status}
+         where id=#{id}
+    </update>
+    <delete id="delStorehouse" parameterType="Integer">
+        delete from Warehouse where id=#{id}
+    </delete>
+    <select id="getStorehouseById" parameterType="int">
+        select * from Warehouse where id={id}
+    </select>
+</mapper>

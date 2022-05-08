@@ -1,10 +1,10 @@
 package com.qf.storage.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qf.storage.dao.StorehouseDao;
-import com.qf.storage.po.Storehouse;
-import com.qf.storage.service.StorehouseService;
+import com.qf.storage.dao.WarehouseDao;
+import com.qf.storage.po.Warehouse;
+import com.qf.storage.service.StockService;
+import com.qf.storage.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StorehouseServiceImpl implements StorehouseService {
+public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
-    private StorehouseDao storehouseDao;
+    private WarehouseDao warehouseDao;
     @Override
-    public PageInfo<Storehouse> findByPage(Map params) {
-        List<Storehouse> storehouseList=storehouseDao.findByPage(params);
-        PageInfo<Storehouse> pageInfo=new PageInfo<Storehouse>(storehouseList);
+    public PageInfo<Warehouse> findByPage(Map params) {
+        List<Warehouse> storehouseList=warehouseDao.findByPage(params);
+        PageInfo<Warehouse> pageInfo=new PageInfo<Warehouse>(storehouseList);
         return pageInfo;
     }
 
     @Override
-    public boolean addStorehouse(Storehouse storehouse) {
-        return storehouseDao.addStorehouse(storehouse);
+    public boolean addStorehouse(Warehouse Warehouse) {
+        return warehouseDao.addStorehouse(Warehouse);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class StorehouseServiceImpl implements StorehouseService {
     public boolean delStorehouse(Integer id) {
         boolean b;
         try {
-            b = storehouseDao.delStorehouse(id);
+            b = warehouseDao.delStorehouse(id);
         } catch (Exception e) {
             b=false;
             System.out.println("删除操作撤销");
@@ -47,15 +47,12 @@ public class StorehouseServiceImpl implements StorehouseService {
     }
 
     @Override
-    public boolean updateStorehouse(Storehouse storehouse) {
-        return storehouseDao.updateStorehouse(storehouse);
+    public boolean updateStorehouse(Warehouse Warehouse) {
+        return warehouseDao.updateStorehouse(Warehouse);
     }
 
     @Override
-    public Storehouse getStorehouseById(int id) {
-        return storehouseDao.getStorehouseById(id);
+    public Warehouse getStorehouseById(int id) {
+        return warehouseDao.getStorehouseById(id);
     }
-
-    @Override
-    public List<Storehouse> findAllStorehouse() { return storehouseDao.findAllStorehouse(); }
 }

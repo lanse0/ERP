@@ -55,9 +55,9 @@
                     <a class="" href="javascript:;">仓库管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" onclick="showBody('storage/storehouse/storehouseList.jsp')">仓库管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
-                        <dd><a href="">the links</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/storehouseList2.jsp')">仓库浏览</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/warehouseList.jsp')">入库管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/stockList.jsp')">库存管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">

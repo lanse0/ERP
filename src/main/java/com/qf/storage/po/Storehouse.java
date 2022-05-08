@@ -47,18 +47,28 @@ public class Storehouse {
         this.createTime = createTime;
     }
     //数据库返回参数
-    public String getMasterName() {
-        return master.getEmpName();
+    public String getMasterName(){
+        if(master!=null)   return master.getEmpName();
+        return "";
     }
-    public String getUserName() {
-        return user.getEmpName();
+    public String getUserName(){
+        if(user!=null)  return user.getEmpName();
+        return "";
     }
-    public String getRegionName() {
-        return region.getRegionName();
+    public String getRegionName(){
+        if(region!=null)    return region.getRegionName();
+        return "";
     }
-    public int getRegionId() { return region.getId(); }
-    public int getMasterId() { return master.getId(); }
-    public int getParentId() {return region.getParentId();}
+    public int getRegionId(){
+        if(region!=null)  return region.getId();
+        return 0;
+    }
+    public int getMasterId(){
+        if(master!=null) return master.getId();
+         return 0;}
+    public int getParentId(){
+        if(region!=null) return region.getParentId();
+        return 0;}
     //传入参数给控制层
     public void setRegionId(int regionId) { this.region=new Region(regionId); }
     public void setMasterId(int masterId) { this.master=new Emp(masterId); }
