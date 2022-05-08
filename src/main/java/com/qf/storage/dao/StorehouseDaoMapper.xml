@@ -54,7 +54,7 @@
     <select id="getStorehouseById" parameterType="int">
         select * from storehouse where id={id}
     </select>
-    <select id="getAllStorehouse" resultType="Storehouse">
+    <select id="findAllStorehouse" resultType="Storehouse">
         select * from storehouse
     </select>
 </mapper>

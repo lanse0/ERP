@@ -17,7 +17,7 @@ layui.use(['table', 'form'], function () {
             {field: 'warehouseTime', title: '入库时间',templet: "<div>{{layui.util.toDateString(d.warehouseTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
             },
             {field: 'userName', title: '入库人'},
-            {field: 'status', title: '状态',templet: "<div>{{'0'==d.status?'未入库':'已入库'}}</div>"}
+            {field: 'status', title: '状态',  event: 'status',templet: "<div>{{'0'==d.status?'未入库':'已入库'}}</div>"},
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -30,6 +30,41 @@ layui.use(['table', 'form'], function () {
             table.resize('PersonTable');
         }
     });
+
+    table.on('tool(person-table)', function(obj) {
+        if (obj.event == 'status') {
+            if(obj.data.status==1) return;
+            layer.confirm('确定要入库吗?', function (index) {
+                console.log(obj.data)
+                $.ajax({
+                    url: "/warehouse/updateWarehouse",
+                    data: JSON.stringify(obj.data),
+                    type: 'post',
+                    dataType: 'json',
+                    contentType:"application/json",
+                    success: function (resp) {
+                        layer.closeAll();
+                        var flag = resp.success;
+                        if (flag) {
+                            table.reload('PersonTable', {
+                                where: {},
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                            layer.msg(resp.message, {icon: 6});
+                        } else {
+                            layer.msg(resp.message, {icon: 5});
+                        }
+                    },
+                    error: function () {
+                        layer.closeAll();
+                        layer.msg('系统错误，请联系管理员', {icon: 5});
+                    }
+                });
+            })
+        }
+    })
     //查询
     $('.btn-search').on('click', function () {
         var p_name = $('#p_name').val();
@@ -56,7 +91,7 @@ layui.use(['table', 'form'], function () {
             shift: 2,
             shade: 0,
             title: '添加入库信息',
-            area: ['366px', '520px'],
+            area: ['366px', '320px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -112,7 +147,7 @@ layui.use(['table', 'form'], function () {
         console.log(data.field)
         layer.load(1);
         $.ajax({
-            url: "/warehouse/addStorehouse",
+            url: "/warehouse/addWarehouse",
             data: JSON.stringify(data.field),
             type: 'post',
             dataType: 'json',

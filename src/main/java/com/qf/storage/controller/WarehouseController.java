@@ -51,13 +51,14 @@ public class WarehouseController {
 
     @RequestMapping("/addWarehouse")
     @ResponseBody
-    public LayUIOperate addStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
+    public LayUIOperate addStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
 
         HttpSession session=request.getSession();
 //        Emp emp=(Emp)session.getAttribute("emp");
 //        emp.setId(1);
+       warehouse.setUser(new Emp(3));
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.addStorehouse(Warehouse);
+        boolean f= warehouseService.addStorehouse(warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("添加成功！");
@@ -83,9 +84,9 @@ public class WarehouseController {
     }
     @RequestMapping("/updateWarehouse")
     @ResponseBody
-    public LayUIOperate updateStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
+    public LayUIOperate updateStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.updateStorehouse(Warehouse);
+        boolean f= warehouseService.updateStorehouse(warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("更新成功！");

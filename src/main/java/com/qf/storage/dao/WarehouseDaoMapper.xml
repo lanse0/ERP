@@ -26,10 +26,10 @@
     </select>
     <insert id="addStorehouse" parameterType="Warehouse">
         insert into Warehouse(storehouseId,orderId,userId,warehouseTime,status)
-              values(#{storehouse.id},#{order.id},#{user.id},now(),#{status})
+              values(#{storehouse.id},#{orderId},#{user.id},now(),0)
     </insert>
     <update id="updateStorehouse" parameterType="Stock">
-       update Warehouse set status=#{status}
+       update Warehouse set status=1
          where id=#{id}
     </update>
     <delete id="delStorehouse" parameterType="Integer">

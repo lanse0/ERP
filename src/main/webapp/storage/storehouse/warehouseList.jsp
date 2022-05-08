@@ -49,14 +49,17 @@
     </table>
 </blockquote>
 <!--数据表格-->
-<table id="PersonTable" class="layui-hide" lay-filter="person-table"></table>
+<table id="PersonTable" class="layui-hide" lay-filter="person-table">
+
+</table>
+
 <!--人员表单-->
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>
         <input type="hidden" name="orderId" value="1"/>
         <div class="layui-form-item">
-            <label class="layui-form-label">负责人</label>
+            <label class="layui-form-label">仓库名称</label>
             <div class="layui-input-block">
                 <select id="storehouseId" name="storehouseId" lay-verify="required">
                 </select>
