@@ -5,7 +5,7 @@ layui.use(['table'],function () {
     table.render({
         elem: '#RegionTable',
         url: '/area/getAllRegionList',
-        height: 'full-90',
+        height: 'full-225',
         cellMinWidth: 80,
         cols: [[ //表头
             {field: 'id', title: '序号'},
@@ -28,5 +28,22 @@ layui.use(['table'],function () {
         ,done: function () {
             table.resize('RegionTable');
         }
+    });
+    $('.btn-search').on('click',function () {
+        var provinceName = $('#provinceName').val();
+        var cityName = $('#cityName').val();
+
+        table.reload('RegionTable',{
+            url:'/area/getAllRegionList',
+            method:'post',
+            dataType:'json',
+            where:{
+                provinceName: provinceName,
+                cityName: cityName
+            },
+            page:{
+                curr:1 //重新从第一页开始
+            }
+        })
     });
 });

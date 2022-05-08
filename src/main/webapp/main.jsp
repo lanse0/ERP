@@ -83,7 +83,7 @@
                     <a class="" href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" onclick="showBody('sys/users/userList.jsp')">用户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/dept/deptList.html')">部门管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('sys/dept/deptList.jsp')">部门管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('sys/dept/positionList.html')">职位管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('sys/modules/moduleList.html')">模块管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('sys/logs/logList.html')">日志管理</a></dd>
