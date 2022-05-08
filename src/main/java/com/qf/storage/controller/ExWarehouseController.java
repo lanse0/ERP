@@ -2,8 +2,8 @@ package com.qf.storage.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qf.storage.po.Warehouse;
-import com.qf.storage.service.WarehouseService;
+import com.qf.storage.po.ExWarehouse;
+import com.qf.storage.service.ExWarehouseService;
 import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Emp;
 import com.qf.utils.LayUIOperate;
@@ -20,15 +20,14 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/warehouse")
-public class WarehouseController {
+@RequestMapping("/exWarehouse")
+public class ExWarehouseController {
     @Autowired
-    private WarehouseService warehouseService;
+    private ExWarehouseService exWarehouseService;
 
     @RequestMapping("/findByPage")
     @ResponseBody
@@ -40,7 +39,7 @@ public class WarehouseController {
         Map params = new HashMap();
         params.put("name", name);
         PageHelper.startPage(pageNumber, pageSize);
-        PageInfo<Warehouse> data = warehouseService.findByPage(params);
+        PageInfo<ExWarehouse> data = exWarehouseService.findByPage(params);
         TableData tableData = new TableData();
         tableData.setCode(0);
         tableData.setMsg("成功");
@@ -49,16 +48,16 @@ public class WarehouseController {
         return tableData;
     }
 
-    @RequestMapping("/addWarehouse")
+    @RequestMapping("/addExWarehouse")
     @ResponseBody
-    public LayUIOperate addStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
+    public LayUIOperate addStorehouse(@RequestBody ExWarehouse ExWarehouse, HttpServletRequest request){
 
         HttpSession session=request.getSession();
 //        Emp emp=(Emp)session.getAttribute("emp");
 //        emp.setId(1);
-       warehouse.setUser(new Emp(3));
+       ExWarehouse.setUser(new Emp(3));
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.addStorehouse(warehouse);
+        boolean f= exWarehouseService.addStorehouse(ExWarehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("添加成功！");
@@ -68,11 +67,11 @@ public class WarehouseController {
         }
         return operate;
     }
-    @RequestMapping("/delWarehouse")
+    @RequestMapping("/delExWarehouse")
     @ResponseBody
     public LayUIOperate delStorehouse(Integer id){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.delStorehouse(id);
+        boolean f= exWarehouseService.delStorehouse(id);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("删除成功！");
@@ -82,13 +81,13 @@ public class WarehouseController {
         }
         return operate;
     }
-    @RequestMapping("/updateWarehouse")
+    @RequestMapping("/updateExWarehouse")
     @ResponseBody
-    public LayUIOperate updateStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
+    public LayUIOperate updateStorehouse(@RequestBody ExWarehouse ExWarehouse, HttpServletRequest request){
         LayUIOperate operate=new LayUIOperate();
-        if("0".equals(warehouse.getStatus())) warehouse.setStatus("1");
-        else warehouse.setStatus("0");
-        boolean f= warehouseService.updateStorehouse(warehouse);
+        if(ExWarehouse.getStorehouse().getId()==0) ExWarehouse.setStatus("2");
+        else ExWarehouse.setStatus("3");
+        boolean f= exWarehouseService.updateStorehouse(ExWarehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("更新成功！");
@@ -100,24 +99,24 @@ public class WarehouseController {
     }
     @RequestMapping("/getStorehouseById")
     public String getStorehouseById(int id){
-        warehouseService.getStorehouseById(id);
+        exWarehouseService.getStorehouseById(id);
         return "storehouseList2";
     }
     @RequestMapping("/fastJson")
     @ResponseBody
-    public Warehouse getFastJson(Warehouse Warehouse){
-        return Warehouse;
+    public ExWarehouse getFastJson(ExWarehouse ExWarehouse){
+        return ExWarehouse;
     }
     @RequestMapping("/dateTest")
-    public void dateTest(Warehouse Warehouse){
-        System.out.println(Warehouse);
+    public void dateTest(ExWarehouse ExWarehouse){
+        System.out.println(ExWarehouse);
     }
     @RequestMapping("/upload")
     @ResponseBody
-    public String upload(MultipartFile photoSource, Warehouse Warehouse, HttpServletRequest request) throws IOException {
+    public String upload(MultipartFile photoSource, ExWarehouse ExWarehouse, HttpServletRequest request) throws IOException {
         String fileName=photoSource.getOriginalFilename();
         String fileType=photoSource.getContentType();
-        System.out.println(Warehouse.id);
+        System.out.println(ExWarehouse.id);
         System.out.println(fileName+"&"+fileType);
         String newfileName= UUID.randomUUID().toString();
         String ext= FilenameUtils.getExtension(fileName);

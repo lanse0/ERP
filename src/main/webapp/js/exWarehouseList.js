@@ -5,7 +5,7 @@ layui.use(['table', 'form'], function () {
     //表格渲染
     table.render({
         elem: '#PersonTable',
-        url:'/warehouse/findByPage',
+        url:'/exWarehouse/findByPage',
         height: 'full-200',
         cellMinWidth: 80,
         cols: [[ //表头
@@ -13,10 +13,12 @@ layui.use(['table', 'form'], function () {
             {field: 'id', title: '采购单编号'},
             {field: 'id', title: '金额'},
             {field: 'sName', title: '仓库名称'},
-            {field: 'warehouseTime', title: '入库时间',templet: "<div>{{layui.util.toDateString(d.warehouseTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+            {field: 'warehouseTime', title: '出库时间',templet: "<div>{{layui.util.toDateString(d.warehouseTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
             },
-            {field: 'userName', title: '入库人'},
-            {field: 'status', title: '状态',  event: 'status',templet: "<div>{{'0'==d.status?'未入库':'已入库'}}</div>"},
+            {field: 'userName', title: '出库人'},
+            {field: 'status', title: '状态',event: 'status1',
+                templet: "<div>{{'0'==d.status?'未发货':'1'==d.status?'已发货(进行回款)':'2'==d.status?'已退货':'已回款'}}</div>"},
+            {field: 'status', title: '操作',event: 'status2',templet: "<div>{{'0'==d.status?'取消订单':'1'==d.status?'取消订单':''}}</div>"},
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -31,45 +33,23 @@ layui.use(['table', 'form'], function () {
     });
 
     table.on('tool(person-table)', function(obj) {
-        if (obj.event == 'status') {
-            var tilte="入库";
-            if(obj.data.status==1) tilte="取消入库";
-            layer.confirm('确定要'+tilte+'吗?', function (index) {
-                console.log(obj.data)
-                $.ajax({
-                    url: "/warehouse/updateWarehouse",
-                    data: JSON.stringify(obj.data),
-                    type: 'post',
-                    dataType: 'json',
-                    contentType:"application/json",
-                    success: function (resp) {
-                        layer.closeAll();
-                        var flag = resp.success;
-                        if (flag) {
-                            table.reload('PersonTable', {
-                                where: {},
-                                page: {
-                                    curr: 1 //重新从第 1 页开始
-                                }
-                            });
-                            layer.msg(resp.message, {icon: 6});
-                        } else {
-                            layer.msg(resp.message, {icon: 5});
-                        }
-                    },
-                    error: function () {
-                        layer.closeAll();
-                        layer.msg('系统错误，请联系管理员', {icon: 5});
-                    }
-                });
-            })
+        var title="取消订单";
+        if (obj.event == 'status1') {
+            if(obj.data.status==1) title="回款";
+            else return;
+            update(obj,title);
+        }
+        else if (obj.event == 'status2') {
+            if(obj.data.status!=0&&obj.data.status!=1) return;
+            obj.data.storehouse.id=0;
+           update(obj,title);
         }
     })
     //查询
     $('.btn-search').on('click', function () {
         var p_name = $('#p_name').val();
         table.reload('PersonTable', {
-            url: '/warehouse/findByPage',
+            url: '/exWarehouse/findByPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
@@ -119,7 +99,7 @@ layui.use(['table', 'form'], function () {
         }
         layer.confirm('确定要删除选中的入库信息吗？', function (index) {
             $.ajax({
-                url: '/warehouse/delStorehouse',
+                url: '/exWarehouse/delStorehouse',
                 type: 'post',
                 data: {
                     id: data[0].id
@@ -147,7 +127,7 @@ layui.use(['table', 'form'], function () {
         console.log(data.field)
         layer.load(1);
         $.ajax({
-            url: "/warehouse/addWarehouse",
+            url: "/exWarehouse/addExWarehouse",
             data: JSON.stringify(data.field),
             type: 'post',
             dataType: 'json',
@@ -191,5 +171,36 @@ layui.use(['table', 'form'], function () {
                 form.render("select");
             }
         });
+    }
+    function update(obj,title){
+        layer.confirm('确定要'+title+'吗?', function (index) {
+            console.log(obj.data)
+            $.ajax({
+                url: "/exWarehouse/updateExWarehouse",
+                data: JSON.stringify(obj.data),
+                type: 'post',
+                dataType: 'json',
+                contentType:"application/json",
+                success: function (resp) {
+                    layer.closeAll();
+                    var flag = resp.success;
+                    if (flag) {
+                        table.reload('PersonTable', {
+                            where: {},
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(resp.message, {icon: 6});
+                    } else {
+                        layer.msg(resp.message, {icon: 5});
+                    }
+                },
+                error: function () {
+                    layer.closeAll();
+                    layer.msg('系统错误，请联系管理员', {icon: 5});
+                }
+            });
+        })
     }
 });
