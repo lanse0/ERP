@@ -47,11 +47,15 @@ layui.use(['table', 'form'], function () {
             {field: 'empName', title: '员工姓名'},
             {field: 'userName', title: '账号'},
             {field: 'phone', title: '联系电话'},
-            {field: 'deptName', title: '所属部门'},
-            {field: 'roleName', title: '职位'},
-            {field: 'sex', title: '性别'},
+            {field: 'deptName', title: '所属部门', templet:function (emp) {
+                    return emp.dept.deptName
+                }},
+            {field: 'roleName', title: '职位', templet:function (emp) {
+                    return emp.role.roleName
+                }},
+            {field: 'sex', title: '性别', templet:"<div>{{d.sex=='1'?'男':'女' }}</div>"},
             {field: 'age', title: '年龄'},
-            {field: 'status', title: '状态'},
+            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'在职':'离职' }}</div>"},
             {field: 'hireDate', title: '入职时间', width: 120, templet: "<div>{{ layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }}</div>" },
             // {field: 'termDate', title: '离职时间', width: 120, templet: '<div>{{# if(d.termDate){}} {{layui.util.toDateString(d.termDate, "yyyy-MM-dd") }} {{#} else{}} {{#}}}</div>' }
             {field: 'termDate', title: '离职时间', width: 120, templet: "<div>{{# if(d.termDate){}} {{layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }} {{#} else{}} {{#}}}</div>" }
