@@ -1,22 +1,30 @@
 package com.qf.storage.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qf.storage.po.Storehouse;
 import com.qf.storage.service.StorehouseService;
 import com.qf.storage.utils.PageUtils;
+import com.qf.storage.utils.TableData;
+import com.qf.sys.po.Emp;
+import com.qf.sys.po.Region;
+import com.qf.utils.LayUIOperate;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -26,31 +34,79 @@ public class StorehouseController {
     private StorehouseService storehouseService;
 
     @RequestMapping("/findByPage")
-    public String findByPage(PageUtils page, HttpServletRequest request){
-        PageInfo<List<Storehouse>> pageInfo= storehouseService.findByPage(page.getPageNum(),page.getPageSize());
-        request.setAttribute("pageInfo",pageInfo);
-        return "storage/storehouse/storehouseList";
+    @ResponseBody
+    public TableData findByPage(HttpServletRequest request){
+        int pageSize =Integer.parseInt(request.getParameter("limit"));
+        int pageNumber = Integer.parseInt(request.getParameter("page"));
+
+        String regionName = request.getParameter("regionName");
+        String name = request.getParameter("name");
+        Map params = new HashMap();
+        params.put("regionName", regionName);
+        params.put("name", name);
+        PageHelper.startPage(pageNumber, pageSize);
+        PageInfo<Storehouse> data = storehouseService.findByPage(params);
+        TableData tableData = new TableData();
+        tableData.setCode(0);
+        tableData.setMsg("成功");
+        tableData.setCount(data.getTotal());//设置总条数
+        tableData.setData(data.getList());//设置当前的数据
+        return tableData;
     }
 
     @RequestMapping("/addStorehouse")
-    public String addStorehouse(Storehouse storehouse){
-        storehouseService.addStorehouse(storehouse);
-        return "storage/storehouse/storehouseList";
+    @ResponseBody
+    public LayUIOperate addStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
+
+        HttpSession session=request.getSession();
+//        Emp emp=(Emp)session.getAttribute("emp");
+//        emp.setId(1);
+        LayUIOperate operate=new LayUIOperate();
+        storehouse.setUser(new Emp(1));
+        System.out.println(storehouse);
+        boolean f= storehouseService.addStorehouse(storehouse);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户添加成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户添加失败");
+        }
+        return operate;
     }
     @RequestMapping("/delStorehouse")
-    public String delStorehouse(Integer id){
-        storehouseService.delStorehouse(id);
-        return "storage/storehouse/storehouseList";
+    @ResponseBody
+    public LayUIOperate delStorehouse(Integer id){
+        LayUIOperate operate=new LayUIOperate();
+        boolean f= storehouseService.delStorehouse(id);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户删除成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户删除失败");
+        }
+        return operate;
     }
     @RequestMapping("/updateStorehouse")
-    public String updateStorehouse(Storehouse storehouse){
-        storehouseService.updateStorehouse(storehouse);
-        return "storage/storehouse/storehouseList";
+    @ResponseBody
+    public LayUIOperate updateStorehouse(@RequestBody Storehouse storehouse, HttpServletRequest request){
+        LayUIOperate operate=new LayUIOperate();
+        storehouse.setUser(new Emp(1));
+        boolean f= storehouseService.updateStorehouse(storehouse);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("用户更新成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("用户更新失败");
+        }
+        return operate;
     }
     @RequestMapping("/getStorehouseById")
     public String getStorehouseById(int id){
         storehouseService.getStorehouseById(id);
-        return "storage/storehouse/storehouseList";
+        return "storehouseList2";
     }
     @RequestMapping("/fastJson")
     @ResponseBody

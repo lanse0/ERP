@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.EmpDao">
+    <resultMap id="EmpResultMap" type="Emp">
+        <id property="id" column="id"/>
+        <result column="empNo" property="empNo"/>
+        <result column="empName" property="empName"/>
+        <result column="userName" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="sex" property="sex"/>
+        <result column="birthDay" property="birthDay"/>
+        <result column="hireDate" property="hireDate"/>
+        <result column="termDate" property="termDate"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="status" property="status"/>
+        <association property="dept" javaType="Department">
+            <id property="id" column="deptId"/>
+            <result property="deptNo" column="deptNo"/>
+            <result property="deptName" column="deptName"/>
+        </association>
+        <association property="role" javaType="Role">
+            <id property="id" column="roleId"/>
+            <result property="roleName" column="roleName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="getAllEmpByPage" resultMap="EmpResultMap" parameterType="map">
+        SELECT
+        e.*,d.deptNo,d.deptName,r.roleName
+        FROM
+        emp e,department d,role r
+        WHERE
+        1 = 1
+        AND e.deptId = d.id
+        AND e.roleId = r.id
+        <if test="empNo!=0">
+            and e.empNo = #{empNo}
+        </if>
+        <if test="empName!=null and empName!=''">
+            and e.empName like concat('%',#{empName},'%')
+        </if>
+        <if test="deptName!=null and deptName!=''">
+            AND d.deptName = #{deptName}
+        </if>
+        <if test="status!=null and status!=''">
+            and e.status = #{status}
+        </if>
+    </select>
+    <select id="getEmpByRole" resultMap="EmpResultMap">
+        SELECT
+            e.*,d.deptNo,d.deptName,r.roleName
+        FROM
+            emp e,
+            department d,
+            role r
+        WHERE
+            e.deptId = d.id
+            AND e.roleId = r.id
+            AND e.roleId = #{roleId}
+    </select>
+
+    <insert id="addEmp" parameterType="Emp">
+        INSERT INTO emp ( empNo, empName, userName, password, phone, deptId, roleId,sex,birthDay,hireDate,createTime)
+        VALUES( #{empNo}, #{empName}, #{userName},#{password},#{phone},#{dept.id},#{role.id},#{sex},#{birthDay},SYSDATE(),SYSDATE());
+    </insert>
+
+    <update id="updEmp" parameterType="Emp">
+
+    </update>
+</mapper>

@@ -9,8 +9,14 @@
     </settings>
     <typeAliases>
         <package name="com.qf.storage.po"></package>
+        <package name="com.qf.sys.po"></package>
     </typeAliases>
     <mappers>
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
+
+        <mapper resource="com/qf/sys/dao/EmpDaoMapping.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/DepartmentDaoMapping.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/RegionDaoMapping.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/RoleDaoMapping.xml"></mapper>
     </mappers>
 </configuration>

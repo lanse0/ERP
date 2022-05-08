@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.RoleDao">
+    <resultMap id="RoleMap" type="Role">
+        <id property="id" column="id"/>
+        <result column="roleName" property="roleName"/>
+        <result column="regionShortName" property="regionShortName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="status" property="status"/>
+        <association property="roleName" javaType="Department">
+            <id property="id" column="deptId"/>
+            <result property="deptNo" column="deptNo"/>
+            <result property="deptName" column="deptName"/>
+        </association>
+    </resultMap>
+
+    <select id="getRoleByDept" resultType="Role">
+        SELECT
+            r.*, d.deptNo, d.deptName
+        FROM
+            role r, department d
+        WHERE
+            r.deptId = d.id
+            AND deptId = #{deptId}
+    </select>
+</mapper>
