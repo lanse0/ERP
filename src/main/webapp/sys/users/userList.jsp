@@ -33,12 +33,6 @@
 </head>
 
 <body>
-<%--<div class="place"><span>位置：</span>--%>
-<%--    <ul class="placeul">--%>
-<%--        <li><a href="#">系统管理</a></li>--%>
-<%--        <li><a href="#">用户管理</a><<a href=""></a>
-<%--    </ul>--%>
-<%--</div>--%>
 <blockquote class="layui-elem-quote layui-text layui-form">
     <table>
         <tr>
@@ -60,7 +54,7 @@
                 <select id="status" name="status">
                     <option value="" selected>选择状态</option>
                     <option value="1">在职</option>
-                    <option value="0">离职</option>
+                    <option value="2">离职</option>
                 </select>
             </td>
             <td width="10">&nbsp;</td>
@@ -78,6 +72,7 @@
 <!--人员表单-->
 <div id="box" class="div-hide">
     <form id="EmpForm" class="layui-form frm" lay-filter="emp-form">
+        <input type="text" id="Id" name="id" class="layui-hide">
         <div class="layui-form-item">
             <label class="layui-form-label">编号</label>
             <div class="layui-input-inline">

@@ -1,6 +1,8 @@
 package com.qf.sys.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Department;
 import com.qf.sys.po.Region;
@@ -15,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileName: RegionController
@@ -27,6 +31,27 @@ import java.util.List;
 public class RegionController {
     @Resource
     private RegionService regionService;
+
+    @RequestMapping("/getAllRegionList")
+    @ResponseBody
+    public TableData getAllRegionList(HttpServletRequest request){
+        int pageSize =Integer.parseInt(request.getParameter("limit"));
+        int pageNumber = Integer.parseInt(request.getParameter("page"));
+
+        String provinceName = request.getParameter("provinceName");
+        String cityName = request.getParameter("cityName");
+        Map params = new HashMap();
+        params.put("provinceName",provinceName);
+        params.put("cityName",cityName);
+        PageHelper.startPage(pageNumber,pageSize);
+        PageInfo<Region> data = regionService.getAllRegionByPage(params);
+        TableData tableData = new TableData();
+        tableData.setCode(0);
+        tableData.setMsg("成功");
+        tableData.setCount(data.getTotal());//总记录数
+        tableData.setData(data.getList());//设置当前数据
+        return tableData;
+    }
 
     @RequestMapping("/getCityByPId")//根据省份获取城市
     @ResponseBody

@@ -50,6 +50,7 @@
         <if test="status!=null and status!=''">
             and e.status = #{status}
         </if>
+        ORDER BY e.empNo ASC
     </select>
     <select id="getEmpByRole" resultMap="EmpResultMap">
         SELECT
@@ -70,6 +71,13 @@
     </insert>
 
     <update id="updEmp" parameterType="Emp">
-
+        UPDATE emp
+        SET empName = #{empName},userName = #{userName}, password = #{password}, phone = #{phone}, deptId = #{dept.id}, roleId = #{role.id}, sex = #{sex}, birthDay = #{birthDay}
+        WHERE id = #{id}
+    </update>
+    <update id="quitEmp">
+        UPDATE emp
+        SET status = 2
+        WHERE id = #{id}
     </update>
 </mapper>

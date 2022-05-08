@@ -86,7 +86,7 @@
                         <dd><a href="javascript:;" onclick="showBody('sys/dept/positionList.html')">职位管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('sys/modules/moduleList.html')">模块管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('sys/logs/logList.html')">日志管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/area/areaList.html')">区域管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('sys/area/areaList.jsp')">区域管理</a></dd>
                     </dl>
                 </li>
             </ul>

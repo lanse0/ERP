@@ -46,4 +46,28 @@ public class EmpServiceImpl implements EmpService {
         }
         return f;
     }
+
+    @Override
+    public boolean updEmp(Emp emp) {
+        boolean f = true;
+        try {
+            empDao.updEmp(emp);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    @Override
+    public boolean quitEmp(int id) {
+        boolean f = true;
+        try {
+            empDao.quitEmp(id);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
 }
