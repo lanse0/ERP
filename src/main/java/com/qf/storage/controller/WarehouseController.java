@@ -58,12 +58,14 @@ public class WarehouseController {
         String name = request.getParameter("name");
         String regionName = request.getParameter("regionName");
         String beginTime = request.getParameter("beginTime");
+        String regionP = request.getParameter("regionP");
         String endTime = request.getParameter("endTime");
         Map params = new HashMap();
         params.put("name", name);
         params.put("regionName", regionName);
         params.put("beginTime", beginTime);
         params.put("endTime", endTime);
+        params.put("regionP", regionP);
         PageHelper.startPage(pageNumber, pageSize);
         PageInfo<Warehouse> data = warehouseService.findByPage2(params);
         TableData tableData = new TableData();

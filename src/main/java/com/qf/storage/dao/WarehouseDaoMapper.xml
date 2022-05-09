@@ -62,6 +62,9 @@
         <if test="regionName != null and regionName != '' and regionName != 0">
             AND s.regionId=#{regionName}
         </if>
+        <if test="regionP != null and regionP != '' and regionP != 0">
+            AND r.parentId=#{regionP}
+        </if>
         <if test="beginTime != null and beginTime != ''">
             AND w.warehouseTime&gt;=#{beginTime}
         </if>

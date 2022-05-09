@@ -3,6 +3,7 @@ package com.qf.storage.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.qf.storage.dao.ExWarehouseDao;
 import com.qf.storage.po.ExWarehouse;
+import com.qf.storage.po.Warehouse;
 import com.qf.storage.service.ExWarehouseService;
 import com.qf.storage.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,12 @@ public class ExWarehouseServiceImpl implements ExWarehouseService {
     @Override
     public ExWarehouse getStorehouseById(int id) {
         return exWarehouseDao.getStorehouseById(id);
+    }
+
+    @Override
+    public PageInfo<ExWarehouse> findByPage2(Map params) {
+        List<ExWarehouse> storehouseList=exWarehouseDao.findByPage2(params);
+        PageInfo<ExWarehouse> pageInfo=new PageInfo<ExWarehouse>(storehouseList);
+        return pageInfo;
     }
 }

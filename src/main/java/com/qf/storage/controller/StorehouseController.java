@@ -42,9 +42,11 @@ public class StorehouseController {
         Emp e=new Emp(3);
         String regionName = request.getParameter("regionName");
         String name = request.getParameter("name");
+        String regionP = request.getParameter("regionP");
         Map params = new HashMap();
         params.put("regionName", regionName);
         params.put("name", name);
+        params.put("regionP", regionP);
         if(e.getId()!=6) params.put("masterId", e.getId());
         PageHelper.startPage(pageNumber, pageSize);
         PageInfo<Storehouse> data = storehouseService.findByPage(params);

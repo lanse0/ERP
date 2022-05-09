@@ -12,7 +12,7 @@ layui.use(['table', 'form','laydate'], function () {
     //表格渲染
     table.render({
         elem: '#PersonTable',
-        url:'/warehouse/findByPage2',
+        url:'/exWarehouse/findByPage2',
         height: 'full-200',
         cellMinWidth: 80,
         cols: [[ //表头
@@ -20,7 +20,7 @@ layui.use(['table', 'form','laydate'], function () {
             {field: 'sName', title: '仓库名称'},
             {field: 'userName', title: '负责人'},
             {field: 'regionName', title: '所属区域'},
-            {field: 'sum', title: '入库数量'},
+            {field: 'sum', title: '出库数量'},
             {field: 'sum', title: '金额'}
         ]],
         page: true //是否显示分页
@@ -38,7 +38,7 @@ layui.use(['table', 'form','laydate'], function () {
     form.on('select(province1)', function(data){
         getCity('1',data.value);
         table.reload('PersonTable', {
-            url: '/warehouse/findByPage2',
+            url: '/exWarehouse/findByPage2',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
@@ -51,7 +51,7 @@ layui.use(['table', 'form','laydate'], function () {
     });
     form.on('select(city1)', function(){
         table.reload('PersonTable', {
-            url: '/warehouse/findByPage2',
+            url: '/exWarehouse/findByPage2',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
@@ -66,7 +66,7 @@ layui.use(['table', 'form','laydate'], function () {
     $('.btn-search').on('click', function () {
         var p_name = $('#p_name').val();
         table.reload('PersonTable', {
-            url: '/warehouse/findByPage2',
+            url: '/exWarehouse/findByPage2',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设

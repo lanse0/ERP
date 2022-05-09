@@ -73,6 +73,7 @@
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;">数据统计</a>
                     <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/exWarehouseStat.jsp')">出库统计</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('storage/storehouse/warehouseStat.jsp')">入库统计</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
                         <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
