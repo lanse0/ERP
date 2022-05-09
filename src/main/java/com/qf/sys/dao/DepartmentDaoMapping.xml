@@ -18,6 +18,19 @@
             <result property="regionLevel" column="regionLevel"/>
         </association>
     </resultMap>
+
+    <select id="getAllDeptByPage" resultMap="DeptMap" parameterType="map">
+        SELECT d.*,r.regionName,r.regionShortName,r.regionCode,r.regionLevel
+        FROM department d, region r
+        WHERE 1=1
+        AND d.regionId = r.id
+        <if test="deptName!=null and deptName!=''">
+            AND d.deptName LIKE concat('%',#{deptName},'%')
+        </if>
+        <if test="regionId!=null and regionId!='' and regionId!=0">
+            AND (d.regionId = #{regionId} OR r.parentId = #{regionId})
+        </if>
+    </select>
     <select id="getSelectDept" resultMap="DeptMap">
         SELECT * FROM department WHERE STATUS = 1 GROUP BY deptName
     </select>
@@ -32,4 +45,8 @@
             AND d.STATUS = 1
             AND r.id = #{regionId}
     </select>
+    <insert id="addDept" parameterType="Department">
+        INSERT INTO department(deptno,deptName,regionId,createTime)
+        VALUES(#{deptNo},#{deptName},#{region.id},SYSDATE())
+    </insert>
 </mapper>
