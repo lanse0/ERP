@@ -21,5 +21,6 @@
         <mapper resource="com/qf/sys/dao/DepartmentDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/RegionDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/RoleDaoMapping.xml"></mapper>
+        <mapper resource="com/qf/sys/dao/ModuleDaoMapping.xml"></mapper>
     </mappers>
 </configuration>

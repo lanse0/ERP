@@ -17,4 +17,5 @@ public interface DepartmentDao {
     public List<Department> getSelectDept();//获取下拉框数据
     public List<Department> getDeptByRegion(@Param("regionId") int regionId);//根据区域获取部门
     public boolean addDept(Department dept);
+    public boolean updDept(Department dept);
 }

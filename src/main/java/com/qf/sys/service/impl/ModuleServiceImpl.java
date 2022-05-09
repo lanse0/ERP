@@ -1,10 +1,9 @@
 package com.qf.sys.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import com.qf.sys.dao.RoleDao;
-import com.qf.sys.po.Role;
-import com.qf.sys.service.RoleService;
+import com.qf.sys.dao.ModuleDao;
+import com.qf.sys.po.Module;
+import com.qf.sys.service.ModuleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,32 +11,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * FileName: RoleServiceImpl
+ * FileName: ModuleServiceImpl
  * Author: HWang
- * Date:2022/5/7 16:33
+ * Date:2022/5/9 15:53
  */
 @Service
-public class RoleServiceImpl implements RoleService {
+public class ModuleServiceImpl implements ModuleService {
     @Resource
-    private RoleDao roleDao;
+    private ModuleDao moduleDao;
 
     @Override
-    public List<Role> getRoleByDept(int deptId) {
-        return roleDao.getRoleByDept(deptId);
-    }
-
-    @Override
-    public PageInfo<Role> getAllRoleByPage(Map params) {
-        List<Role> roleList = roleDao.getAllRoleByPage(params);
-        PageInfo<Role> pageInfo = new PageInfo<>(roleList);
+    public PageInfo<Module> getAllModuleByPage(String moduleName) {
+        List<Module> modules = moduleDao.getAllModuleByPage(moduleName);
+        PageInfo<Module> pageInfo = new PageInfo<>(modules);
         return pageInfo;
     }
 
     @Override
-    public boolean addRole(Role role) {
+    public List<Module> getSelect() {
+        return moduleDao.getSelect();
+    }
+
+    @Override
+    public boolean addModule(Module module) {
         boolean f = true;
         try {
-            f = roleDao.addRole(role);
+            f = moduleDao.addModule(module);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();
@@ -46,10 +45,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean updRole(Role role) {
+    public boolean updModule(Module module) {
         boolean f = true;
         try {
-            f = roleDao.updRole(role);
+            f = moduleDao.updModule(module);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();
@@ -61,7 +60,7 @@ public class RoleServiceImpl implements RoleService {
     public boolean updStatus(int id) {
         boolean f = true;
         try {
-            f = roleDao.updStatus(id);
+            f = moduleDao.updStatus(id);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();
