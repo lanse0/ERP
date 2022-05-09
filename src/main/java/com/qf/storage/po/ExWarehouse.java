@@ -1,33 +1,53 @@
 package com.qf.storage.po;
 
+import com.qf.sys.po.Emp;
+
 import java.sql.Date;
 
 public class ExWarehouse {
     public int id;//出库id 主键自增
     public int orderId;//订购单id
-    public int userId;//出库人id
-    public int storehouseId;//仓库id
     public String status;//出库状态
-    public Date exWarehouseTime;//出库时间
+    public Date ExWarehouseTime;//出库时间
+    public Storehouse storehouse;
+    public Emp user;
 
     public ExWarehouse() {
     }
 
-    public ExWarehouse(int id, int orderId, int userId, int storehouseId, String status, Date exWarehouseTime) {
-        this.id = id;
-        this.orderId = orderId;
-        this.userId = userId;
-        this.storehouseId = storehouseId;
-        this.status = status;
-        this.exWarehouseTime = exWarehouseTime;
+    public String getUserName(){
+        if(user!=null)  return user.getEmpName();
+        return "";
+    }
+    public String getSName() {
+        if(storehouse!=null) return storehouse.getName();
+        return "";
+    }
+    public int getSId() {
+        if(storehouse!=null) return storehouse.getId();
+        return 0;
+    }
+    public String getRegionName() {
+        if(storehouse!=null)
+        { if(storehouse.region!=null) return storehouse.region.getRegionName();}
+        return "";
+    }
+    public void setStorehouseId(int storehouseId) { this.storehouse=new Storehouse(storehouseId); }
+
+    public Storehouse getStorehouse() {
+        return storehouse;
     }
 
-    public ExWarehouse(int orderId, int userId, int storehouseId, String status, Date exWarehouseTime) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.storehouseId = storehouseId;
-        this.status = status;
-        this.exWarehouseTime = exWarehouseTime;
+    public void setStorehouse(Storehouse storehouse) {
+        this.storehouse = storehouse;
+    }
+
+    public Emp getUser() {
+        return user;
+    }
+
+    public void setUser(Emp user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -46,22 +66,6 @@ public class ExWarehouse {
         this.orderId = orderId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getStorehouseId() {
-        return storehouseId;
-    }
-
-    public void setStorehouseId(int storehouseId) {
-        this.storehouseId = storehouseId;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -71,11 +75,11 @@ public class ExWarehouse {
     }
 
     public Date getExWarehouseTime() {
-        return exWarehouseTime;
+        return ExWarehouseTime;
     }
 
     public void setExWarehouseTime(Date exWarehouseTime) {
-        this.exWarehouseTime = exWarehouseTime;
+        ExWarehouseTime = exWarehouseTime;
     }
 
     @Override
@@ -83,10 +87,10 @@ public class ExWarehouse {
         return "ExWarehouse{" +
                 "id=" + id +
                 ", orderId=" + orderId +
-                ", userId=" + userId +
-                ", storehouseId=" + storehouseId +
                 ", status='" + status + '\'' +
-                ", exWarehouseTime=" + exWarehouseTime +
+                ", ExWarehouseTime=" + ExWarehouseTime +
+                ", storehouse=" + storehouse +
+                ", user=" + user +
                 '}';
     }
 }

@@ -1,9 +1,10 @@
 package com.qf.storage.service.impl;
 
 import com.github.pagehelper.PageInfo;
-import com.qf.storage.dao.WarehouseDao;
+import com.qf.storage.dao.ExWarehouseDao;
+import com.qf.storage.po.ExWarehouse;
 import com.qf.storage.po.Warehouse;
-import com.qf.storage.service.StockService;
+import com.qf.storage.service.ExWarehouseService;
 import com.qf.storage.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +16,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class WarehouseServiceImpl implements WarehouseService {
+public class ExWarehouseServiceImpl implements ExWarehouseService {
     @Autowired
-    private WarehouseDao warehouseDao;
+    private ExWarehouseDao exWarehouseDao;
     @Override
-    public PageInfo<Warehouse> findByPage(Map params) {
-        List<Warehouse> storehouseList=warehouseDao.findByPage(params);
-        PageInfo<Warehouse> pageInfo=new PageInfo<Warehouse>(storehouseList);
+    public PageInfo<ExWarehouse> findByPage(Map params) {
+        List<ExWarehouse> storehouseList=exWarehouseDao.findByPage(params);
+        PageInfo<ExWarehouse> pageInfo=new PageInfo<ExWarehouse>(storehouseList);
         return pageInfo;
     }
 
     @Override
-    public boolean addStorehouse(Warehouse Warehouse) {
-        return warehouseDao.addStorehouse(Warehouse);
+    public boolean addStorehouse(ExWarehouse ExWarehouse) {
+        return exWarehouseDao.addStorehouse(ExWarehouse);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public boolean delStorehouse(Integer id) {
         boolean b;
         try {
-            b = warehouseDao.delStorehouse(id);
+            b = exWarehouseDao.delStorehouse(id);
         } catch (Exception e) {
             b=false;
             System.out.println("删除操作撤销");
@@ -47,19 +48,19 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public boolean updateStorehouse(Warehouse Warehouse) {
-        return warehouseDao.updateStorehouse(Warehouse);
+    public boolean updateStorehouse(ExWarehouse ExWarehouse) {
+        return exWarehouseDao.updateStorehouse(ExWarehouse);
     }
 
     @Override
-    public Warehouse getStorehouseById(int id) {
-        return warehouseDao.getStorehouseById(id);
+    public ExWarehouse getStorehouseById(int id) {
+        return exWarehouseDao.getStorehouseById(id);
     }
 
     @Override
-    public PageInfo<Warehouse> findByPage2(Map params) {
-        List<Warehouse> storehouseList=warehouseDao.findByPage2(params);
-        PageInfo<Warehouse> pageInfo=new PageInfo<Warehouse>(storehouseList);
+    public PageInfo<ExWarehouse> findByPage2(Map params) {
+        List<ExWarehouse> storehouseList=exWarehouseDao.findByPage2(params);
+        PageInfo<ExWarehouse> pageInfo=new PageInfo<ExWarehouse>(storehouseList);
         return pageInfo;
     }
 }

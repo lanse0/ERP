@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qf.storage.dao.WarehouseDao">
-    <resultMap id="warehouseMap" type="Warehouse">
+<mapper namespace="com.qf.storage.dao.ExWarehouseDao">
+    <resultMap id="exWarehouseMap" type="ExWarehouse">
         <id property="id" column="id"/>
         <result column="status" property="status"/>
-        <result column="warehouseTime" property="warehouseTime"/>
+        <result column="exWarehouseTime" property="exWarehouseTime"/>
         <association property="user" javaType="Emp">
             <id property="id" column="eId" />
             <result property="empName" column="empName" />
@@ -16,29 +16,29 @@
             <result property="name" column="sName" />
         </association>
     </resultMap>
-    <select id="findByPage" resultMap="warehouseMap" parameterType="map">
-        select s.*,st.id stId,st.name sName,e.id eId,e.empName  from Warehouse s left join storehouse st on s.storehouseId=st.id
+    <select id="findByPage" resultMap="exWarehouseMap" parameterType="map">
+        select s.*,st.id stId,st.name sName,e.id eId,e.empName  from ExWarehouse s left join storehouse st on s.storehouseId=st.id
         left join emp e on s.userId=e.id
         where 1=1
         <if test="name != null and name != ''">
             AND st.name like concat('%',#{name},'%')
         </if>
     </select>
-    <insert id="addStorehouse" parameterType="Warehouse">
-        insert into Warehouse(storehouseId,orderId,userId,warehouseTime,status)
+    <insert id="addStorehouse" parameterType="ExWarehouse">
+        insert into ExWarehouse(storehouseId,orderId,userId,exWarehouseTime,status)
               values(#{storehouse.id},#{orderId},#{user.id},now(),0)
     </insert>
-    <update id="updateStorehouse" parameterType="Warehouse">
-       update Warehouse set status=#{status}
+    <update id="updateStorehouse" parameterType="ExWarehouse">
+       update ExWarehouse set status=#{status}
          where id=#{id}
     </update>
     <delete id="delStorehouse" parameterType="Integer">
-        delete from Warehouse where id=#{id}
+        delete from ExWarehouse where id=#{id}
     </delete>
     <select id="getStorehouseById" parameterType="int">
-        select * from Warehouse where id={id}
+        select * from ExWarehouse where id={id}
     </select>
-    <resultMap id="statMap" type="Warehouse">
+    <resultMap id="eStatMap" type="ExWarehouse">
         <id property="id" column="id"/>
         <association property="user" javaType="Emp">
             <id property="id" column="eId" />
@@ -47,29 +47,29 @@
         <association property="storehouse" javaType="Storehouse">
             <id property="id" column="sId" />
             <result property="name" column="sName" />
-        <association property="region" javaType="Region">
-            <id property="id" column="rId" />
-            <result property="regionName" column="regionName" />
-        </association>
+            <association property="region" javaType="Region">
+                <id property="id" column="rId" />
+                <result property="regionName" column="regionName" />
+            </association>
         </association>
     </resultMap>
-    <select id="findByPage2" resultMap="statMap" parameterType="map">
-    select s.id sId,s.name sName,e.id eId,e.empName,r.id rId,r.regionName regionName from warehouse w left join storehouse s on w.storehouseId=s.id
-    left join emp e on s.masterId=e.id left join region r on s.regionId=r.id where 1=1
+    <select id="findByPage2" resultMap="eStatMap" parameterType="map">
+        select s.id sId,s.name sName,e.id eId,e.empName,r.id rId,r.regionName regionName from exWarehouse w left join storehouse s on w.storehouseId=s.id
+        left join emp e on s.masterId=e.id left join region r on s.regionId=r.id where 1=1
         <if test="name != null and name != ''">
             AND s.name like concat('%',#{name},'%')
-        </if>
-        <if test="regionName != null and regionName != '' and regionName != 0">
-            AND s.regionId=#{regionName}
         </if>
         <if test="regionP != null and regionP != '' and regionP != 0">
             AND r.parentId=#{regionP}
         </if>
+        <if test="regionName != null and regionName != '' and regionName != 0">
+            AND s.regionId=#{regionName}
+        </if>
         <if test="beginTime != null and beginTime != ''">
-            AND w.warehouseTime&gt;=#{beginTime}
+            AND w.exWarehouseTime&gt;=#{beginTime}
         </if>
         <if test="endTime != null and endTime != ''">
-            AND w.warehouseTime&lt;=#{endTime}
+            AND w.exWarehouseTime&lt;=#{endTime}
         </if>
         group by w.storehouseId
     </select>

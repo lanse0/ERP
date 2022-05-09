@@ -21,7 +21,7 @@ public class Storehouse {
 
     public Storehouse() {
     }
-
+    public Storehouse(int id) {this.id = id; }
     public Storehouse(int id, Emp user, Emp master, Region region, String address, String name, String tel, String des, String status, Date createTime) {
         this.id = id;
         this.user = user;

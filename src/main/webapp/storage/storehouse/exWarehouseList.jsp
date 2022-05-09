@@ -9,10 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>入库管理</title>
+    <title>仓库管理</title>
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/warehouseList.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/exWarehouseList.js"></script>
     <style>
         .layui-form-label.layui-required:after{
             content:'*';

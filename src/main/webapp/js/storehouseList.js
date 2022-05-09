@@ -34,6 +34,17 @@ layui.use(['table', 'form'], function () {
     getProvince('1');
     form.on('select(province1)', function(data){
         getCity('1',data.value);
+        table.reload('PersonTable', {
+            url: '/storehouse/findByPage',
+            method: 'post',
+            dataType: 'json',
+            where: { //设定异步数据接口的额外参数，任意设
+                regionP: data.value
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
     });
     form.on('select(province)', function(data){
         getCity('',data.value)

@@ -49,15 +49,43 @@ public class WarehouseController {
         return tableData;
     }
 
+    @RequestMapping("/findByPage2")
+    @ResponseBody
+    public TableData findByPage2(HttpServletRequest request){
+        int pageSize =Integer.parseInt(request.getParameter("limit"));
+        int pageNumber = Integer.parseInt(request.getParameter("page"));
+        //HttpSession session=request.getSession();
+        String name = request.getParameter("name");
+        String regionName = request.getParameter("regionName");
+        String beginTime = request.getParameter("beginTime");
+        String regionP = request.getParameter("regionP");
+        String endTime = request.getParameter("endTime");
+        Map params = new HashMap();
+        params.put("name", name);
+        params.put("regionName", regionName);
+        params.put("beginTime", beginTime);
+        params.put("endTime", endTime);
+        params.put("regionP", regionP);
+        PageHelper.startPage(pageNumber, pageSize);
+        PageInfo<Warehouse> data = warehouseService.findByPage2(params);
+        TableData tableData = new TableData();
+        tableData.setCode(0);
+        tableData.setMsg("成功");
+        tableData.setCount(data.getTotal());//设置总条数
+        tableData.setData(data.getList());//设置当前的数据
+        return tableData;
+    }
+
     @RequestMapping("/addWarehouse")
     @ResponseBody
-    public LayUIOperate addStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
+    public LayUIOperate addStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
 
         HttpSession session=request.getSession();
 //        Emp emp=(Emp)session.getAttribute("emp");
 //        emp.setId(1);
+       warehouse.setUser(new Emp(3));
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.addStorehouse(Warehouse);
+        boolean f= warehouseService.addStorehouse(warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("添加成功！");
@@ -83,9 +111,11 @@ public class WarehouseController {
     }
     @RequestMapping("/updateWarehouse")
     @ResponseBody
-    public LayUIOperate updateStorehouse(@RequestBody Warehouse Warehouse, HttpServletRequest request){
+    public LayUIOperate updateStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= warehouseService.updateStorehouse(Warehouse);
+        if("0".equals(warehouse.getStatus())) warehouse.setStatus("1");
+        else warehouse.setStatus("0");
+        boolean f= warehouseService.updateStorehouse(warehouse);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("更新成功！");

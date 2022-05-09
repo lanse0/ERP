@@ -33,6 +33,9 @@
         <if test="regionName != null and regionName != '' and regionName != 0">
             AND regionId=${regionName}
         </if>
+        <if test="regionP != null and regionP != '' and regionP != 0">
+            AND r.parentId=#{regionP}
+        </if>
         <if test="name != null and name != ''">
             AND name like concat('%',#{name},'%')
         </if>
@@ -54,7 +57,7 @@
     <select id="getStorehouseById" parameterType="int">
         select * from storehouse where id={id}
     </select>
-    <select id="getAllStorehouse" resultType="Storehouse">
+    <select id="findAllStorehouse" resultType="Storehouse">
         select * from storehouse
     </select>
 </mapper>

@@ -15,6 +15,7 @@
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
         <mapper resource="com/qf/storage/dao/StockDaoMapper.xml"></mapper>
         <mapper resource="com/qf/storage/dao/WarehouseDaoMapper.xml"></mapper>
+        <mapper resource="com/qf/storage/dao/ExWarehouseDaoMapper.xml"></mapper>
 
         <mapper resource="com/qf/sys/dao/EmpDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/DepartmentDaoMapping.xml"></mapper>

@@ -1,6 +1,7 @@
 package com.qf.storage.po;
 
 import com.qf.sys.po.Emp;
+import com.qf.sys.po.Region;
 
 import java.sql.Date;
 
@@ -23,6 +24,17 @@ public class Warehouse {
         if(storehouse!=null) return storehouse.getName();
         return "";
     }
+    public int getSId() {
+        if(storehouse!=null) return storehouse.getId();
+        return 0;
+    }
+    public String getRegionName() {
+        if(storehouse!=null)
+        { if(storehouse.region!=null) return storehouse.region.getRegionName();}
+        return "";
+    }
+    public void setStorehouseId(int storehouseId) { this.storehouse=new Storehouse(storehouseId); }
+
     public Storehouse getStorehouse() {
         return storehouse;
     }
