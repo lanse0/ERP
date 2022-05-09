@@ -23,6 +23,9 @@
         <if test="name != null and name != ''">
             AND st.name like concat('%',#{name},'%')
         </if>
+        <if test="status != null and status != ''">
+            AND s.status=#{status}
+        </if>
     </select>
     <insert id="addStorehouse" parameterType="Warehouse">
         insert into Warehouse(storehouseId,orderId,userId,warehouseTime,status)

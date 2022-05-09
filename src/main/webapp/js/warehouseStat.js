@@ -16,7 +16,7 @@ layui.use(['table', 'form','laydate'], function () {
         height: 'full-200',
         cellMinWidth: 80,
         cols: [[ //表头
-            {field: 'sId', title: '编号'},
+            {field: 'sId', title: '编号',event:'detail',templet: "<div>{{d.id+'(查看详情)'}}</div>"},
             {field: 'sName', title: '仓库名称'},
             {field: 'userName', title: '负责人'},
             {field: 'regionName', title: '所属区域'},
@@ -34,6 +34,10 @@ layui.use(['table', 'form','laydate'], function () {
             table.resize('PersonTable');
         }
     });
+    table.on('tool(person-table)', function(obj) {
+        if (obj.event == 'detail') {
+
+        }})
     getProvince('1');
     form.on('select(province1)', function(data){
         getCity('1',data.value);

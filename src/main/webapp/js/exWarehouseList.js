@@ -9,7 +9,7 @@ layui.use(['table', 'form'], function () {
         height: 'full-200',
         cellMinWidth: 80,
         cols: [[ //表头
-            {field: 'id', title: '编号'},
+            {field: 'id', title: '编号',event:'detail',templet: "<div>{{d.id+'(查看详情)'}}</div>"},
             {field: 'id', title: '采购单编号'},
             {field: 'id', title: '金额'},
             {field: 'sName', title: '仓库名称'},
@@ -31,8 +31,38 @@ layui.use(['table', 'form'], function () {
             table.resize('PersonTable');
         }
     });
-
+    form.on('select(status)', function(data){
+        table.reload('PersonTable', {
+            url: '/exWarehouse/findByPage',
+            method: 'post',
+            dataType: 'json',
+            where: { //设定异步数据接口的额外参数，任意设
+                status: data.value
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    });
     table.on('tool(person-table)', function(obj) {
+        if (obj.event == 'detail') {
+            getDetail(obj.data);
+            layer.open({
+                type: 1,
+                shift: 2,
+                shade: 0,
+                title: '详细信息',
+                area: ['520px', '520px'],
+                closeBtn: false,
+                shadeClose: false,
+                content: $('#box2'),
+                btnAlign: 'c',
+                btn: ['关闭'],
+                yes: function (index, layero) {
+                    layer.closeAll();
+                }
+            });
+        }
         var title="取消订单";
         if (obj.event == 'status1') {
             if(obj.data.status==1) title="回款";
@@ -154,6 +184,7 @@ layui.use(['table', 'form'], function () {
         });
         return false;
     });
+    form.render("select");
     function getStorehouse(){
         $("#storehouseId").html("");
         $.ajax({
@@ -202,5 +233,102 @@ layui.use(['table', 'form'], function () {
                 }
             });
         })
+    }
+    function getDetail(data){
+        $("#box2").html("");
+        $("#box2").append("<ul class=\"forminfo\">\n" +
+            "    <li>\n" +
+            "        <label>订单编号</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>客户姓名</label>\n" +
+            "        <cite><a>"+0+"</a></cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>联系电话</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>订购时间</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>总金额</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>操作人</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>审核状态</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>审核意见</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>审核人</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>审核时间</label>\n" +
+            "        <cite>"+0+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>出货仓库</label>\n" +
+            "        <cite><a href=\"../storage/storageView.html\" title=\"点击查看客户详细信息\" class=\"tablelink\">"+data.storehouse.name+"</a></cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>出库时间</label>\n" +
+            "        <cite>"+data.exWarehouseTime+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>出库人</label>\n" +
+            "        <cite>"+data.user.empName+"</cite>\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <label>出库状态</label>\n" +
+            "        <cite>"+('0'==data.status?'未发货':'1'==data.status?'已发货(进行回款)':'2'==data.status?'已退货':'已回款')+"</cite>\n" +
+            "    </li>\n" +
+            "</ul>\n" +
+            "<table class=\"tablelist\">\n" +
+            "    <thead>\n" +
+            "    <tr>\n" +
+            "        <th>序号</th>\n" +
+            "        <th>品牌</th>\n" +
+            "        <th>类型</th>\n" +
+            "        <th>型号</th>\n" +
+            "        <th>数量</th>\n" +
+            "        <th>单位</th>\n" +
+            "        <th>单价</th>\n" +
+            "        <th>金额</th>\n" +
+            "    </tr>\n" +
+            "    </thead>\n" +
+            "    <tbody>\n" +
+            "    <tr>\n" +
+            "        <td>1</td>\n" +
+            "        <td>联想</td>\n" +
+            "        <td>笔记本电脑</td>\n" +
+            "        <td>T470</td>\n" +
+            "        <td>10</td>\n" +
+            "        <td>台</td>\n" +
+            "        <td>9998</td>\n" +
+            "        <td>99980</td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td>2</td>\n" +
+            "        <td>联想</td>\n" +
+            "        <td>笔记本电脑</td>\n" +
+            "        <td>X260</td>\n" +
+            "        <td>5</td>\n" +
+            "        <td>台</td>\n" +
+            "        <td>5500</td>\n" +
+            "        <td>27500</td>\n" +
+            "    </tr>\n" +
+            "    </tbody>\n" +
+            "</table>");
     }
 });
