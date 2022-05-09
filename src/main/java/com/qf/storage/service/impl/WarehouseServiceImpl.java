@@ -55,4 +55,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Warehouse getStorehouseById(int id) {
         return warehouseDao.getStorehouseById(id);
     }
+
+    @Override
+    public PageInfo<Warehouse> findByPage2(Map params) {
+        List<Warehouse> storehouseList=warehouseDao.findByPage2(params);
+        PageInfo<Warehouse> pageInfo=new PageInfo<Warehouse>(storehouseList);
+        return pageInfo;
+    }
 }

@@ -3,6 +3,7 @@ package com.qf.storage.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qf.storage.po.ExWarehouse;
+import com.qf.storage.po.Warehouse;
 import com.qf.storage.service.ExWarehouseService;
 import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Emp;
@@ -36,10 +37,38 @@ public class ExWarehouseController {
         int pageNumber = Integer.parseInt(request.getParameter("page"));
         //HttpSession session=request.getSession();
         String name = request.getParameter("name");
+        String status = request.getParameter("status");
         Map params = new HashMap();
         params.put("name", name);
+        params.put("status", status);
         PageHelper.startPage(pageNumber, pageSize);
         PageInfo<ExWarehouse> data = exWarehouseService.findByPage(params);
+        TableData tableData = new TableData();
+        tableData.setCode(0);
+        tableData.setMsg("成功");
+        tableData.setCount(data.getTotal());//设置总条数
+        tableData.setData(data.getList());//设置当前的数据
+        return tableData;
+    }
+    @RequestMapping("/findByPage2")
+    @ResponseBody
+    public TableData findByPage2(HttpServletRequest request){
+        int pageSize =Integer.parseInt(request.getParameter("limit"));
+        int pageNumber = Integer.parseInt(request.getParameter("page"));
+        //HttpSession session=request.getSession();
+        String name = request.getParameter("name");
+        String regionP = request.getParameter("regionP");
+        String regionName = request.getParameter("regionName");
+        String beginTime = request.getParameter("beginTime");
+        String endTime = request.getParameter("endTime");
+        Map params = new HashMap();
+        params.put("name", name);
+        params.put("regionName", regionName);
+        params.put("regionP", regionP);
+        params.put("beginTime", beginTime);
+        params.put("endTime", endTime);
+        PageHelper.startPage(pageNumber, pageSize);
+        PageInfo<ExWarehouse> data = exWarehouseService.findByPage2(params);
         TableData tableData = new TableData();
         tableData.setCode(0);
         tableData.setMsg("成功");

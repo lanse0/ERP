@@ -9,11 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>入库管理</title>
+    <title>入库统计</title>
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
-    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/warehouseList.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/exWarehouseStat.js"></script>
     <style>
         .layui-form-label.layui-required:after{
             content:'*';
@@ -37,19 +36,22 @@
 <blockquote class="layui-elem-quote layui-text layui-form">
     <table>
         <tr>
-            <td><select id="status" lay-filter="status" lay-verify="required">
-                <option value="">状态</option>
-                <option value="0">未入库</option>
-                <option value="1">已入库</option>
-            </select></td>
-            <td width="10"></td>
             <td>
-                <input type="text" id="p_name" placeholder="仓库名称" autocomplete="off" class="layui-input ipt1">
+                <select id="province1" lay-filter="province1" lay-verify="required">
+                </select>
             </td>
+            <td>
+                <select id="city1"  lay-filter="city1"  lay-verify="required">
+                </select>
+            </td>
+            <td width="10">&nbsp;</td>
+            <td><input type="text" id="p_name" placeholder="仓库名称" autocomplete="off" class="layui-input ipt1"></td>
+            <td width="10">&nbsp;</td>
+            <td><input type="text" placeholder="开始时间" id="date" autocomplete="off" class="layui-input"></td>
+            <td><input type="text" placeholder="结束时间" id="date1" autocomplete="off" class="layui-input"></td>
             <td width="10">&nbsp;</td>
             <td>
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
-               <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
             </td>
         </tr>
     </table>
@@ -60,9 +62,6 @@
 </table>
 
 <!--人员表单-->
-<div id="box2" class="div-hide">
-
-</div>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>

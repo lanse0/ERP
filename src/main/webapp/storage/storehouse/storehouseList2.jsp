@@ -58,6 +58,11 @@
 <!--数据表格-->
 <table id="PersonTable" class="layui-hide" lay-filter="person-table"></table>
 <!--人员表单-->
+<div id="box2" class="div-hide">
+    <ul id="detail" class="forminfo">
+
+    </ul>
+</div>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>
