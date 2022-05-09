@@ -38,4 +38,36 @@
     <select id="getStorehouseById" parameterType="int">
         select * from Warehouse where id={id}
     </select>
+    <resultMap id="statMap" type="Warehouse">
+        <id property="id" column="id"/>
+        <association property="user" javaType="Emp">
+            <id property="id" column="eId" />
+            <result property="empName" column="empName" />
+        </association>
+        <association property="storehouse" javaType="Storehouse">
+            <id property="id" column="sId" />
+            <result property="name" column="sName" />
+        <association property="region" javaType="Region">
+            <id property="id" column="rId" />
+            <result property="regionName" column="regionName" />
+        </association>
+        </association>
+    </resultMap>
+    <select id="findByPage2" resultMap="statMap" parameterType="map">
+    select s.id sId,s.name sName,e.id eId,e.empName,r.id rId,r.regionName regionName from warehouse w left join storehouse s on w.storehouseId=s.id
+    left join emp e on s.masterId=e.id left join region r on s.regionId=r.id where 1=1
+        <if test="name != null and name != ''">
+            AND s.name like concat('%',#{name},'%')
+        </if>
+        <if test="regionName != null and regionName != '' and regionName != 0">
+            AND s.regionId=#{regionName}
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            AND w.warehouseTime&gt;=#{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND w.warehouseTime&lt;=#{endTime}
+        </if>
+        group by w.storehouseId
+    </select>
 </mapper>

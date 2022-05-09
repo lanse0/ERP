@@ -49,6 +49,31 @@ public class WarehouseController {
         return tableData;
     }
 
+    @RequestMapping("/findByPage2")
+    @ResponseBody
+    public TableData findByPage2(HttpServletRequest request){
+        int pageSize =Integer.parseInt(request.getParameter("limit"));
+        int pageNumber = Integer.parseInt(request.getParameter("page"));
+        //HttpSession session=request.getSession();
+        String name = request.getParameter("name");
+        String regionName = request.getParameter("regionName");
+        String beginTime = request.getParameter("beginTime");
+        String endTime = request.getParameter("endTime");
+        Map params = new HashMap();
+        params.put("name", name);
+        params.put("regionName", regionName);
+        params.put("beginTime", beginTime);
+        params.put("endTime", endTime);
+        PageHelper.startPage(pageNumber, pageSize);
+        PageInfo<Warehouse> data = warehouseService.findByPage2(params);
+        TableData tableData = new TableData();
+        tableData.setCode(0);
+        tableData.setMsg("成功");
+        tableData.setCount(data.getTotal());//设置总条数
+        tableData.setData(data.getList());//设置当前的数据
+        return tableData;
+    }
+
     @RequestMapping("/addWarehouse")
     @ResponseBody
     public LayUIOperate addStorehouse(@RequestBody Warehouse warehouse, HttpServletRequest request){

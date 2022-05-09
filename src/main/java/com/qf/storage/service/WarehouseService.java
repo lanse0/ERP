@@ -13,5 +13,5 @@ public interface WarehouseService {
     boolean delStorehouse(Integer id);//删除仓库
     boolean updateStorehouse(Warehouse warehouse);//修改仓库
     Warehouse getStorehouseById(int id);//根据id获取仓库信息
-
+    public PageInfo<Warehouse> findByPage2(Map params);//分页查询入库信息
 }
