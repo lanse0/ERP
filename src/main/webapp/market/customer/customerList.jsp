@@ -76,7 +76,7 @@
                     <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
                     <button class="layui-btn layui-btn-warm btn-allocate"><i class="layui-icon">&#xe642;</i>分配</button>
                     <button class="layui-btn layui-btn-danger btn-del"><i class="layui-icon">&#xe640;</i>注销</button>
-                    <button class="layui-btn btn-detail"><i class="layui-icon">&#xe615;</i>查看详情</button>
+                    <%--<button class="layui-btn btn-detail"><i class="layui-icon">&#xe615;</i>查看详情</button>--%>
 
 
 
@@ -179,7 +179,7 @@
             </div>
         </form>
     </div>
-
+    <ul id="detail" class="forminfo"></ul>
     <!--分配表单-->
     <div id="allocate" class="div-hide">
         <form id="AllocateForm" class="layui-form frm" lay-filter="allocate-form">
@@ -212,106 +212,6 @@
         </form>
     </div>
 
-    <%--查看详细信息--%>
-    <div id="viewBox" class="div-hide">
-        <form id="formtitle" class="layui-form frm" lay-filter="customerView-form">
-            <div class="layui-form-item">
-                <label class="layui-form-label">客户编号</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="id" lay-verify="required" placeholder="客户姓名"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">客户姓名</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="customerName" lay-verify="required" placeholder="客户姓名"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">性别</label>
-                    <input type="text"  name="sex" required lay-verify="required" placeholder="性别"
-                       autocomplete="off" class="layui-input" readonly="readonly" style="width: 190px">
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">电话</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="phone" required lay-verify="required" placeholder="电话"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">所属公司</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="company" required lay-verify="required" placeholder="所属公司"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">所属区域</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="region.regionName" required lay-verify="required" placeholder="所属区域"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="status" required lay-verify="required" placeholder="状态"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">创建时间</label>
-                <div class="layui-input-inline">
-                    <input type="date" id="createTime" name="createTime" required lay-verify="required" placeholder="创建时间"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">创建者</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="creator" required lay-verify="required" placeholder="创建者"
-                           autocomplete="off" class="layui-input" value="" readonly="readonly">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">分配时间</label>
-                <div class="layui-input-inline">
-                    <input type="date"  name="allocateTime" required lay-verify="required" placeholder="分配时间"
-                           autocomplete="off" class="layui-input" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">客服人员</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="customerStaff" required lay-verify="required" placeholder="客服人员"
-                           autocomplete="off" class="layui-input" value="" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">详细地址</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="address" required lay-verify="required" placeholder="详细地址"
-                           autocomplete="off" class="layui-input" value="" readonly="readonly">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">描述</label>
-                <div class="layui-input-inline">
-                    <input type="text"  name="description" required lay-verify="required" placeholder="描述"
-                           autocomplete="off" class="layui-input" value="" readonly="readonly">
-                </div>
-            </div>
-            <div>
-                <button class="layui-btn  layui-hide" lay-submit lay-filter="back" onclick="window.history.go(-1);"></button>
-            </div>
-        </form>
-    </div>
 
 </body>
 </html>

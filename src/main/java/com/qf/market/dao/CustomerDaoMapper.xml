@@ -16,6 +16,8 @@
         <result column="creator" property="creator"/>
         <result column="allocateTime" property="allocateTime"/>
         <result column="customerStaff" property="customerStaff"/>
+        <result column="address" property="address"/>
+        <result column="description" property="description"/>
         <association property="region" javaType="Region">
             <id property="id" column="regionId"/>
             <result property="regionName" column="regionName"/>
@@ -67,8 +69,9 @@
     </update>
 
     <!--根据id查询数据-->
-    <select id="getCustomerById" parameterType="int">
-        select * from customer where id={id}
+    <select id="getCustomerById" parameterType="int" resultMap="customerResultMap">
+       select c.*,r.regionName from customer c, region r
+              where c.regionId=r.id and c.id=#{id}
     </select>
 
     <!--分配客服人员-->

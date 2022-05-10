@@ -15,7 +15,7 @@ public class Orders {
     public Date orderTime;//订购时间
     public String amount;//订购金额
     public String status;//订单状态
-    public String auditor;//订单创建者
+    public Emp emp;//订单审核人员
     public Date auditTime;//订单创建时间
 
     public Orders(){}
@@ -27,17 +27,17 @@ public class Orders {
         this.orderTime = orderTime;
         this.amount = amount;
         this.status = status;
-        this.auditor = auditor;
+        this.emp = emp;
         this.auditTime = auditTime;
     }
 
-    public Orders(String ordersNo, Customer customer, Date orderTime, String amount, String status, String auditor, Date auditTime) {
+    public Orders(String ordersNo, Customer customer, Date orderTime, String amount, String status, Emp emp, Date auditTime) {
         this.ordersNo = ordersNo;
         this.customer = customer;
         this.orderTime = orderTime;
         this.amount = amount;
         this.status = status;
-        this.auditor = auditor;
+        this.emp = emp;
         this.auditTime = auditTime;
     }
 
@@ -89,13 +89,6 @@ public class Orders {
         this.status = status;
     }
 
-    public String getAuditor() {
-        return auditor;
-    }
-
-    public void setAuditor(String auditor) {
-        this.auditor = auditor;
-    }
 
     public Date getAuditTime() {
         return auditTime;
@@ -103,6 +96,14 @@ public class Orders {
 
     public void setAuditTime(Date auditTime) {
         this.auditTime = auditTime;
+    }
+
+    public Emp getEmp() {
+        return emp;
+    }
+
+    public void setEmp(Emp emp) {
+        this.emp = emp;
     }
 
     @Override
@@ -114,7 +115,7 @@ public class Orders {
                 ", orderTime=" + orderTime +
                 ", amount='" + amount + '\'' +
                 ", status='" + status + '\'' +
-                ", auditor='" + auditor + '\'' +
+                ", emp=" + emp +
                 ", auditTime=" + auditTime +
                 '}';
     }

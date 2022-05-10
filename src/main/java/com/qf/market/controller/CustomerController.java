@@ -129,7 +129,7 @@ public class CustomerController {
         return operate;
     }
 
-
+//根据id查询数据
     @RequestMapping("/getCustomerById")
     @ResponseBody
     public TableData getCustomerById(Integer id){

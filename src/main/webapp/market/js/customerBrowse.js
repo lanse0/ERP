@@ -66,7 +66,7 @@ layui.use(['table', 'form'], function () {
 
     //表格渲染
     table.render({
-        elem: '#CustomerTable',
+        elem: '#CustomerBrowseTable',
         url: '/market/getAllCustomerList',
         height: 'full-90',
         cellMinWidth: 80,
@@ -78,13 +78,8 @@ layui.use(['table', 'form'], function () {
             {field: 'phone', title: '联系电话'},
             {field: 'company', title: '所属公司'},
             {field: 'regionName', title: '所属区域',templet:function (customer) {return customer.region.regionName}},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'可用':'不可用' }}</div>"},
-            {field: 'createTime', title: '创建时间', templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
-            {field: 'creator', title: '创建人'},
             {field: 'allocateTime', title: '分配时间', templet: "<div>{{ layui.util.toDateString(d.allocateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
             {field: 'empName', title: '客服人员',templet:function (customer) {return customer.emp.empName}}
-
-
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -94,7 +89,7 @@ layui.use(['table', 'form'], function () {
             var data = res.data;
         }*/
         done: function () {
-            table.resize('CustomerTable');
+            table.resize('CustomerBrowseTable');
         }
     });
     //查询
@@ -104,7 +99,7 @@ layui.use(['table', 'form'], function () {
         //var dept = $('#dept').val();
         var status = $('#status1').val();
         // console.log(empNo + "," + empName + "," + dept + "," + status);
-        table.reload('CustomerTable', {
+        table.reload('CustomerBrowseTable', {
             url: '/market/getAllCustomerList',
             method: 'post',
             dataType: 'json',
@@ -120,141 +115,6 @@ layui.use(['table', 'form'], function () {
         });
     });
 
-    //添加人员
-    $('.btn-add').on('click', function () {
-        $('.form-reset').click();
-        // $('#empNo').attr('disabled', false);
-        // $('#empNo').removeClass('layui-disabled');
-        layer.open({
-            type: 1,
-            shift: 2,
-            shade: 0,//遮罩
-            title: '添加人员信息',
-            area: ['570px', '600px'],
-            closeBtn: false,
-            shadeClose: false,
-            content: $('#box'),
-            btnAlign: 'c',
-            btn: ['保存', '关闭'],
-            yes: function (index, layero) {
-                layero.find('.form-save').click();
-                return false; //开启该代码可禁止点击该按钮关闭弹窗
-            },
-            btn2: function (index, layero) {
-                //默认关闭弹窗
-            }
-        });
-        form.render();
-    });
-
-    //修改
-    $('.btn-edit').on('click', function () {
-        getProvince('');
-        getMaster();
-        var cs = table.checkStatus('CustomerTable');
-        var data = cs.data;
-        var i = data.length;
-        if (i === 1) {
-            console.log(data)
-            form.val('customer-form', data[0]);
-            // $('#id').attr('disabled', true);
-            // $('#id').addClass('layui-disabled');
-            getCity('',data[0].parentId);
-            $("#city").val(data[0].regionId)
-            layer.open({
-                type: 1,
-                shift: 2,
-                shade: 0,
-                title: '修改人员信息',
-                area: ['570px', '540px'],
-                closeBtn: false,
-                shadeClose: false,
-                content: $('#box'),
-                btnAlign: 'c',
-                btn: ['保存', '关闭'],
-                yes: function (index, layero) {
-                    layero.find('.form-save').click();
-                    return false; //开启该代码可禁止点击该按钮关闭弹窗
-                },
-                btn2: function (index, layero) {
-                    //默认关闭弹窗
-                }
-            });
-            /* 渲染表单 */
-            form.render();
-        } else {
-            layer.msg('请选择一条人员信息进行修改', {icon: 5});
-        }
-    });
-
-    //分配
-    $('.btn-allocate').on('click', function () {
-        getMaster();
-        var cs = table.checkStatus('CustomerTable');
-        var data = cs.data;
-        var i = data.length;
-        if (i === 1) {
-            console.log(data)
-            form.val('allocate-form', data[0]);
-            layer.open({
-                type: 1,
-                shift: 2,
-                shade: 0,
-                title: '分配客服人员信息',
-                area: ['570px', '540px'],
-                closeBtn: false,
-                shadeClose: false,
-                content: $('#allocate'),
-                btnAlign: 'c',
-                btn: ['保存', '关闭'],
-                yes: function (index, layero) {
-                    layero.find('.form-save').click();
-                    return false; //开启该代码可禁止点击该按钮关闭弹窗
-                },
-                btn2: function (index, layero) {
-                    //默认关闭弹窗
-                }
-            });
-            /* 渲染表单 */
-            form.render();
-        } else {
-            layer.msg('请选择一条人员信息进行修改', {icon: 5});
-        }
-    });
-
-    //删除(注销)
-    $('.btn-del').on('click', function () {
-        var cs = table.checkStatus('CustomerTable');
-        var data = cs.data;
-        var i = data.length;
-        if (i < 1) {
-            layer.msg('请选择需要注销的客户信息', {icon: 5});
-            return;
-        }
-        layer.confirm('确定要注销选中的客户信息吗？', function (index) {
-            $.ajax({
-                url: '/market/delCustomer',
-                type: 'post',
-                data: {
-                    id: data[0].id
-                },
-                dataType: 'json',
-                success: function (resp) {
-                    if (resp.success) {
-                        table.reload('CustomerTable', {
-                            where: {},
-                            page: {
-                                curr: 1 //重新从第 1 页开始
-                            }
-                        });
-                        layer.msg(resp.message, {icon: 6});
-                    } else {
-                        layer.msg(resp.message, {icon: 5});
-                    }
-                }
-            });
-        });
-    });
 
     //查看详细信息
     table.on('tool(person-table)', function(obj) {
@@ -342,84 +202,6 @@ layui.use(['table', 'form'], function () {
         });
     }
 
-
-    //提交监听，submit(save)对应的是提交按钮的lay-filter属性  提交修改 或 添加信息
-    form.on('submit(save)', function (data) {
-        var json_data = $("#CustomerForm").serializeObject();
-        console.log(json_data);
-        var f = $('#id').val();
-        var url = '-';
-        if (f!=null&&f!="") { //修改
-            url = '/market/updateCustomer';
-        } else {  //添加
-            url = '/market/addCustomer';
-        }
-        layer.load(1);
-        $.ajax({
-            url: url,
-            // data: JSON.stringify(data.field),
-            data: JSON.stringify(json_data),
-            type: 'post',
-            dataType: 'json',
-            contentType: "application/json",
-            success: function (resp) {
-                layer.closeAll('loading');
-                var flag = resp.success;
-                if (flag) {
-                    table.reload('CustomerTable', {
-                        where: {},
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    layer.msg(resp.message, {icon: 6});
-                } else {
-                    layer.msg(resp.message, {icon: 5});
-                }
-            },
-            error: function () {
-                layer.closeAll('loading');
-                layer.msg('系统错误，请联系管理员', {icon: 5});
-            }
-        });
-        return false;
-    });
-
-    //提交监听，submit(save)对应的是提交按钮的lay-filter属性   提交分配信息
-    form.on('submit(saveAllocate)', function (data) {
-        var json_data = $("#AllocateForm").serializeObject();
-        console.log(json_data);
-        var url = '-';
-        url = '/market/allocateCustomer';
-        layer.load(1);
-        $.ajax({
-            url: url,
-            data: JSON.stringify(json_data),
-            type: 'post',
-            dataType: 'json',
-            contentType: "application/json",
-            success: function (resp) {
-                layer.closeAll('loading');
-                var flag = resp.success;
-                if (flag) {
-                    table.reload('CustomerTable', {
-                        where: {},
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    layer.msg(resp.message, {icon: 6});
-                } else {
-                    layer.msg(resp.message, {icon: 5});
-                }
-            },
-            error: function () {
-                layer.closeAll('loading');
-                layer.msg('系统错误，请联系管理员', {icon: 5});
-            }
-        });
-        return false;
-    });
 
     function getProvince() {
         $.ajax({

@@ -46,9 +46,9 @@
                     <a class="" href="javascript:;">营销管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" onclick="showBody('market/customer/customerList.jsp')">客户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">客户浏览</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">订购单管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">订购单审核</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('market/customerBrowse/customerBrowse.jsp')">客户浏览</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('market/order/orderList.jsp')">订购单管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('market/order/orderView.jsp')">订购单审核</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">

@@ -66,35 +66,32 @@ layui.use(['table', 'form'], function () {
 
     //表格渲染
     table.render({
-        elem: '#CustomerTable',
-        url: '/market/getAllCustomerList',
+        elem: '#OrdersTable',
+        url: '/market/findByOrdersPage',
         height: 'full-90',
         cellMinWidth: 80,
         cols: [[ //表头
             {type: 'radio'},
             {field: 'id', title: '序号',event:'detail',templet: "<div>{{d.id+'(查看详情)'}}</div>"},
-            {field: 'customerName', title: '客户姓名'},
-            {field: 'sex', title: '性别',templet:"<div>{{d.sex=='1'?'男':'女' }}</div>"},
-            {field: 'phone', title: '联系电话'},
-            {field: 'company', title: '所属公司'},
-            {field: 'regionName', title: '所属区域',templet:function (customer) {return customer.region.regionName}},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'可用':'不可用' }}</div>"},
-            {field: 'createTime', title: '创建时间', templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
-            {field: 'creator', title: '创建人'},
-            {field: 'allocateTime', title: '分配时间', templet: "<div>{{ layui.util.toDateString(d.allocateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
-            {field: 'empName', title: '客服人员',templet:function (customer) {return customer.emp.empName}}
-
-
+            {field: 'ordersNo', title: '订单编号'},
+            {field: 'customerName', title: '客户姓名',templet:function (orders) {return orders.customer.customerName}},
+            {field: 'phone', title: '联系电话',templet:function (orders) {return orders.customer.phone}},
+            {field: 'amount', title: '订单金额'},
+            {field: 'orderTime', title: '订单创建时间', templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
+            {field: 'status', title: '状态', templet:function (orders) { var status =orders.status;switch (status) {case "1":status="未审核";break;
+                    case "2":status="审核中";break;case "3":status="审核失败";break;case "4":statsu="审核通过";break;} return status}},
+            {field: 'auditTime', title: '审核时间', templet: "<div>{{ layui.util.toDateString(d.allocateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
+            {field: 'empName', title: '审核人员',templet:function (orders) {return orders.emp.empName}}
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
         , limits: [10, 20, 30] //自定义分页数据选项
-        , id: 'CustomerTable' //用于绑定模糊查询条件等等
+        , id: 'OrdersTable' //用于绑定模糊查询条件等等
         , /*done:function(res){
             var data = res.data;
         }*/
         done: function () {
-            table.resize('CustomerTable');
+            table.resize('OrdersTable');
         }
     });
     //查询
@@ -104,8 +101,8 @@ layui.use(['table', 'form'], function () {
         //var dept = $('#dept').val();
         var status = $('#status1').val();
         // console.log(empNo + "," + empName + "," + dept + "," + status);
-        table.reload('CustomerTable', {
-            url: '/market/getAllCustomerList',
+        table.reload('OrdersTable', {
+            url: '/market/findByOrdersPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设

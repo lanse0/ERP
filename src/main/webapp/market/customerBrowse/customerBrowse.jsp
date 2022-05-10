@@ -1,148 +1,92 @@
 <%--
   Created by IntelliJ IDEA.
   User: AJM
-  Date: 2022/5/6
-  Time: 22:00
+  Date: 2022/5/4
+  Time: 21:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page isELIgnored="false" %>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>客户管理</title>
-    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../../js/jquery.js"></script>
-    <script type="text/javascript">
-        function tipOpen(content) {
-            $(".tipright p").text(content);
-            $("#tip").fadeIn(200);
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/market/js/customerBrowse.js"></script>
+    <style>
+        .layui-form-label.layui-required:after {
+            content: '*';
+            color: red;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            left: 15px;
         }
-        function tipClose() {
-            $("#tip").fadeOut(200);
+
+        .frm {
+            margin-top: 20px;
         }
-    </script>
+
+        .div-hide {
+            display: none;
+        }
+    </style>
+
 </head>
 
 <body>
-<div class="place"> <span>位置：</span>
-    <ul class="placeul">
-        <li>营销管理</li>
-        <li>客户浏览</li>
-        <li>基本内容</li>
-    </ul>
-</div>
-<div class="rightinfo">
-    <form action="" method="post">
-        <ul class="tools">
-            <li> 公司名称:
-                <input type="text" />
-            </li>
-            <li> 客户姓名:
-                <input type="text" />
-            </li>
-            <li> 所属区域：
-                <select>
-                    <option>请选择省份</option>
-                    <option>北京</option>
-                    <option>江苏</option>
-                    <option>天津</option>
+<blockquote class="layui-elem-quote layui-text layui-form">
+    <table>
+        <tr>
+            <td style="width: 140px;">
+                <input type="text" id="company1" placeholder="公司名称" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <td style="width: 140px;">
+                <input type="text" id="customerName1" placeholder="客户姓名" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <td  style="width: 100px;">
+                <select id="province1" lay-filter="province1" lay-verify="required">
+                    <option value="" selected>所属区域</option>
                 </select>
-                <select>
-                    <option>请选择城市</option>
-                    <option>北京</option>
-                    <option>南京</option>
-                    <option>天津</option>
+            </td>
+            <td style="width: 100px;">
+                <select id="city1" lay-filter="city1" lay-verify="required">
+                    <option value="" selected>所属区域</option>
                 </select>
-            </li>
-            <li class="subBut" onclick="window.location.href='customerList.html'"><img src="../../images/t06.png" />查询</li>
-        </ul>
-        <table class="tablelist">
-            <thead>
-            <tr>
-                <th>序号</th>
-                <th>客户姓名</th>
-                <th>性别</th>
-                <th>联系电话</th>
-                <th>所属公司</th>
-                <th>所属区域</th>
-                <th>分配时间</th>
-                <th>客服人员</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>王金平</td>
-                <td>男</td>
-                <td>17370899727</td>
-                <td>阿里巴巴</td>
-                <td>江苏南京</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>张永祥</td>
-                <td>女</td>
-                <td>17370897894</td>
-                <td>腾讯公司</td>
-                <td>江苏南京</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>王金平</td>
-                <td>男</td>
-                <td>17370899727</td>
-                <td>阿里巴巴</td>
-                <td>江苏南京</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>张永祥</td>
-                <td>女</td>
-                <td>17370897894</td>
-                <td>腾讯公司</td>
-                <td>江苏南京</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="pagin">
-            <div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
-            <ul class="paginList">
-                <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-                <li class="paginItem"><a href="javascript:;">1</a></li>
-                <li class="paginItem current"><a href="javascript:;">2</a></li>
-                <li class="paginItem"><a href="javascript:;">3</a></li>
-                <li class="paginItem"><a href="javascript:;">4</a></li>
-                <li class="paginItem"><a href="javascript:;">5</a></li>
-                <li class="paginItem more"><a href="javascript:;">...</a></li>
-                <li class="paginItem"><a href="javascript:;">10</a></li>
-                <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
-            </ul>
-        </div>
-    </form>
-</div>
-<script type="text/javascript">
-    $('.tablelist tbody tr:odd').addClass('odd');
-</script>
+            </td>
+            <td width="10">&nbsp;</td>
+            <td  style="width: 100px;">
+                <select id="status1" name="status">
+                    <option value="" selected>选择状态</option>
+                    <option value="1">可用</option>
+                    <option value="2">不可用</option>
+                </select>
+            </td>
+            <td width="10">&nbsp;</td>
+            <td>
+                <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
+
+                <%--<button class="layui-btn btn-detail"><i class="layui-icon">&#xe615;</i>查看详情</button>--%>
+            </td>
+        </tr>
+    </table>
+</blockquote>
+<!--数据表格-->
+<input type="hidden" id="cId">
+<table id="CustomerBrowseTable" class="layui-hide" lay-filter="person-table"></table>
+
+<ul id="detail" class="forminfo"></ul>
+
+
+
+
 </body>
 </html>
+
