@@ -1,12 +1,13 @@
 package com.qf.storage.po;
 
+import com.qf.market.po.Orders;
 import com.qf.sys.po.Emp;
 
 import java.sql.Date;
 
 public class ExWarehouse {
     public int id;//出库id 主键自增
-    public int orderId;//订购单id
+    public Orders orders;//订购单id
     public String status;//出库状态
     public Date ExWarehouseTime;//出库时间
     public Storehouse storehouse;
@@ -21,6 +22,14 @@ public class ExWarehouse {
     }
     public String getSName() {
         if(storehouse!=null) return storehouse.getName();
+        return "";
+    }
+    public String getOrderNo() {
+        if(orders!=null) return orders.getOrdersNo();
+        return "";
+    }
+    public String getAmount() {
+        if(orders!=null) return orders.getAmount();
         return "";
     }
     public int getSId() {
@@ -42,6 +51,10 @@ public class ExWarehouse {
         this.storehouse = storehouse;
     }
 
+    public Orders getOrders() { return orders; }
+
+    public void setOrders(Orders orders) { this.orders = orders; }
+
     public Emp getUser() {
         return user;
     }
@@ -56,14 +69,6 @@ public class ExWarehouse {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 
     public String getStatus() {
@@ -86,7 +91,7 @@ public class ExWarehouse {
     public String toString() {
         return "ExWarehouse{" +
                 "id=" + id +
-                ", orderId=" + orderId +
+                ", orders=" + orders +
                 ", status='" + status + '\'' +
                 ", ExWarehouseTime=" + ExWarehouseTime +
                 ", storehouse=" + storehouse +

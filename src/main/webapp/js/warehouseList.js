@@ -16,7 +16,7 @@ layui.use(['table', 'form'], function () {
             {field: 'warehouseTime', title: '入库时间',templet: "<div>{{layui.util.toDateString(d.warehouseTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
             },
             {field: 'userName', title: '入库人'},
-            {field: 'status', title: '状态',  event: 'status',templet: "<div>{{'0'==d.status?'未入库':'已入库'}}</div>"},
+            {field: 'status', title: '状态', event:'status', templet:'#checkStatus'},
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -76,10 +76,6 @@ layui.use(['table', 'form'], function () {
             });
         }
         if (obj.event == 'status') {
-            var tilte="入库";
-            if(obj.data.status==1) tilte="取消入库";
-            layer.confirm('确定要'+tilte+'吗?', function (index) {
-                console.log(obj.data)
                 $.ajax({
                     url: "/warehouse/updateWarehouse",
                     data: JSON.stringify(obj.data),
@@ -106,7 +102,6 @@ layui.use(['table', 'form'], function () {
                         layer.msg('系统错误，请联系管理员', {icon: 5});
                     }
                 });
-            })
         }
     })
     //查询
@@ -254,22 +249,6 @@ layui.use(['table', 'form'], function () {
             "    </li>\n" +
             "    <li>\n" +
             "      <label>操作人</label>\n" +
-            "      <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "      <label>审核状态</label>\n" +
-            "      <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "      <label>审核意见</label>\n" +
-            "      <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "      <label>审核人</label>\n" +
-            "      <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "      <label>审核时间</label>\n" +
             "      <cite>"+0+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +

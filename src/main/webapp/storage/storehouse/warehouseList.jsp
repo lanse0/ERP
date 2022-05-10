@@ -56,9 +56,11 @@
 </blockquote>
 <!--数据表格-->
 <table id="PersonTable" class="layui-hide" lay-filter="person-table">
-
 </table>
-
+<script type="text/html" id="checkStatus">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="已入库|未入库"
+           {{ d.status == 1 ? 'checked':''}}>
+</script>
 <!--人员表单-->
 <input type="hidden" id="sDId">
 <div id="box2" class="div-hide"></div>

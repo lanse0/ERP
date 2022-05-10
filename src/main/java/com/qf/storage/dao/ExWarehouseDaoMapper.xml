@@ -15,10 +15,25 @@
             <id property="id" column="stId" />
             <result property="name" column="sName" />
         </association>
+        <association property="orders" javaType="Orders">
+            <id property="id" column="oId" />
+            <result property="ordersNo" column="ordersNo" />
+            <result property="amount" column="amount" />
+            <result property="auditor" column="auditor" />
+            <result property="auditTime" column="auditTime" />
+            <association property="customer" javaType="Customer">
+                <id property="id" column="cId" />
+                <result property="customerName" column="cName" />
+                <result property="phone" column="phone" />
+            </association>
+        </association>
     </resultMap>
     <select id="findByPage" resultMap="exWarehouseMap" parameterType="map">
-        select s.*,st.id stId,st.name sName,e.id eId,e.empName  from ExWarehouse s left join storehouse st on s.storehouseId=st.id
-        left join emp e on s.userId=e.id
+        select s.*,st.id stId,st.name sName,e.id eId,e.empName,
+        o.id oId,o.ordersNo,c.id cId,c.customerName cName,c.phone,o.amount,o.auditTime,o.auditor
+        from ExWarehouse s left join storehouse st on s.storehouseId=st.id
+        left join emp e on s.userId=e.id left join orders o on s.orderId=o.id
+        left join customer c on o.customerId=c.id
         where 1=1
         <if test="name != null and name != ''">
             AND st.name like concat('%',#{name},'%')
