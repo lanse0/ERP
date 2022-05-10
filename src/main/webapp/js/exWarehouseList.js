@@ -31,6 +31,20 @@ layui.use(['table', 'form'], function () {
             table.resize('PersonTable');
         }
     });
+    form.on('submit(showS)', function(data){
+        $.ajax({
+            url: '/storehouse/getStorehouseById',
+            type: 'post',
+            data: {
+                id: $("#sDId").val()
+            },
+            dataType: 'json',
+            success: function (resp) {
+                console.log(resp.data);
+                getSDetail(layer,resp.data);
+            }
+        });
+    })
     form.on('select(status)', function(data){
         table.reload('PersonTable', {
             url: '/exWarehouse/findByPage',
@@ -151,7 +165,6 @@ layui.use(['table', 'form'], function () {
             });
         });
     });
-
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性
     form.on('submit(save)', function (data) {
         console.log(data.field)
@@ -235,6 +248,7 @@ layui.use(['table', 'form'], function () {
         })
     }
     function getDetail(data){
+        $("#sDId").val(data.storehouse.id);
         $("#box2").html("");
         $("#box2").append("<ul class=\"forminfo\">\n" +
             "    <li>\n" +
@@ -279,7 +293,7 @@ layui.use(['table', 'form'], function () {
             "    </li>\n" +
             "    <li>\n" +
             "        <label>出货仓库</label>\n" +
-            "        <cite><a href=\"../storage/storageView.html\" title=\"点击查看客户详细信息\" class=\"tablelink\">"+data.storehouse.name+"</a></cite>\n" +
+            "        <cite><a lay-submit lay-filter=\"showS\" title=\"点击查看出货仓库\" class=\"tablelink\">"+data.storehouse.name+"</a></cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>出库时间</label>\n" +
@@ -330,5 +344,7 @@ layui.use(['table', 'form'], function () {
             "    </tr>\n" +
             "    </tbody>\n" +
             "</table>");
+        form.render();
     }
+
 });

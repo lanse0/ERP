@@ -13,6 +13,7 @@
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
     <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/public.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/storehouseList.js"></script>
     <style>
         .layui-form-label.layui-required:after{
@@ -62,11 +63,7 @@
 <!--数据表格-->
 <table id="PersonTable" class="layui-hide" lay-filter="person-table"></table>
 <!--人员表单-->
-<div id="box2" class="div-hide">
-    <ul id="detail" class="forminfo">
-
-    </ul>
-</div>
+<ul id="detail" class="forminfo"></ul>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>

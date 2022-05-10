@@ -54,8 +54,10 @@
        update storehouse set name=#{name},userId=#{user.id},masterId=#{master.id},regionId=#{region.id},address=#{address},tel=#{tel},
         des=#{des},status=#{status},createTime=now() where id=#{id}
     </update>
-    <select id="getStorehouseById" parameterType="int">
-        select * from storehouse where id={id}
+    <select id="getStorehouseById" resultMap="storehouseMap" parameterType="int">
+        select s.*,e.id eid,e.empName,ee.id eeid,ee.empName eempName,r.id rid,r.regionName,r.parentId from storehouse s left join emp e on s.userId=e.id
+        left join emp ee on s.masterId=ee.id
+        left join region r on s.regionId=r.id where s.id=#{id}
     </select>
     <select id="findAllStorehouse" resultType="Storehouse">
         select * from storehouse

@@ -60,9 +60,9 @@
 </table>
 
 <!--人员表单-->
-<div id="box2" class="div-hide">
-
-</div>
+<input type="hidden" id="sDId">
+<div id="box2" class="div-hide"></div>
+<ul id="detail" class="forminfo"></ul>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>

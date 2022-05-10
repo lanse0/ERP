@@ -12,6 +12,7 @@
     <title>仓库管理</title>
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/storehouseList.js"></script>
     <style>
         .layui-form-label.layui-required:after{
