@@ -60,10 +60,10 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public boolean quitEmp(int id) {
+    public boolean quitEmp(int id,String status) {
         boolean f = true;
         try {
-            empDao.quitEmp(id);
+            empDao.quitEmp(id,status);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();

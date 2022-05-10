@@ -49,4 +49,28 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return f;
     }
+
+    @Override
+    public boolean updDept(Department dept) {
+        boolean f;
+        try {
+            f = deptDao.updDept(dept);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    @Override
+    public boolean updStatus(int id, String status) {
+        boolean f;
+        try {
+            f = deptDao.updStatus(id,status);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
 }

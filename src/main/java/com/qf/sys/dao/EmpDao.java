@@ -14,5 +14,5 @@ public interface EmpDao {
 
     public boolean addEmp(Emp emp);//添加用户
     public boolean updEmp(Emp emp);//修改
-    public boolean quitEmp(@Param("id") int id);//离职
+    public boolean quitEmp(@Param("id") int id,@Param("status") String status);//离职
 }

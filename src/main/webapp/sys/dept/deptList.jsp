@@ -52,13 +52,16 @@
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
                 <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
                 <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
-                <button class="layui-btn layui-btn-danger btn-quit"><i class="layui-icon">&#xe643;</i>注销</button>
             </td>
         </tr>
     </table>
 </blockquote>
 <!--数据表格-->
 <table id="DeptTable" class="layui-hide" lay-filter="dept-table"></table>
+<script type="text/html" id="checkStatus">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="正常|注销"
+           lay-filter="statusDemo" {{ d.status == 1 ? 'checked':''}}>
+</script>
 <!--表单-->
 <div id="box" class="div-hide">
     <form id="DeptForm" class="layui-form frm" lay-filter="dept-form">

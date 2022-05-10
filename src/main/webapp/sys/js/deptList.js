@@ -23,19 +23,46 @@ layui.use(['table', 'form'], function () {
             {field: 'region', title: '所属地区', templet:function (dept) {
                     return dept.region.regionName
                 }},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'正常':'注销' }}</div>"},
+            {field: 'status', title: '状态', templet:'#checkStatus', unresize:true}
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
         , limits: [10, 20, 30] //自定义分页数据选项
         , id: 'DeptTable' //用于绑定模糊查询条件等等
-        , /*done:function(res){
-            var data = res.data;
-        }*/
-        done: function () {
+        , done: function () {
             table.resize('DeptTable');
         }
     });
+
+    //监听状态操作
+    form.on('switch(statusDemo)',function(obj){
+        var id = this.value;
+        var status = obj.elem.checked?'1':'2';
+        layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
+        $.ajax({
+            url: '/dept/updStatus',
+            type: 'get',
+            data:{
+                id:id,
+                status:status
+            },
+            dataType:'json',
+            success:function (resp) {
+                if (resp.success) {
+                    table.reload('DeptTable', {
+                        where: {},
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    layer.msg(resp.message, {icon: 6});
+                } else {
+                    layer.msg(resp.message, {icon: 5});
+                }
+            }
+        });
+    });
+
     //查询
     $('.btn-search').on('click', function () {
         var deptName = $('#deptSer').val();
@@ -114,40 +141,6 @@ layui.use(['table', 'form'], function () {
         } else {
             layer.msg('请选择一条人员信息进行修改', {icon: 5});
         }
-    });
-
-    //删除(离职)
-    $('.btn-quit').on('click', function () {
-        var cs = table.checkStatus('EmpTable');
-        var data = cs.data;//获取单选框勾选的数据
-        var i = data.length;//数据条数
-        if (i < 1) {//数据条数小于1  用户未勾选数据
-            layer.msg('请选择需要毕业的人员', {icon: 5});
-            return;
-        }
-        layer.confirm('确定要毕业选中的人员吗？', function (index) {
-            $.ajax({
-                url: '/users/quitEmp',
-                type: 'post',
-                data: {
-                    id: data[0].id
-                },
-                dataType: 'json',
-                success: function (resp) {
-                    if (resp.success) {
-                        table.reload('EmpTable', {
-                            where: {},
-                            page: {
-                                curr: 1 //重新从第 1 页开始
-                            }
-                        });
-                        layer.msg(resp.message, {icon: 6});
-                    } else {
-                        layer.msg(resp.message, {icon: 5});
-                    }
-                }
-            });
-        });
     });
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性

@@ -103,9 +103,9 @@ public class EmpController {
     }
     @RequestMapping("/quitEmp")
     @ResponseBody//离职
-    public LayUIOperate quitEmp(Integer id){
+    public LayUIOperate quitEmp(Integer id,String status){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= empService.quitEmp(id);
+        boolean f= empService.quitEmp(id,status);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("毕业成功！牛逼");
