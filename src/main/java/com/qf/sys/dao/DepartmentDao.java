@@ -18,4 +18,5 @@ public interface DepartmentDao {
     public List<Department> getDeptByRegion(@Param("regionId") int regionId);//根据区域获取部门
     public boolean addDept(Department dept);
     public boolean updDept(Department dept);
+    public boolean updStatus(@Param("id") int id,@Param("status") String status);
 }

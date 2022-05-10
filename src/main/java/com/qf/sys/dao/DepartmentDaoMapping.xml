@@ -49,4 +49,12 @@
         INSERT INTO department(deptno,deptName,regionId,createTime)
         VALUES(#{deptNo},#{deptName},#{region.id},SYSDATE())
     </insert>
+    <update id="updDept" parameterType="Department">
+        update department set deptno = #{deptNo},deptName = #{deptName},regionId = #{region.id}
+        where id = #{id}
+    </update>
+    <update id="updStatus">
+        update department set status = #{status}
+        where id = #{id}
+    </update>
 </mapper>

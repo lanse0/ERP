@@ -12,4 +12,6 @@ public interface DepartmentService {
     public List<Department> getSelectDept();
     public List<Department> getDeptByRegion(int regionId);//根据区域获取部门
     public boolean addDept(Department dept); //添加部门
+    public boolean updDept(Department dept);
+    public boolean updStatus( int id, String status);
 }

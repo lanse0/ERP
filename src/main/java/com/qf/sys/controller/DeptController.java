@@ -85,4 +85,33 @@ public class DeptController {
         }
         return operate;
     }
+    @RequestMapping("/updDept")
+    @ResponseBody
+    public LayUIOperate updDept(@RequestBody Department dept){
+        LayUIOperate operate = new LayUIOperate();
+        System.out.println("updDept-->" + dept);
+        boolean f = deptService.updDept(dept);
+        if (f){
+            operate.setSuccess(true);
+            operate.setMessage("部门修改成功!");
+        }else {
+            operate.setSuccess(false);
+            operate.setMessage("部门修改失败!");
+        }
+        return operate;
+    }
+    @RequestMapping("/updStatus")
+    @ResponseBody
+    public LayUIOperate updStatus(Integer id, String status){
+        LayUIOperate operate = new LayUIOperate();
+        boolean f = deptService.updStatus(id,status);
+        if (f){
+            operate.setSuccess(true);
+            operate.setMessage("部门修改成功!");
+        }else {
+            operate.setSuccess(false);
+            operate.setMessage("部门修改失败!");
+        }
+        return operate;
+    }
 }
