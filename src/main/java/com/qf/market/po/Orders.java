@@ -1,5 +1,7 @@
 package com.qf.market.po;
 
+import com.qf.sys.po.Emp;
+
 import java.util.Date;
 
 /**

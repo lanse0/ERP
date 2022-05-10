@@ -28,8 +28,8 @@ import java.util.Map;
 public class OrdersController {
     @Resource
     private OrdersService ordersService;
-//查询客户信息
-    @RequestMapping("/getAllCustomerList")
+    //查询订单信息
+    @RequestMapping("/findByOrdersPage")
     @ResponseBody
     public TableData findByPage(HttpServletRequest request){
         int pageSize =Integer.parseInt(request.getParameter("limit"));
@@ -44,7 +44,7 @@ public class OrdersController {
         Map params = new HashMap();
         params.put("company",company);
         params.put("customerName",customerName);
-       // params.put("deptName",deptName);
+        // params.put("deptName",deptName);
         params.put("status",status);
         PageHelper.startPage(pageNumber,pageSize);
         PageInfo<Orders> data = ordersService.findByOrdersPage(params);
@@ -53,7 +53,6 @@ public class OrdersController {
         tableData.setMsg("成功");
         tableData.setCount(data.getTotal());//总记录数
         tableData.setData(data.getList());//设置当前数据
-
         return tableData;
     }
 

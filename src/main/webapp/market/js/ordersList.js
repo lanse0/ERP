@@ -67,7 +67,7 @@ layui.use(['table', 'form'], function () {
     //表格渲染
     table.render({
         elem: '#OrdersTable',
-        url: '/market/findByOrdersPage',
+        url: '/orders/findByOrdersPage',
         height: 'full-90',
         cellMinWidth: 80,
         cols: [[ //表头
@@ -102,7 +102,7 @@ layui.use(['table', 'form'], function () {
         var status = $('#status1').val();
         // console.log(empNo + "," + empName + "," + dept + "," + status);
         table.reload('OrdersTable', {
-            url: '/market/findByOrdersPage',
+            url: '/orders/findByOrdersPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
