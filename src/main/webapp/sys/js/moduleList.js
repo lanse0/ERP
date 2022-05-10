@@ -1,6 +1,7 @@
 layui.use(['table', 'form'], function () {
     var table = layui.table,
         form = layui.form,
+        layer = layui.layer,
         $ = layui.jquery;
 
     //初始化父模块下拉框
@@ -23,7 +24,7 @@ layui.use(['table', 'form'], function () {
                     return '无';
                 }},
             {field: 'url', title: 'URL'},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'正常':'禁用' }}</div>"},
+            {field: 'status', title: '状态', templet:'#checkStatus', unresize:true}
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -35,6 +36,35 @@ layui.use(['table', 'form'], function () {
         done: function () {
             table.resize('ModuleTable');
         }
+    });
+
+    //监听状态操作
+    form.on('switch(statusDemo)',function(obj){
+        var id = this.value;
+        var status = obj.elem.checked?'1':'2';
+        // layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
+        $.ajax({
+            url: '/modules/updStatus',
+            type: 'get',
+            data:{
+                id:id,
+                status:status
+            },
+            dataType:'json',
+            success:function (resp) {
+                if (resp.success) {
+                    table.reload('ModuleTable', {
+                        where: {},
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    layer.msg(resp.message, {icon: 6});
+                } else {
+                    layer.msg(resp.message, {icon: 5});
+                }
+            }
+        });
     });
 
     //查询
@@ -109,40 +139,6 @@ layui.use(['table', 'form'], function () {
         } else {
             layer.msg('请选择一条信息进行修改', {icon: 5});
         }
-    });
-
-    //注销
-    $('.btn-quit').on('click', function () {
-        var cs = table.checkStatus('ModuleTable');
-        var data = cs.data;//获取单选框勾选的数据
-        var i = data.length;//数据条数
-        if (i < 1) {//数据条数小于1  用户未勾选数据
-            layer.msg('请选择需要禁用的模块', {icon: 5});
-            return;
-        }
-        layer.confirm('确定要禁用选中的模块吗？', function (index) {
-            $.ajax({
-                url: '/modules/updStatus',
-                type: 'post',
-                data: {
-                    id: data[0].id
-                },
-                dataType: 'json',
-                success: function (resp) {
-                    if (resp.success) {
-                        table.reload('ModuleTable', {
-                            where: {},
-                            page: {
-                                curr: 1 //重新从第 1 页开始
-                            }
-                        });
-                        layer.msg(resp.message, {icon: 6});
-                    } else {
-                        layer.msg(resp.message, {icon: 5});
-                    }
-                }
-            });
-        });
     });
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性

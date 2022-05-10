@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.AuthorityDao">
+    <select id="getAllAuth" resultType="Authority">
+        SELECT * FROM authority
+    </select>
+    <select id="getAuthByRole" resultType="Authority">
+        SELECT * from authority where roleId = #{roleId}
+    </select>
+</mapper>

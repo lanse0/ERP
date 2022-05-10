@@ -58,10 +58,34 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean updStatus(int id) {
+    public boolean updStatus(int id,String status) {
         boolean f = true;
         try {
-            f = roleDao.updStatus(id);
+            f = roleDao.updStatus(id,status);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    @Override
+    public boolean delModuleList(int roleId) {
+        boolean f = true;
+        try {
+            f = roleDao.delModuleList(roleId);
+        } catch (Exception e) {
+            f = false;
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    @Override
+    public boolean addModuleList(int roleId, int[] modules) {
+        boolean f = true;
+        try {
+            f = roleDao.addModuleList(roleId,modules);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();

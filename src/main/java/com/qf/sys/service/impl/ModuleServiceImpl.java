@@ -57,10 +57,10 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public boolean updStatus(int id) {
+    public boolean updStatus(int id,String status) {
         boolean f = true;
         try {
-            f = moduleDao.updStatus(id);
+            f = moduleDao.updStatus(id,status);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();

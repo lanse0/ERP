@@ -12,5 +12,9 @@ public interface RoleDao {
     public List<Role> getAllRoleByPage(Map params);
     public boolean addRole(Role role);
     public boolean updRole(Role role);
-    public boolean updStatus(@Param("id") int id);
+    public boolean updStatus(@Param("id") int id,@Param("status") String status );
+
+    //权限操作 添加权限先将该角色所有权限删除再一次性添加
+    public boolean delModuleList(@Param("roleId")int roleId);
+    public boolean addModuleList(@Param("roleId")int roleId,@Param("array") int[] modules);
 }

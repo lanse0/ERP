@@ -10,5 +10,5 @@ public interface ModuleDao {
     public List<Module> getSelect();//父模块下拉框
     public boolean addModule(Module module);
     public boolean updModule(Module module);
-    public boolean updStatus(@Param("id") int id);
+    public boolean updStatus(@Param("id") int id,@Param("status") String status );
 }

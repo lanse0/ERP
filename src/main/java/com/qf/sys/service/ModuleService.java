@@ -10,5 +10,5 @@ public interface ModuleService {
     public List<Module> getSelect();//父模块下拉框
     public boolean addModule(Module module);
     public boolean updModule(Module module);
-    public boolean updStatus(int id);
+    public boolean updStatus(int id,String status);
 }

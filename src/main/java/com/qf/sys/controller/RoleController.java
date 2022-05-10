@@ -92,10 +92,38 @@ public class RoleController {
     }
     @RequestMapping("/updStatus")
     @ResponseBody
-    public LayUIOperate updStatus(Integer id){
+    public LayUIOperate updStatus(Integer id,String status){
         LayUIOperate operate = new LayUIOperate();
         System.out.println("updStatus-->" + id);
-        boolean f = roleService.updStatus(id);
+        boolean f = roleService.updStatus(id,status);
+        if (f){
+            operate.setSuccess(true);
+            operate.setMessage("成功!");
+        }else {
+            operate.setSuccess(false);
+            operate.setMessage("错误!");
+        }
+        return operate;
+    }
+    @RequestMapping("/delModuleList")
+    @ResponseBody
+    public LayUIOperate delModuleList(Integer roleId){
+        LayUIOperate operate = new LayUIOperate();
+        boolean f = roleService.delModuleList(roleId);
+        if (f){
+            operate.setSuccess(true);
+            operate.setMessage("成功!");
+        }else {
+            operate.setSuccess(false);
+            operate.setMessage("错误!");
+        }
+        return operate;
+    }
+    @RequestMapping("/addModuleList")
+    @ResponseBody
+    public LayUIOperate addModuleList(Integer roleId, int[] modules){
+        LayUIOperate operate = new LayUIOperate();
+        boolean f = roleService.addModuleList(roleId,modules);
         if (f){
             operate.setSuccess(true);
             operate.setMessage("成功!");
