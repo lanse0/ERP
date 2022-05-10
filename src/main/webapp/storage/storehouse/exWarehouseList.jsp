@@ -72,14 +72,14 @@
         <input type="hidden" name="orderId" value="1"/>
         <div class="layui-form-item">
             <label class="layui-form-label">订单编号</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select id="ordersNo" name="ordersId" lay-verify="required">
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">仓库名称</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select id="storehouseId" name="storehouseId" lay-verify="required">
                 </select>
             </div>

@@ -39,7 +39,7 @@ public class StorehouseController {
         int pageSize =Integer.parseInt(request.getParameter("limit"));
         int pageNumber = Integer.parseInt(request.getParameter("page"));
         //HttpSession session=request.getSession();
-        Emp e=new Emp(3);
+        Emp e=new Emp(6);
         String regionName = request.getParameter("regionName");
         String name = request.getParameter("name");
         String regionP = request.getParameter("regionP");

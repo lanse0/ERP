@@ -83,7 +83,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">所属区域</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select id="province" name="parentId" lay-filter="province" lay-verify="required">
                 </select>
             </div>
@@ -94,7 +94,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">负责人</label>
-            <div class="layui-input-block">
+            <div class="layui-input-inline">
                 <select id="masterId" name="masterId" lay-verify="required">
                 </select>
             </div>
