@@ -19,6 +19,7 @@ public class Orders {
     public String status;//订单状态
     public Emp emp;//订单审核人员
     public Date auditTime;//订单创建时间
+    public String auditor;
 
     public Orders(){}
     public Orders(int id){     this.id = id;}
@@ -41,6 +42,14 @@ public class Orders {
         this.status = status;
         this.emp = emp;
         this.auditTime = auditTime;
+    }
+
+    public String getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
     }
 
     public int getId() {

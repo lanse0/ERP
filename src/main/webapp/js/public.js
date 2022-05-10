@@ -49,6 +49,7 @@ function getSDetail(layer,data){
         btn: ['关闭'],
         yes: function (index, layero) {
             layer.close(index);
+             $("#detail").hide();
         }
     });
 }
