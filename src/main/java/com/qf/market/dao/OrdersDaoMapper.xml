@@ -22,4 +22,7 @@
     <select id="getOrdersById" parameterType="int">
         select * from orders where id={id}
     </select>
+    <select id="getAll" resultType="Orders">
+        select * from orders
+    </select>
 </mapper>

@@ -18,4 +18,5 @@ public interface OrdersDao {
     boolean delOrders(Integer id);//删除订单
     boolean updateOrders(Orders orders);//修改订单
     Orders getOrdersById(int id);//根据id获取订单信息
+    List<Orders> getAll();//分页查询订单列表
 }

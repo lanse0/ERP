@@ -165,52 +165,54 @@ layui.use(['table', 'form','laydate'], function () {
             }
         });
     }
+    function getAllOrdersv(){
+        $("#city"+c).html("");
+        $.ajax({
+            url: '/area/getCityByPId',
+            type: 'post',
+            data:{id:v},
+            dataType:'json',
+            async:false,
+            success: function (resp) {
+                $("#city"+c).append(new Option("市",0));
+                console.log(resp);
+                $.each(resp.data, function (index, value) {
+                    $("#city"+c).append(new Option(value.regionName,value.id));
+                });
+                form.render("select");
+            }
+        });
+    }
     function getDetail(data){
         $("#box2").html("");
         $("#box2").append("<ul class=\"forminfo\">\n" +
             "    <li>\n" +
             "        <label>订单编号</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
+            "        <cite>"+data.orders.ordersNo+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>客户姓名</label>\n" +
-            "        <cite><a>"+0+"</a></cite>\n" +
+            "        <cite><a>"+data.orders.customer.customerName+"</a></cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>联系电话</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
+            "        <cite>"+data.orders.customer.phone+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>订购时间</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
+            "        <cite>"+data.orders.auditTime+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>总金额</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
+            "        <cite>"+data.orders.amount+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>操作人</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <label>审核状态</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <label>审核意见</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <label>审核人</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <label>审核时间</label>\n" +
-            "        <cite>"+0+"</cite>\n" +
+            "        <cite>"+data.orders.auditor+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>出货仓库</label>\n" +
-            "        <cite><a href=\"../storage/storageView.html\" title=\"点击查看客户详细信息\" class=\"tablelink\">"+data.storehouse.name+"</a></cite>\n" +
+            "        <cite>"+data.storehouse.name+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "        <label>出库时间</label>\n" +

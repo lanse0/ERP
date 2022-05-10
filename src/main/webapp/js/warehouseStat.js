@@ -204,7 +204,7 @@ layui.use(['table', 'form','laydate'], function () {
             "    </li>\n" +
             "    <li>\n" +
             "      <label>入货仓库</label>\n" +
-            "      <cite><a href=\"../storage/storageView.html\" title=\"点击查看客户详细信息\" class=\"tablelink\">"+data.storehouse.name+"</a></cite>\n" +
+            "      <cite>"+data.storehouse.name+"</cite>\n" +
             "    </li>\n" +
             "    <li>\n" +
             "      <label>入库时间</label>\n" +

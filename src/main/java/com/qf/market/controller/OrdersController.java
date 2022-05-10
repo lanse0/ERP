@@ -2,11 +2,9 @@ package com.qf.market.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qf.market.po.Customer;
-import com.qf.market.service.CustomerService;
-
+import com.qf.market.po.Orders;
+import com.qf.market.service.OrdersService;
 import com.qf.storage.utils.TableData;
-
 import com.qf.utils.LayUIOperate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +24,10 @@ import java.util.Map;
  * Date:2022/5/7 21:32
  */
 @Controller
-@RequestMapping("/market")
-public class CustomerController {
+@RequestMapping("/orders")
+public class OrdersController {
     @Resource
-    private CustomerService customerService;
-    public void setCustomerService(CustomerService customerService){
-        this.customerService=customerService;
-    }
+    private OrdersService ordersService;
 //查询客户信息
     @RequestMapping("/getAllCustomerList")
     @ResponseBody
@@ -52,7 +47,7 @@ public class CustomerController {
        // params.put("deptName",deptName);
         params.put("status",status);
         PageHelper.startPage(pageNumber,pageSize);
-        PageInfo<Customer> data = customerService.findByCustomerPage(params);
+        PageInfo<Orders> data = ordersService.findByOrdersPage(params);
         TableData tableData = new TableData();
         tableData.setCode(0);
         tableData.setMsg("成功");
@@ -65,10 +60,10 @@ public class CustomerController {
 //添加客户信息
     @RequestMapping("/addCustomer")
     @ResponseBody
-    public LayUIOperate addCustomer(@RequestBody Customer customer){
+    public LayUIOperate addCustomer(@RequestBody Orders Orders){
         LayUIOperate operate=new LayUIOperate();
-        System.out.println("addCustomer -->"+customer);
-        boolean f= customerService.addCustomer(customer);
+        System.out.println("addCustomer -->"+Orders);
+        boolean f= ordersService.addOrders(Orders);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("客户添加成功!");
@@ -81,11 +76,11 @@ public class CustomerController {
 //修改客户信息
     @RequestMapping("/updateCustomer")
     @ResponseBody
-    public LayUIOperate updateCustomer(@RequestBody Customer customer){
+    public LayUIOperate updateCustomer(@RequestBody Orders Orders){
         LayUIOperate operate=new LayUIOperate();
-        System.out.println("updateCustomer -->"+customer);
+        System.out.println("updateCustomer -->"+Orders);
 
-        boolean f= customerService.updateCustomer(customer);
+        boolean f= ordersService.updateOrders(Orders);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("用户修改成功！");
@@ -100,7 +95,7 @@ public class CustomerController {
     @ResponseBody//离职
     public LayUIOperate delCustomer(Integer id){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= customerService.delCustomer(id);
+        boolean f= ordersService.delOrders(id);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("成功！");
@@ -111,29 +106,10 @@ public class CustomerController {
         return operate;
     }
 
-    //分配客服人员
-    @RequestMapping("/allocateCustomer")
-    @ResponseBody
-    public LayUIOperate allocateCustomer(@RequestBody Customer customer){
-        LayUIOperate operate=new LayUIOperate();
-        System.out.println("allocateCustomer -->"+customer);
-
-        boolean f= customerService.allocateCustomer(customer);
-        if(f){
-            operate.setSuccess(true);
-            operate.setMessage("分配成功！");
-        }else{
-            operate.setSuccess(false);
-            operate.setMessage("分配失败");
-        }
-        return operate;
-    }
-
-
     @RequestMapping("/getCustomerById")
     @ResponseBody
     public TableData getCustomerById(Integer id){
-        Customer customerList = customerService.getCustomerById(id);
+        Orders customerList = ordersService.getOrdersById(id);
         TableData data = new TableData();
         data.setCode(0);
         data.setCount(1);
@@ -141,4 +117,14 @@ public class CustomerController {
         return data;
     }
 
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public TableData getAll(){
+        List<Orders> customerList = ordersService.getAll();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(1);
+        data.setData(customerList);
+        return data;
+    }
 }

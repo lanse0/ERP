@@ -77,6 +77,13 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">仓库名称</label>
+            <div class="layui-input-block">
+                <select id="storehouseId" name="storehouseId" lay-verify="required">
+                </select>
+            </div>
+        </div>
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
             <button type="reset" class="layui-btn form-reset layui-hide"></button>
