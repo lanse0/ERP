@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qf.market.po.Orders;
 import com.qf.market.service.OrdersService;
+import com.qf.market.utils.TimeNumberUtils;
 import com.qf.storage.utils.TableData;
 import com.qf.utils.LayUIOperate;
 import org.springframework.stereotype.Controller;
@@ -57,7 +58,7 @@ public class OrdersController {
     }
 
 //添加客户信息
-    @RequestMapping("/addCustomer")
+    @RequestMapping("/addOrders")
     @ResponseBody
     public LayUIOperate addCustomer(@RequestBody Orders Orders){
         LayUIOperate operate=new LayUIOperate();
@@ -65,32 +66,39 @@ public class OrdersController {
         boolean f= ordersService.addOrders(Orders);
         if(f){
             operate.setSuccess(true);
-            operate.setMessage("客户添加成功!");
+            operate.setMessage("订单添加成功!");
         }else{
             operate.setSuccess(false);
-            operate.setMessage("客户添加失败");
+            operate.setMessage("订单添加失败");
         }
         return operate;
     }
+    @RequestMapping("/getOrdersNo")
+    @ResponseBody
+    public LayUIOperate getOrdersNo(){
+        LayUIOperate operate=new LayUIOperate();
+        operate.setMessage(TimeNumberUtils.GenerateOrder());
+        return operate;
+    }
 //修改客户信息
-    @RequestMapping("/updateCustomer")
+    @RequestMapping("/updateOrders")
     @ResponseBody
     public LayUIOperate updateCustomer(@RequestBody Orders Orders){
         LayUIOperate operate=new LayUIOperate();
-        System.out.println("updateCustomer -->"+Orders);
+        System.out.println("updateOrders -->"+Orders);
 
         boolean f= ordersService.updateOrders(Orders);
         if(f){
             operate.setSuccess(true);
-            operate.setMessage("用户修改成功！");
+            operate.setMessage("订单修改成功！");
         }else{
             operate.setSuccess(false);
-            operate.setMessage("用户修改失败");
+            operate.setMessage("订单修改失败");
         }
         return operate;
     }
 //注销客户信息
-    @RequestMapping("/delCustomer")
+    @RequestMapping("/delOrders")
     @ResponseBody//离职
     public LayUIOperate delCustomer(Integer id){
         LayUIOperate operate=new LayUIOperate();
@@ -105,7 +113,7 @@ public class OrdersController {
         return operate;
     }
 
-    @RequestMapping("/getCustomerById")
+    @RequestMapping("/getOrdersById")
     @ResponseBody
     public TableData getCustomerById(Integer id){
         Orders customerList = ordersService.getOrdersById(id);
@@ -125,5 +133,6 @@ public class OrdersController {
         data.setCount(1);
         data.setData(customerList);
         return data;
+
     }
 }
