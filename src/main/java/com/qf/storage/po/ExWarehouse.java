@@ -42,6 +42,7 @@ public class ExWarehouse {
         return "";
     }
     public void setStorehouseId(int storehouseId) { this.storehouse=new Storehouse(storehouseId); }
+    public void setOrdersId(int ordersId) { this.orders=new Orders(ordersId); }
 
     public Storehouse getStorehouse() {
         return storehouse;

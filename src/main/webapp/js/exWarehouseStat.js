@@ -165,24 +165,6 @@ layui.use(['table', 'form','laydate'], function () {
             }
         });
     }
-    function getAllOrdersv(){
-        $("#city"+c).html("");
-        $.ajax({
-            url: '/area/getCityByPId',
-            type: 'post',
-            data:{id:v},
-            dataType:'json',
-            async:false,
-            success: function (resp) {
-                $("#city"+c).append(new Option("市",0));
-                console.log(resp);
-                $.each(resp.data, function (index, value) {
-                    $("#city"+c).append(new Option(value.regionName,value.id));
-                });
-                form.render("select");
-            }
-        });
-    }
     function getDetail(data){
         $("#box2").html("");
         $("#box2").append("<ul class=\"forminfo\">\n" +

@@ -110,12 +110,13 @@ layui.use(['table', 'form'], function () {
         $("#id").val(0);
         $('.form-reset').click();
         getStorehouse();
+        getAllOrders();
         layer.open({
             type: 1,
             shift: 2,
             shade: 0,
             title: '添加入库信息',
-            area: ['366px', '320px'],
+            area: ['366px', '422px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -246,6 +247,24 @@ layui.use(['table', 'form'], function () {
                 }
             });
         })
+    }
+    function getAllOrders(){
+        $("#ordersNo").html("");
+        $.ajax({
+            url: '/orders/getAll',
+            type: 'post',
+            data:{},
+            dataType:'json',
+            async:false,
+            success: function (resp) {
+                $("#ordersNo").append(new Option("订单编号",0));
+                console.log(resp);
+                $.each(resp.data, function (index, value) {
+                    $("#ordersNo").append(new Option(value.ordersNo,value.id));
+                });
+                form.render("select");
+            }
+        });
     }
     function getDetail(data){
         $("#sDId").val(data.storehouse.id);

@@ -71,9 +71,9 @@
         <input type="hidden" name="id" id="id"/>
         <input type="hidden" name="orderId" value="1"/>
         <div class="layui-form-item">
-            <label class="layui-form-label">仓库名称</label>
+            <label class="layui-form-label">订单编号</label>
             <div class="layui-input-block">
-                <select id="storehouseId" name="storehouseId" lay-verify="required">
+                <select id="ordersNo" name="ordersId" lay-verify="required">
                 </select>
             </div>
         </div>

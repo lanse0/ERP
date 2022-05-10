@@ -23,6 +23,6 @@
         select * from orders where id={id}
     </select>
     <select id="getAll" resultType="Orders">
-        select * from orders
+        select * from orders where status=1
     </select>
 </mapper>

@@ -44,7 +44,7 @@
     </select>
     <insert id="addStorehouse" parameterType="ExWarehouse">
         insert into ExWarehouse(storehouseId,orderId,userId,exWarehouseTime,status)
-              values(#{storehouse.id},#{orderId},#{user.id},now(),0)
+              values(#{storehouse.id},#{orders.id},#{user.id},now(),0)
     </insert>
     <update id="updateStorehouse" parameterType="ExWarehouse">
        update ExWarehouse set status=#{status}

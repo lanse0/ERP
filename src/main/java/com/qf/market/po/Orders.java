@@ -19,7 +19,7 @@ public class Orders {
     public Date auditTime;//订单创建时间
 
     public Orders(){}
-
+    public Orders(int id){     this.id = id;}
     public Orders(int id, String ordersNo, Customer customer, Date orderTime, String amount, String status, String auditor, Date auditTime) {
         this.id = id;
         this.ordersNo = ordersNo;
