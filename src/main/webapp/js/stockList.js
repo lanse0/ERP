@@ -15,7 +15,7 @@ layui.use(['table', 'form'], function () {
             {field: 'sName', title: '商品类型'},
             {field: 'sName', title: '商品名称'},
             {field: 'sName', title: '厂商名称'},
-            {field: 'sum', title: '负责人'},
+            {field: 'sum', title: '数量'},
 
         ]],
         page: true //是否显示分页

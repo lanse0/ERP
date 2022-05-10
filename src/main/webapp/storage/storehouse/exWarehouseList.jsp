@@ -12,6 +12,8 @@
     <title>仓库管理</title>
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/public.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/exWarehouseList.js"></script>
     <style>
         .layui-form-label.layui-required:after{
@@ -36,6 +38,13 @@
 <blockquote class="layui-elem-quote layui-text layui-form">
     <table>
         <tr>
+            <td><select id="status" lay-filter="status" lay-verify="required">
+                <option value="">状态</option>
+                <option value="0">未发货</option>
+                <option value="1">已发货</option>
+                <option value="2">已退货</option>
+                <option value="3">已回款</option>
+            </select></td>
             <td width="10">&nbsp;</td>
             <td>
                 <input type="text" id="p_name" placeholder="仓库名称" autocomplete="off" class="layui-input ipt1">
@@ -54,6 +63,9 @@
 </table>
 
 <!--人员表单-->
+<input type="hidden" id="sDId">
+<div id="box2" class="div-hide"></div>
+<ul id="detail" class="forminfo"></ul>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
         <input type="hidden" name="id" id="id"/>

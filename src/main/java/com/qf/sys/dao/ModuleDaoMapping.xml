@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.ModuleDao">
+    <resultMap id="ModuleMap" type="Module">
+        <id property="id" column="id"></id>
+        <result property="moduleName" column="moduleName"></result>
+        <result property="url" column="url"></result>
+        <result property="createTime" column="createTime"></result>
+        <result property="updateTime" column="updateTime"></result>
+        <result property="status" column="status"></result>
+        <association property="parent" javaType="Module">
+            <id property="id" column="parentId"></id>
+            <result property="moduleName" column="pname"></result>
+            <result property="url" column="purl"></result>
+            <result property="status" column="pstatus"></result>
+        </association>
+    </resultMap>
+
+    <select id="getAllModuleByPage" resultMap="ModuleMap">
+        SELECT
+        m.*, p.moduleName pname, p.url purl, p.STATUS pstatus
+        FROM
+        module m
+        LEFT JOIN module p ON m.parentId = p.id
+        WHERE 1 = 1
+        <if test="moduleName!=null and moduleName!=''">
+            AND m.moduleName LIKE CONCAT( '%', #{moduleName}, '%')
+        </if>
+        ORDER BY m.id ASC
+    </select>
+    <select id="getSelect" resultMap="ModuleMap">
+        SELECT *
+        FROM module
+        WHERE parentId is null
+    </select>
+    <insert id="addModule" parameterType="Module">
+        <if test="parent.id!=0">
+            INSERT INTO module(moduleName,parentId,url,createTime)
+            VALUES(#{moduleName},#{parent.id},#{url},SYSDATE())
+        </if>
+        <if test="parent.id==0">
+            INSERT INTO module(moduleName,url,createTime)
+            VALUES(#{moduleName},#{url},SYSDATE())
+        </if>
+    </insert>
+    <update id="updModule" parameterType="Module">
+        UPDATE module set moduleName = #{moduleName},
+        <if test="parent.id!=0">
+            parentId = #{parent.id},
+        </if>
+        <if test="parent.id==0">
+            parentId = null,
+        </if>
+        url = #{url}
+        WHERE id = #{id}
+    </update>
+    <update id="updStatus">
+        UPDATE module
+        SET status = 2
+        WHERE id = #{id}
+    </update>
+</mapper>

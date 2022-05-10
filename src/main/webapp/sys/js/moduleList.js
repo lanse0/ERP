@@ -2,53 +2,50 @@ layui.use(['table', 'form'], function () {
     var table = layui.table,
         form = layui.form,
         $ = layui.jquery;
-    //搜索栏下拉框初始化
-    getProvince();
-    //省份联动城市
-    form.on('select(province)', function (data) {
-        getCity(data.value);
-    });
+
+    //初始化父模块下拉框
+    getParent();
 
     //表格渲染
     table.render({
-        elem: '#DeptTable',
-        url: '/dept/getAllDeptList',
+        elem: '#ModuleTable',
+        url: '/modules/getAllModulesList',
         height: 'full-225',
         cellMinWidth: 80,
         cols: [[ //表头
             {type: 'radio'},
             {field: 'id', title: '序号'},
-            {field: 'deptNo', title: '部门编号'},
-            {field: 'deptName', title: '部门名称'},
-            {field: 'region', title: '所属地区', templet:function (dept) {
-                    return dept.region.regionName
+            {field: 'moduleName', title: '模块名称'},
+            {field: 'parent', title: '父模块', templet:function (module) {
+                    if(module.parent!=null){
+                        return module.parent.moduleName;
+                    }
+                    return '无';
                 }},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'正常':'注销' }}</div>"},
+            {field: 'url', title: 'URL'},
+            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'正常':'禁用' }}</div>"},
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
         , limits: [10, 20, 30] //自定义分页数据选项
-        , id: 'DeptTable' //用于绑定模糊查询条件等等
+        , id: 'ModuleTable' //用于绑定模糊查询条件等等
         , /*done:function(res){
             var data = res.data;
         }*/
         done: function () {
-            table.resize('DeptTable');
+            table.resize('ModuleTable');
         }
     });
+
     //查询
     $('.btn-search').on('click', function () {
-        var deptName = $('#deptSer').val();
-        var provinceId = $('#provinceSer').val();
-        var cityId = $('#citySer').val();
-        table.reload('DeptTable', {
-            url: '/dept/getAllDeptList',
+        var moduleName = $('#moduleSer').val();
+        table.reload('ModuleTable', {
+            url: '/modules/getAllModulesList',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
-                deptName: deptName,
-                provinceId: provinceId,
-                cityId: cityId
+                moduleName: moduleName
             },
             page: {
                 curr: 1 //重新从第 1 页开始
@@ -56,17 +53,15 @@ layui.use(['table', 'form'], function () {
         });
     });
 
-    //添加人员
+    //添加
     $('.btn-add').on('click', function () {
         $('.form-reset').click();
-        $('#empNo').attr('disabled', false);
-        $('#empNo').removeClass('layui-disabled');
         layer.open({
             type: 1,
             shift: 2,
             shade: 0,//遮罩
-            title: '添加部门信息',
-            area: ['440px', '340px'],
+            title: '添加模块信息',
+            area: ['360px', '300px'],
             closeBtn: false,
             shadeClose: false,
             content: $('#box'),
@@ -85,17 +80,17 @@ layui.use(['table', 'form'], function () {
 
     //修改
     $('.btn-edit').on('click', function () {
-        var cs = table.checkStatus('DeptTable');
+        var cs = table.checkStatus('ModuleTable');
         var data = cs.data;
         var i = data.length;
         if (i === 1) {
-            form.val('dept-form', data[0]);
+            form.val('module-form', data[0]);
             layer.open({
                 type: 1,
                 shift: 2,
                 shade: 0,
-                title: '修改人员信息',
-                area: ['570px', '540px'],
+                title: '修改模块信息',
+                area: ['360px', '300px'],
                 closeBtn: false,
                 shadeClose: false,
                 content: $('#box'),
@@ -112,22 +107,22 @@ layui.use(['table', 'form'], function () {
             /* 渲染表单 */
             form.render();
         } else {
-            layer.msg('请选择一条人员信息进行修改', {icon: 5});
+            layer.msg('请选择一条信息进行修改', {icon: 5});
         }
     });
 
-    //删除(离职)
+    //注销
     $('.btn-quit').on('click', function () {
-        var cs = table.checkStatus('EmpTable');
+        var cs = table.checkStatus('ModuleTable');
         var data = cs.data;//获取单选框勾选的数据
         var i = data.length;//数据条数
         if (i < 1) {//数据条数小于1  用户未勾选数据
-            layer.msg('请选择需要毕业的人员', {icon: 5});
+            layer.msg('请选择需要禁用的模块', {icon: 5});
             return;
         }
-        layer.confirm('确定要毕业选中的人员吗？', function (index) {
+        layer.confirm('确定要禁用选中的模块吗？', function (index) {
             $.ajax({
-                url: '/users/quitEmp',
+                url: '/modules/updStatus',
                 type: 'post',
                 data: {
                     id: data[0].id
@@ -135,7 +130,7 @@ layui.use(['table', 'form'], function () {
                 dataType: 'json',
                 success: function (resp) {
                     if (resp.success) {
-                        table.reload('EmpTable', {
+                        table.reload('ModuleTable', {
                             where: {},
                             page: {
                                 curr: 1 //重新从第 1 页开始
@@ -152,14 +147,14 @@ layui.use(['table', 'form'], function () {
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性
     form.on('submit(save)', function () {
-        var json_data = $("#DeptForm").serializeObject();//将表单获取的值格式化为复杂对象格式的json
+        var json_data = $("#ModuleForm").serializeObject();//将表单获取的值格式化为复杂对象格式的json
         console.log(json_data);
         var id = $('#id').val(); //id的值为空时用户进行了添加操作
         var url = '-';
         if (id!=null&&id!=="") { //修改
-            url = '/dept/updDept';
+            url = '/modules/updModule';
         } else {  //添加
-            url = '/dept/addDept';
+            url = '/modules/addModule';
         }
         layer.load(1);
         $.ajax({
@@ -172,7 +167,7 @@ layui.use(['table', 'form'], function () {
                 layer.closeAll('loading');
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('DeptTable', {
+                    table.reload('ModuleTable', {
                         where: {},
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -191,36 +186,18 @@ layui.use(['table', 'form'], function () {
         return false;
     });
 
-    //省份下拉框初始化方法
-    function getProvince() {
+    //初始化父模块下拉框
+    function getParent() {
         $.ajax({
-            url: '/area/getProvince',
-            type: 'post',
+            url: '/modules/getSelect',
             dataType: 'json',
-            success: function (resp) {
-                console.log(resp);
-                $(".province").append(new Option("请选择省份", 0));
-                $.each(resp.data, function (index, value) {
-                    $(".province").append(new Option(value.regionName, value.id));
+            type: 'get',
+            success: function (data) {
+                $('#parent').append(new Option("请选择父模块", 0));
+                $.each(data.data, function (index, value) {
+                    $('#parent').append(new Option(value.moduleName, value.id));// 下拉菜单里添加元素
                 });
-                form.render("select");
-            }
-        });
-    }
-    //城市下拉框初始化方法
-    function getCity(pId) {
-        $(".city").html("");
-        $.ajax({
-            url: '/area/getCityByPId',
-            type: 'post',
-            data: {id: pId},
-            dataType: 'json',
-            success: function (resp) {
-                $(".city").append(new Option("请选择城市", pId));
-                $.each(resp.data, function (index, value) {
-                    $(".city").append(new Option(value.regionName, value.id));
-                });
-                form.render("select");
+                form.render("select");//重新渲染 固定写
             }
         });
     }

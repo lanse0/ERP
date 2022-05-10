@@ -6,17 +6,28 @@
     <resultMap id="RoleMap" type="Role">
         <id property="id" column="id"/>
         <result column="roleName" property="roleName"/>
-        <result column="regionShortName" property="regionShortName"/>
         <result column="createTime" property="createTime"/>
         <result column="updateTime" property="updateTime"/>
         <result column="status" property="status"/>
-        <association property="roleName" javaType="Department">
+        <association property="department" javaType="Department">
             <id property="id" column="deptId"/>
             <result property="deptNo" column="deptNo"/>
             <result property="deptName" column="deptName"/>
         </association>
     </resultMap>
-
+    <select id="getAllRoleByPage" resultMap="RoleMap" parameterType="map">
+        SELECT r.*,d.deptNo,d.deptName
+        FROM role r,department d
+        WHERE 1 = 1
+        AND r.deptId = d.id
+        <if test="roleName!=null and roleName!=''">
+            AND r.roleName like CONCAT('%',#{roleName},'%')
+        </if>
+        <if test="deptNo!=null and deptNo!='' and deptNo!=0">
+            AND d.deptNo = #{deptNo}
+        </if>
+        ORDER BY r.id ASC
+    </select>
     <select id="getRoleByDept" resultType="Role">
         SELECT
             r.*, d.deptNo, d.deptName
@@ -26,4 +37,18 @@
             r.deptId = d.id
             AND deptId = #{deptId}
     </select>
+    <insert id="addRole" parameterType="Role">
+        INSERT INTO role(roleName,deptId,createTime)
+        VALUES(#{roleName},#{department.id},SYSDATE())
+    </insert>
+    <update id="updRole" parameterType="Role">
+        UPDATE role
+        SET roleName = #{roleName},deptId = #{department.id}
+        WHERE id = #{id}
+    </update>
+    <update id="updStatus">
+        UPDATE role
+        SET status = 2
+        WHERE id = #{id}
+    </update>
 </mapper>

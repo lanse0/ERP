@@ -37,8 +37,10 @@ public class ExWarehouseController {
         int pageNumber = Integer.parseInt(request.getParameter("page"));
         //HttpSession session=request.getSession();
         String name = request.getParameter("name");
+        String status = request.getParameter("status");
         Map params = new HashMap();
         params.put("name", name);
+        params.put("status", status);
         PageHelper.startPage(pageNumber, pageSize);
         PageInfo<ExWarehouse> data = exWarehouseService.findByPage(params);
         TableData tableData = new TableData();

@@ -108,9 +108,14 @@ public class StorehouseController {
         return operate;
     }
     @RequestMapping("/getStorehouseById")
-    public String getStorehouseById(int id){
-        storehouseService.getStorehouseById(id);
-        return "storehouseList2";
+    @ResponseBody
+    public TableData getStorehouseById(Integer id){
+        Storehouse empList = storehouseService.getStorehouseById(id);
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(1);
+        data.setData(empList);
+        return data;
     }
     @RequestMapping("/getAllStorehouse")
     @ResponseBody

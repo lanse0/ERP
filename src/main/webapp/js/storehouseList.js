@@ -2,35 +2,12 @@ layui.use(['table', 'form'], function () {
     var table = layui.table,
         form = layui.form,
         $ = layui.jquery;
-    //表格渲染
-    table.render({
-        elem: '#PersonTable',
-        url:'/storehouse/findByPage',
-        height: 'full-200',
-        cellMinWidth: 80,
-        cols: [[ //表头
-            {type: 'radio'},
-            {field: 'id', title: '编号'},
-            {field: 'name', title: '仓库名称'},
-            {field: 'masterName', title: '负责人'},
-            {field: 'tel', title: '联系电话'},
-            {field: 'regionName', title: '所属区域'},
-            {field: 'status', title: '状态'},
-            {field: 'createTime', title: '创建时间',templet: "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"
-            },
-            {field: 'userName', title: '创建人'}
-        ]],
-        page: true //是否显示分页
-        , limit: 10 //默认分页条数
-        , limits: [10, 20, 30] //自定义分页数据选项
-        , id: 'PersonTable' //用于绑定模糊查询条件等等
-        , /*done:function(res){
-            var data = res.data;
-        }*/
-        done: function () {
-            table.resize('PersonTable');
+    storehouseT(table);
+    table.on('tool(person-table)', function(obj) {
+        if (obj.event == 'detail') {
+            getSDetail(layer,obj.data);
         }
-    });
+    })
     getProvince('1');
     form.on('select(province1)', function(data){
         getCity('1',data.value);
@@ -266,4 +243,5 @@ layui.use(['table', 'form'], function () {
             }
         });
     }
+
 });
