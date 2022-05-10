@@ -1,6 +1,7 @@
 package com.qf.sys.po;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * FileName: Role
@@ -15,6 +16,7 @@ public class Role {
     private Date createTime;//创建时间
     private Date updateTime;//更新时间
     private String status;//状态
+    private List<Module> moduleList; //角色拥有权限的模块
 
     public Role() {
     }
@@ -28,6 +30,14 @@ public class Role {
         this.department = department;
     }
 
+    public List<Module> getModuleList() {
+        return moduleList;
+    }
+
+    public void setModuleList(List<Module> moduleList) {
+        this.moduleList = moduleList;
+    }
+
     @Override
     public String toString() {
         return "Role{" +
@@ -37,6 +47,7 @@ public class Role {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", status='" + status + '\'' +
+                ", moduleList=" + moduleList +
                 '}';
     }
 

@@ -38,7 +38,7 @@ layui.use(['table', 'form'], function () {
     form.on('switch(statusDemo)',function(obj){
         var id = this.value;
         var status = obj.elem.checked?'1':'2';
-        layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
+        // layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
         $.ajax({
             url: '/dept/updStatus',
             type: 'get',

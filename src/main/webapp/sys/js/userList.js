@@ -55,7 +55,6 @@ layui.use(['table', 'form'], function () {
                 }},
             {field: 'sex', title: '性别', templet:"<div>{{d.sex=='1'?'男':'女' }}</div>"},
             {field: 'age', title: '年龄'},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'在职':'离职' }}</div>"},
             {field: 'status', title: '状态', templet:'#checkStatus', unresize:true},
             {field: 'hireDate', title: '入职时间', width: 120, templet: "<div>{{ layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }}</div>" },
             {field: 'termDate', title: '离职时间', width: 120, templet: "<div>{{# if(d.termDate){}} {{layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }} {{#} else{}} {{#}}}</div>" }
@@ -76,7 +75,7 @@ layui.use(['table', 'form'], function () {
     form.on('switch(statusDemo)',function(obj){
         var id = this.value;
         var status = obj.elem.checked?'1':'2';
-        layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
+        // layer.tips(this.value + ' ' + this.name + ':' + obj.elem.checked, obj.othis);
         $.ajax({
             url: '/users/quitEmp',
             type: 'get',

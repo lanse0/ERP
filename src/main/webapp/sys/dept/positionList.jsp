@@ -48,14 +48,17 @@
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
                 <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
                 <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
-                <button class="layui-btn layui-btn-warm btn-auth"><i class="layui-icon">&#xe642;</i>赋权</button>
-                <button class="layui-btn layui-btn-danger btn-quit"><i class="layui-icon">&#xe643;</i>注销</button>
+                <button class="layui-btn layui-btn-danger btn-auth"><i class="layui-icon">&#xe643;</i>赋权</button>
             </td>
         </tr>
     </table>
 </blockquote>
 <!--数据表格-->
 <table id="RoleTable" class="layui-hide" lay-filter="role-table"></table>
+<script type="text/html" id="checkStatus">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="正常|注销"
+           lay-filter="statusDemo" {{ d.status== 1 ? 'checked':''}}>
+</script>
 <!--表单-->
 <div id="box" class="div-hide">
     <form id="RoleForm" class="layui-form frm" lay-filter="role-form">
@@ -76,6 +79,23 @@
         </div>
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
+            <button type="reset" class="layui-btn form-reset layui-hide"></button>
+        </div>
+    </form>
+</div>
+<!--赋权表单-->
+<div id="authBox" class="div-hide">
+    <form id="authForm" class="layui-form frm" lay-filter="auth-form">
+        <input type="text" id="roleId" name="id" class="layui-hide">
+<%--        <!--手风琴列表-->--%>
+<%--        <div id="test5" class="demo-tree"></div>--%>
+<%--        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">--%>
+<%--            <legend>开启复选框</legend>--%>
+<%--        </fieldset>--%>
+        <div id="authListBox">
+        </div>
+        <div>
+            <button class="layui-btn form-save layui-hide" lay-submit lay-filter="saveAuth"></button>
             <button type="reset" class="layui-btn form-reset layui-hide"></button>
         </div>
     </form>

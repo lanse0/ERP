@@ -1,7 +1,11 @@
-layui.use(['table', 'form'], function () {
+layui.use(['table', 'form', 'tree', 'util'], function () {
     var table = layui.table,
         form = layui.form,
+        tree = layui.tree,
+        util = layui.util,
+        layer = layui.layer,
         $ = layui.jquery;
+
     //部门初始化
     getDept();
     getDeptAdd();
@@ -16,10 +20,12 @@ layui.use(['table', 'form'], function () {
             {type: 'radio'},
             {field: 'id', title: '序号'},
             {field: 'roleName', title: '职位名称'},
-            {field: 'department', title: '所属部门', templet:function (role) {
+            {
+                field: 'department', title: '所属部门', templet: function (role) {
                     return role.department.deptName
-                }},
-            {field: 'status', title: '状态', templet:"<div>{{d.status=='1'?'正常':'注销' }}</div>"},
+                }
+            },
+            {field: 'status', title: '状态', templet: '#checkStatus'}
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
@@ -31,6 +37,34 @@ layui.use(['table', 'form'], function () {
         done: function () {
             table.resize('RoleTable');
         }
+    });
+
+    //监听状态操作
+    form.on('switch(statusDemo)', function (obj) {
+        var id = this.value;
+        var status = obj.elem.checked ? '1' : '2';
+        $.ajax({
+            url: '/role/updStatus',
+            type: 'get',
+            data: {
+                id: id,
+                status: status
+            },
+            dataType: 'json',
+            success: function (resp) {
+                if (resp.success) {
+                    table.reload('RoleTable', {
+                        where: {},
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    layer.msg(resp.message, {icon: 6});
+                } else {
+                    layer.msg(resp.message, {icon: 5});
+                }
+            }
+        });
     });
 
     //查询
@@ -109,47 +143,13 @@ layui.use(['table', 'form'], function () {
         }
     });
 
-    //注销
-    $('.btn-quit').on('click', function () {
-        var cs = table.checkStatus('RoleTable');
-        var data = cs.data;//获取单选框勾选的数据
-        var i = data.length;//数据条数
-        if (i < 1) {//数据条数小于1  用户未勾选数据
-            layer.msg('请选择需要注销的职位', {icon: 5});
-            return;
-        }
-        layer.confirm('确定要注销选中的职位吗？', function (index) {
-            $.ajax({
-                url: '/role/updStatus',
-                type: 'post',
-                data: {
-                    id: data[0].id
-                },
-                dataType: 'json',
-                success: function (resp) {
-                    if (resp.success) {
-                        table.reload('RoleTable', {
-                            where: {},
-                            page: {
-                                curr: 1 //重新从第 1 页开始
-                            }
-                        });
-                        layer.msg(resp.message, {icon: 6});
-                    } else {
-                        layer.msg(resp.message, {icon: 5});
-                    }
-                }
-            });
-        });
-    });
-
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性
     form.on('submit(save)', function () {
         var json_data = $("#RoleForm").serializeObject();//将表单获取的值格式化为复杂对象格式的json
         console.log(json_data);
         var id = $('#id').val(); //id的值为空时用户进行了添加操作
         var url = '-';
-        if (id!=null&&id!=="") { //修改
+        if (id != null && id !== "") { //修改
             url = '/role/updRole';
         } else {  //添加
             url = '/role/addRole';
@@ -184,6 +184,113 @@ layui.use(['table', 'form'], function () {
         return false;
     });
 
+    //赋权初始化
+    $('.btn-auth').on('click', function () {
+        var cs = table.checkStatus('RoleTable');
+        var data = cs.data;
+        var i = data.length;
+        if (i === 1) {
+            form.val('auth-form', data[0]);
+            var roleId = $('#roleId').val();
+            $.ajax({
+                url: '/modules/getAllModulesList',
+                type: 'get',
+                data: {
+                    limit: 100,
+                    page: 1
+                },
+                dataType: 'json',
+                success: function (resp) {
+                    var list = resp.data;
+                    var list2 = resp.data;
+                    console.log(list);
+                    var list_str = '';
+                    //遍历父模块
+                    $.each(list, function (i, value) {
+                        if (value.parent == null) {
+                            list_str += '<div class="layui-form-item">';
+                            list_str += '<ul>';
+                            list_str += '<a href="javaScript:void(0)"><input type="checkbox" value="' + value.id + '">' + value.moduleName + '</a>';
+                            $.each(list2, function (i, value2) {
+                                if (value2.parent != null) {
+                                    if (value2.parent.id === value.id) {
+                                        list_str += '<li>';
+                                        list_str += '<input type="checkbox" value="' + value2.id + '">' + value2.moduleName + '';
+                                        list_str += '</li>';
+                                    }
+                                }
+                            });
+                            list_str += '</ul>';
+                            list_str += '<div class="layui-form-item"></div>';
+                        }
+                        //遍历子模块
+                    });
+                    console.log(list_str);
+                    $('#authListBox').html('');
+                    $('#authListBox').append(list_str);
+                    form.render();
+                }
+            });
+
+            layer.open({
+                type: 1,
+                shift: 2,
+                shade: 0,
+                title: '赋权',
+                area: ['360px', '400px'],
+                closeBtn: false,
+                shadeClose: false,
+                content: $('#authBox'),
+                btnAlign: 'c',
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    layero.find('.form-save').click();
+                    return false; //开启该代码可禁止点击该按钮关闭弹窗
+                },
+                btn2: function (index, layero) {
+                    //默认关闭弹窗
+                }
+            });
+            /* 渲染表单 */
+            form.render();
+        } else {
+            layer.msg('请选择一条信息进行修改', {icon: 5});
+        }
+    });
+
+    //监听赋值
+    form.on('submit(saveAuth)', function (data) {
+        console.log(data);
+        var id = $('#id').val(); //id的值为空时用户进行了添加操作
+        layer.load(1);
+        $.ajax({
+            url: '',
+            data: JSON.stringify(json_data),
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            success: function (resp) {
+                layer.closeAll('loading');
+                var flag = resp.success;
+                if (flag) {
+                    table.reload('RoleTable', {
+                        where: {},
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    layer.msg(resp.message, {icon: 6});
+                } else {
+                    layer.msg(resp.message, {icon: 5});
+                }
+            },
+            error: function () {
+                layer.closeAll('loading');
+                layer.msg('系统错误，请联系管理员', {icon: 5});
+            }
+        });
+        return false;
+    });
 
     //部门下拉框初始化方法
     function getDept() {
@@ -200,6 +307,7 @@ layui.use(['table', 'form'], function () {
             }
         });
     }
+
     function getDeptAdd() {
         $.ajax({
             url: '/dept/getSelectDept',

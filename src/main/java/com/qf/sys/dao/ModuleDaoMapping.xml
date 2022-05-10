@@ -58,7 +58,7 @@
     </update>
     <update id="updStatus">
         UPDATE module
-        SET status = 2
+        SET status = #{status}
         WHERE id = #{id}
     </update>
 </mapper>

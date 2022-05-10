@@ -79,7 +79,7 @@ layui.use(['table', 'form'], function () {
             {field: 'amount', title: '订单金额'},
             {field: 'orderTime', title: '订单创建时间', templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
             {field: 'status', title: '状态', templet:function (orders) { var status =orders.status;switch (status) {case "1":status="未审核";break;
-                    case "2":status="审核中";break;case "3":status="审核失败";break;case "4":statsu="审核通过";break;} return status}},
+                    case "2":status="审核中";break;case "3":status="审核通过";break;case "4":statsu="审核不通过";break;} return status}},
             {field: 'auditTime', title: '审核时间', templet: "<div>{{ layui.util.toDateString(d.allocateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
             {field: 'empName', title: '审核人员',templet:function (orders) {return orders.emp.empName}}
         ]],
@@ -96,7 +96,7 @@ layui.use(['table', 'form'], function () {
     });
     //查询
     $('.btn-search').on('click', function () {
-        var company = $('#company1').val();
+        var ordersNo = $('#ordersNo1').val();
         var customerName = $('#customerName1').val();
         //var dept = $('#dept').val();
         var status = $('#status1').val();
@@ -119,6 +119,17 @@ layui.use(['table', 'form'], function () {
 
     //添加人员
     $('.btn-add').on('click', function () {
+        $.ajax({
+            url: '/orders/getOrdersNo',
+            dataType: 'json',
+            async:true,
+            type: 'post',
+            success: function (data) {
+                //alert(data.message);
+             $("#ordersNo").val(data.message);
+            }
+        });
+        form.render();
         $('.form-reset').click();
         // $('#empNo').attr('disabled', false);
         // $('#empNo').removeClass('layui-disabled');
@@ -342,14 +353,14 @@ layui.use(['table', 'form'], function () {
 
     //提交监听，submit(save)对应的是提交按钮的lay-filter属性  提交修改 或 添加信息
     form.on('submit(save)', function (data) {
-        var json_data = $("#CustomerForm").serializeObject();
+        var json_data = $("#OrdersForm").serializeObject();
         console.log(json_data);
         var f = $('#id').val();
         var url = '-';
         if (f!=null&&f!="") { //修改
-            url = '/market/updateCustomer';
+            url = '/orders/updateOrders';
         } else {  //添加
-            url = '/market/addCustomer';
+            url = '/orders/addOrders';
         }
         layer.load(1);
         $.ajax({
@@ -363,7 +374,7 @@ layui.use(['table', 'form'], function () {
                 layer.closeAll('loading');
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('CustomerTable', {
+                    table.reload('OrdersTable', {
                         where: {},
                         page: {
                             curr: 1 //重新从第 1 页开始
@@ -382,41 +393,6 @@ layui.use(['table', 'form'], function () {
         return false;
     });
 
-    //提交监听，submit(save)对应的是提交按钮的lay-filter属性   提交分配信息
-    form.on('submit(saveAllocate)', function (data) {
-        var json_data = $("#AllocateForm").serializeObject();
-        console.log(json_data);
-        var url = '-';
-        url = '/market/allocateCustomer';
-        layer.load(1);
-        $.ajax({
-            url: url,
-            data: JSON.stringify(json_data),
-            type: 'post',
-            dataType: 'json',
-            contentType: "application/json",
-            success: function (resp) {
-                layer.closeAll('loading');
-                var flag = resp.success;
-                if (flag) {
-                    table.reload('CustomerTable', {
-                        where: {},
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    layer.msg(resp.message, {icon: 6});
-                } else {
-                    layer.msg(resp.message, {icon: 5});
-                }
-            },
-            error: function () {
-                layer.closeAll('loading');
-                layer.msg('系统错误，请联系管理员', {icon: 5});
-            }
-        });
-        return false;
-    });
 
     function getProvince() {
         $.ajax({
@@ -505,6 +481,19 @@ layui.use(['table', 'form'], function () {
             }
         });
     }
+
+    function today(){//构建方法
+        var today=new Date();//new 出当前时间
+        var h=today.getFullYear();//获取年
+        var m=today.getMonth()+1;//获取月
+        var d=today.getDate();//获取日
+        var H = today.getHours();//获取时
+        var M = today.getMinutes();//获取分
+        var S = today.getSeconds();//获取秒
+        return h+"-"+m+"-"+d+" "+H+":"+M+":"+S; //返回 年-月-日 时:分:秒
+    }
+    document.getElementById("                                                                                                                                                                                                                                                                                          orderTime").value = today();//将获取到的 年-月-日 时:分:秒 赋给input文本输入框
+
 
     //自定义serializeObject ()函数，格式化
     $.fn.serializeObject = function () {

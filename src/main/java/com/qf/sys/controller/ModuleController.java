@@ -6,7 +6,6 @@ import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Module;
 import com.qf.sys.service.ModuleService;
 import com.qf.utils.LayUIOperate;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,9 +83,9 @@ public class ModuleController {
     }
     @RequestMapping("/updStatus")
     @ResponseBody
-    public LayUIOperate updStatus(Integer id){
+    public LayUIOperate updStatus(Integer id,String status){
         LayUIOperate operate=new LayUIOperate();
-        boolean f= moduleService.updStatus(id);
+        boolean f= moduleService.updStatus(id,status);
         if(f){
             operate.setSuccess(true);
             operate.setMessage("成功！牛逼");

@@ -48,7 +48,17 @@
     </update>
     <update id="updStatus">
         UPDATE role
-        SET status = 2
+        SET status = #{status}
         WHERE id = #{id}
     </update>
+
+    <delete id="delModuleList">
+        DELETE FROM authority WHERE roleId = #{roleId}
+    </delete>
+    <insert id="addModuleList">
+        INSERT INTO authority VALUES
+        <foreach item="moduleId" index="index" collection="array" open="(" separator="),(" close=")">
+            #{roleId},#{moduleId}
+        </foreach>
+    </insert>
 </mapper>
