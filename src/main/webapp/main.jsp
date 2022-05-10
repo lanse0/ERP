@@ -45,10 +45,10 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">营销管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('A_icon.html')">用户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
-                        <dd><a href="">the links</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('market/customer/customerList.jsp')">客户管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">客户浏览</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">订购单管理</a></dd>
+                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">订购单审核</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">

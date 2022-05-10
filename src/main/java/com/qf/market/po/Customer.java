@@ -1,5 +1,8 @@
 package com.qf.market.po;
 
+import com.qf.sys.po.Emp;
+import com.qf.sys.po.Region;
+
 import java.util.Date;
 
 /**
@@ -14,38 +17,59 @@ public class Customer {
     public String sex;//客户性别
     public String phone;//客户联系电话
     public String company;//客户所属公司
-    public int regionId;//客户所属区域Id
+    public Region region;//客户所属区域
     public String status;//客户状态
     public Date createTime;//客户创建时间
     public String creator;//创建人
     public Date allocateTime;//分配时间
-    public String customerStaff;//客户服务人员
+    public Emp emp;//客户服务人员
+    public String description;//描述
+    public String address;//详细地址
 
-    public Customer(int id, String customerName, String sex, String phone, String company, int regionId, String status, Date createTime, String creator, Date allocateTime, String customerStaff) {
+    public Customer() {
+    }
+
+    public Customer(int id, String customerName, String sex, String phone, String company, Region region, String status, Date createTime, String creator, Date allocateTime, Emp emp) {
         this.id = id;
         this.customerName = customerName;
         this.sex = sex;
         this.phone = phone;
         this.company = company;
-        this.regionId = regionId;
+        this.region = region;
         this.status = status;
         this.createTime = createTime;
         this.creator = creator;
         this.allocateTime = allocateTime;
-        this.customerStaff = customerStaff;
+        this.emp = emp;
     }
 
-    public Customer(String customerName, String sex, String phone, String company, int regionId, String status, Date createTime, String creator, Date allocateTime, String customerStaff) {
+    public Customer(String customerName, String sex, String phone, String company, Region region, String status, Date createTime, String creator, Date allocateTime, Emp emp) {
         this.customerName = customerName;
         this.sex = sex;
         this.phone = phone;
         this.company = company;
-        this.regionId = regionId;
+        this.region = region;
         this.status = status;
         this.createTime = createTime;
         this.creator = creator;
         this.allocateTime = allocateTime;
-        this.customerStaff = customerStaff;
+        this.emp = emp;
+    }
+
+    public Customer(int id, String customerName, String sex, String phone, String company, Region region, String status, Date createTime, String creator, Date allocateTime, Emp emp, String description, String address) {
+        this.id = id;
+        this.customerName = customerName;
+        this.sex = sex;
+        this.phone = phone;
+        this.company = company;
+        this.region = region;
+        this.status = status;
+        this.createTime = createTime;
+        this.creator = creator;
+        this.allocateTime = allocateTime;
+        this.emp = emp;
+        this.description = description;
+        this.address = address;
     }
 
     public int getId() {
@@ -88,12 +112,12 @@ public class Customer {
         this.company = company;
     }
 
-    public int getRegionId() {
-        return regionId;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     public String getStatus() {
@@ -128,12 +152,28 @@ public class Customer {
         this.allocateTime = allocateTime;
     }
 
-    public String getCustomerStaff() {
-        return customerStaff;
+    public Emp getEmp() {
+        return emp;
     }
 
-    public void setCustomerStaff(String customerStaff) {
-        this.customerStaff = customerStaff;
+    public void setEmp(Emp emp) {
+        this.emp = emp;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
@@ -144,12 +184,14 @@ public class Customer {
                 ", sex='" + sex + '\'' +
                 ", phone='" + phone + '\'' +
                 ", company='" + company + '\'' +
-                ", regionId=" + regionId +
+                ", region=" + region +
                 ", status='" + status + '\'' +
                 ", createTime=" + createTime +
                 ", creator='" + creator + '\'' +
                 ", allocateTime=" + allocateTime +
-                ", customerStaff='" + customerStaff + '\'' +
+                ", emp=" + emp +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

@@ -1,19 +1,18 @@
-package com.qf.market.dao;
+package com.qf.market.service;
 
-
+import com.github.pagehelper.PageInfo;
 import com.qf.market.po.Orders;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * Copyright (C),2017-2022
- * FileName: OrdersDao
+ * FileName: OrdersService
  * Author: cc
- * Date:2022/5/6 11:37
+ * Date:2022/5/8 14:25
  */
-public interface OrdersDao {
-    List<Orders> findByOrdersPage(Map params);//分页查询订单列表
+public interface OrdersService {
+    public PageInfo<Orders> findByOrdersPage(Map params);//分页查询订单列表
     boolean addOrders(Orders orders);//添加订单
     boolean delOrders(Integer id);//删除订单
     boolean updateOrders(Orders orders);//修改订单

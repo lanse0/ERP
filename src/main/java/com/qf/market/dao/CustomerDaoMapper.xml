@@ -3,22 +3,78 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qf.market.dao.CustomerDao">
-    <select id="findByCustomerPage" resultType="Customer">
-       select * from customer
+    <resultMap id="customerResultMap" type="Customer">
+        <id property="id" column="id"/>
+        <result column="customerName" property="customerName"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="company" property="company"/>
+        <result column="phone" property="phone"/>
+        <result column="sex" property="sex"/>
+        <result column="status" property="status"/>
+        <result column="createTime" property="createTime"/>
+        <result column="creator" property="creator"/>
+        <result column="allocateTime" property="allocateTime"/>
+        <result column="customerStaff" property="customerStaff"/>
+        <association property="region" javaType="Region">
+            <id property="id" column="regionId"/>
+            <result property="regionName" column="regionName"/>
+            <result property="regionCode" column="regionCode"/>
+        </association>
+        <association property="emp" javaType="Emp">
+            <id property="id" column="empId"/>
+            <result property="empName" column="empName"/>
+        </association>
+    </resultMap>
+
+    <!--查询数据-->
+    <select id="findByCustomerPage" resultMap="customerResultMap" parameterType="Customer">
+       select c.*,r.regionName,e.empName
+       from customer c,region r,emp e
+       WHERE
+       c.regionId=r.id and c.empId=e.id
+        <if test="company!=null and company!=''">
+            and c.company like concat('%',#{company},'%')
+        </if>
+        <if test="customerName!=null and customerName!=''">
+            and c.customerName like concat('%',#{customerName},'%')
+        </if>
+        <if test="regionName!=null and regionName!=''">
+            and r.regionName like concat('%',#{regionName},'%')
+        </if>
+        <if test="status!=null and status!=''">
+            and c.status = #{status}
+        </if>
+        ORDER BY c.id ASC
     </select>
+
+    <!--添加客户信息-->
     <insert id="addCustomer" parameterType="Customer">
-        insert into customer(ordersNo,customerId,orderTime,amount,status,auditor,auditTime)
-              values(#{ordersNo},#{customerId},#{orderTime},#{amount},#{status},#{auditor},#{auditTime})
+        insert into customer(customerName,sex,phone,company,regionId,status,createTime,creator)
+              values(#{customerName},#{sex},#{phone},#{company},#{region.id},#{status},now(),#{creator})
     </insert>
-    <delete id="delCustomer" parameterType="Integer">
-        delete from customer where id=#{id}
-    </delete>
+
+    <!--注销客户信息-->
+    <update id="delCustomer" parameterType="Integer">
+        update customer set status=2 where id=#{id}
+    </update>
+
+    <!--修改客户信息-->
     <update id="updateCustomer" parameterType="Customer">
-       update Customer set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},
-                              amount=#{amount},status=#{status},auditor=#{auditor},auditTime=#{auditTime}
+       update customer set customerName=#{customerName},sex=#{sex},phone=#{phone},company=#{company},
+                            regionId=#{region.id},status=#{status},creator=#{creator}
        where id=#{id}
     </update>
+
+    <!--根据id查询数据-->
     <select id="getCustomerById" parameterType="int">
         select * from customer where id={id}
     </select>
+
+    <!--分配客服人员-->
+    <update id="allocateCustomer" parameterType="Customer">
+       update customer set allocateTime=now(),empId=#{emp.id}
+       where id=#{id}
+    </update>
+
 </mapper>

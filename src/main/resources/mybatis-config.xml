@@ -10,6 +10,7 @@
     <typeAliases>
         <package name="com.qf.storage.po"></package>
         <package name="com.qf.sys.po"></package>
+        <package name="com.qf.market.po"></package>
     </typeAliases>
     <mappers>
         <mapper resource="com/qf/storage/dao/StorehouseDaoMapper.xml"></mapper>
@@ -22,5 +23,8 @@
         <mapper resource="com/qf/sys/dao/RegionDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/RoleDaoMapping.xml"></mapper>
         <mapper resource="com/qf/sys/dao/ModuleDaoMapping.xml"></mapper>
+
+        <mapper resource="com/qf/market/dao/CustomerDaoMapper.xml"></mapper>
+        <mapper resource="com/qf/market/dao/OrdersDaoMapper.xml"></mapper>
     </mappers>
 </configuration>

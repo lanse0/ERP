@@ -11,17 +11,17 @@ import java.util.Date;
 public class Orders {
     public int id;//订单序号
     public String ordersNo;//订单编号
-    public int customerId;//客户Id
+    public Customer customer;//客户
     public Date orderTime;//订购时间
     public String amount;//订购金额
     public String status;//订单状态
     public String auditor;//订单创建者
     public Date auditTime;//订单创建时间
 
-    public Orders(int id, String ordersNo, int customerId, Date orderTime, String amount, String status, String auditor, Date auditTime) {
+    public Orders(int id, String ordersNo, Customer customer, Date orderTime, String amount, String status, String auditor, Date auditTime) {
         this.id = id;
         this.ordersNo = ordersNo;
-        this.customerId = customerId;
+        this.customer = customer;
         this.orderTime = orderTime;
         this.amount = amount;
         this.status = status;
@@ -29,9 +29,9 @@ public class Orders {
         this.auditTime = auditTime;
     }
 
-    public Orders(String ordersNo, int customerId, Date orderTime, String amount, String status, String auditor, Date auditTime) {
+    public Orders(String ordersNo, Customer customer, Date orderTime, String amount, String status, String auditor, Date auditTime) {
         this.ordersNo = ordersNo;
-        this.customerId = customerId;
+        this.customer = customer;
         this.orderTime = orderTime;
         this.amount = amount;
         this.status = status;
@@ -55,12 +55,12 @@ public class Orders {
         this.ordersNo = ordersNo;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Date getOrderTime() {
@@ -108,7 +108,7 @@ public class Orders {
         return "Orders{" +
                 "id=" + id +
                 ", ordersNo='" + ordersNo + '\'' +
-                ", customerId=" + customerId +
+                ", customer=" + customer +
                 ", orderTime=" + orderTime +
                 ", amount='" + amount + '\'' +
                 ", status='" + status + '\'' +

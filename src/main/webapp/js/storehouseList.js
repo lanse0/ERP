@@ -6,6 +6,7 @@ layui.use(['table', 'form'], function () {
     table.on('tool(person-table)', function(obj) {
         if (obj.event == 'detail') {
             getSDetail(layer,obj.data);
+
         }
     })
     getProvince('1');

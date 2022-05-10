@@ -6,241 +6,313 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page isELIgnored="false" %>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>客户管理</title>
-    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../../js/jquery.js"></script>
-    <script type="text/javascript">
-        function tipOpen(content) {
-            $(".tipright p").text(content);
-            $("#tip").fadeIn(200);
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/market/js/customerLsit.js"></script>
+    <style>
+        .layui-form-label.layui-required:after {
+            content: '*';
+            color: red;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            left: 15px;
         }
-        function tipClose() {
-            $("#tip").fadeOut(200);
+
+        .frm {
+            margin-top: 20px;
         }
-        function allottipOpen() {
-            $("#allottip").fadeIn(200);
+
+        .div-hide {
+            display: none;
         }
-        function allottipclose() {
-            $("#allottip").fadeOut(200);
-        }
-    </script>
+    </style>
+
 </head>
 
 <body>
-<div class="place"> <span>位置：</span>
-    <ul class="placeul">
-        <li>营销管理</li>
-        <li>客户管理</li>
-        <li>基本内容</li>
-    </ul>
-</div>
-<div class="rightinfo">
-    <form action="" method="post">
-        <ul class="tools">
-            <li> 公司名称:
-                <input type="text" size="12" />
-            </li>
-            <li> 客户姓名:
-                <input type="text" size="12" />
-            </li>
-            <li> 所属区域：
-                <select>
-                    <option>请选择省份</option>
-                    <option>北京</option>
-                    <option>江苏</option>
-                    <option>天津</option>
-                </select>
-                <select>
-                    <option>请选择城市</option>
-                    <option>北京</option>
-                    <option>南京</option>
-                    <option>天津</option>
-                </select>
-            </li>
-            <li> 状态：
-                <select>
-                    <option>请选择     </option>
-                    <option value="1">可用</option>
-                    <option value="0">不可用</option>
-                </select>
-            </li>
-            <li> 是否分配：
-                <select>
-                    <option>请选择     </option>
-                    <option value="1">已分配</option>
-                    <option value="0">未分配</option>
-                </select>
-            </li>
-            <li class="subBut" onclick="window.location.href='customerList.html'"><img src="../../images/t06.png" />查询</li>
-            <li class="subBut" onclick="window.location.href='customerAdd.html'"><img src="../../images/t01.png" />添加</li>
-        </ul>
-        <table class="tablelist">
-            <thead>
+    <blockquote class="layui-elem-quote layui-text layui-form">
+        <table>
             <tr>
-                <th>序号</th>
-                <th>客户姓名</th>
-                <th>性别</th>
-                <th>联系电话</th>
-                <th>所属公司</th>
-                <th>所属区域</th>
-                <th>状态</th>
-                <th>创建时间</th>
-                <th>创建人</th>
-                <th>分配时间</th>
-                <th>客户人员</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>王金平</td>
-                <td>男</td>
-                <td>17370899727</td>
-                <td>阿里巴巴</td>
-                <td>江苏南京</td>
-                <td>可用</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td></td>
-                <td></td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                    <a href="customerUpdate.html" class="tablelink">修改</a>
-                    <a href="javascript:void(0)" class="tablelink" onclick="tipOpen('是否确认注销此条信息？')">注销</a>
-                    <a href="javascript:void(0);" class="tablelink" onclick="allottipOpen()">分配</a>
+                <td style="width: 140px;">
+                    <input type="text" id="company1" placeholder="公司名称" autocomplete="off" class="layui-input ipt1">
                 </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>张永祥</td>
-                <td>女</td>
-                <td>17370897894</td>
-                <td>腾讯公司</td>
-                <td>江苏南京</td>
-                <td>不可用</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>关羽</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                    <a href="javascript:void(0)" class="tablelink" onclick="tipOpen('是否确认恢复此条信息？')">恢复</a>
-                    <a href="javascript:void(0);" class="tablelink" onclick="allottipOpen()">分配</a>
+                <td width="10">&nbsp;</td>
+                <td style="width: 140px;">
+                    <input type="text" id="customerName1" placeholder="客户姓名" autocomplete="off" class="layui-input ipt1">
                 </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>王金平</td>
-                <td>男</td>
-                <td>17370899727</td>
-                <td>阿里巴巴</td>
-                <td>江苏南京</td>
-                <td>可用</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td></td>
-                <td></td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                    <a href="customerUpdate.html" class="tablelink">修改</a>
-                    <a href="javascript:void(0)" class="tablelink" onclick="tipOpen('是否确认注销此条信息？')">注销</a>
-                    <a href="javascript:void(0);" class="tablelink" onclick="allottipOpen()">分配</a>
+                <td width="10">&nbsp;</td>
+                <td  style="width: 100px;">
+                    <select id="province1" lay-filter="province1" lay-verify="required">
+                        <option value="" selected>所属区域</option>
+                    </select>
                 </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>张永祥</td>
-                <td>女</td>
-                <td>17370897894</td>
-                <td>腾讯公司</td>
-                <td>江苏南京</td>
-                <td>不可用</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>管理员</td>
-                <td>2013-09-09 15:05:05</td>
-                <td>关羽</td>
-                <td>
-                    <a href="customerView.html" class="tablelink">查看详情</a>
-                    <a href="javascript:void(0)" class="tablelink" onclick="tipOpen('是否确认恢复此条信息？')">恢复</a>
-                    <a href="javascript:void(0);" class="tablelink" onclick="allottipOpen()">分配</a>
+                <td style="width: 100px;">
+                    <select id="city1" lay-filter="city1" lay-verify="required">
+                        <option value="" selected>所属区域</option>
+                    </select>
                 </td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="pagin">
-            <div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
-            <ul class="paginList">
-                <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-                <li class="paginItem"><a href="javascript:;">1</a></li>
-                <li class="paginItem current"><a href="javascript:;">2</a></li>
-                <li class="paginItem"><a href="javascript:;">3</a></li>
-                <li class="paginItem"><a href="javascript:;">4</a></li>
-                <li class="paginItem"><a href="javascript:;">5</a></li>
-                <li class="paginItem more"><a href="javascript:;">...</a></li>
-                <li class="paginItem"><a href="javascript:;">10</a></li>
-                <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
-            </ul>
-        </div>
-    </form>
-    <!-- 提示框 -->
-    <div id="tip" class="tip">
-        <div class="tiptop"><span>提示信息</span><a onclick="tipClose()"></a></div>
-        <div class="tipinfo"> <span><img src="../../images/ticon.png" /></span>
-            <div class="tipright">
-                <p></p>
-                <cite>如果是请点击确定按钮 ，否则请点取消。</cite> </div>
-        </div>
-        <div class="tipbtn">
-            <input name="" type="button"  class="sure" value="确定" onclick="tipClose()" />
-            &nbsp;
-            <input name="" type="button"  class="cancel" value="取消" onclick="tipClose()" />
-        </div>
-    </div>
-    <!-- 审批提示框 -->
-    <div id="allottip" class="tip">
-        <div class="tiptop">
-            <span>提示信息</span><a onclick="allottipclose()"></a>
-        </div>
-        <div class="tipinfo1">
+                <td width="10">&nbsp;</td>
+                <td  style="width: 100px;">
+                    <select id="status1" name="status">
+                        <option value="" selected>选择状态</option>
+                        <option value="1">可用</option>
+                        <option value="2">不可用</option>
+                    </select>
+                </td>
+                <td width="10">&nbsp;</td>
+                <td>
+                    <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
+                    <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
+                    <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
+                    <button class="layui-btn layui-btn-warm btn-allocate"><i class="layui-icon">&#xe642;</i>分配</button>
+                    <button class="layui-btn layui-btn-danger btn-del"><i class="layui-icon">&#xe640;</i>注销</button>
+                    <button class="layui-btn btn-detail"><i class="layui-icon">&#xe615;</i>查看详情</button>
 
-            部门：
-            <select class="dfselect" disabled="disabled">
-                <option>请选择</option>
-                <option selected="selected">市场部</option>
-                <option>采购部</option>
-                <option>财务部</option>
-            </select>
-            <p/>
-            职位：
-            <select class="dfselect">
-                <option>请选择</option>
-                <option>一组组员</option>
-                <option>二组组员</option>
-                <option>三组组员</option>
-            </select>
-            <p/>
-            姓名：
-            <select class="dfselect">
-                <option>请选择</option>
-                <option>刘备</option>
-                <option>曹操</option>
-            </select>
-            <p/>
-        </div>
-        <div class="tipbtn">
-            <input name="" type="button"  class="sure" value="确定" onclick="allottipclose()" />
-            &nbsp;
-            <input name="" type="button"  class="cancel" value="取消" onclick="allottipclose()" />
-        </div>
+
+
+                </td>
+            </tr>
+        </table>
+    </blockquote>
+    <!--数据表格-->
+    <input type="hidden" id="cId">
+    <table id="CustomerTable" class="layui-hide" lay-filter="person-table"></table>
+    <!--人员表单-->
+    <div id="box" class="div-hide">
+        <form id="CustomerForm" class="layui-form frm" lay-filter="customer-form">
+            <input type="hidden" id="id" name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="customerName" name="customerName" lay-verify="required" placeholder="客户姓名"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <input name="sex" value="1" title="男" checked type="radio">
+                <input name="sex" value="0" title="女" type="radio">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" required lay-verify="required" placeholder="电话"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属公司</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="company" name="company" required lay-verify="required" placeholder="所属公司"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属区域</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="province" lay-filter="province" lay-verify="required">
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="city" name="region.id" lay-filter="city" lay-verify="required">
+                    </select>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="status" name="status">
+                        <option value="" selected>选择状态</option>
+                        <option value="1">可用</option>
+                        <option value="2">不可用</option>
+                    </select>
+                </div>
+            </div>
+            <%--<div class="layui-form-item">--%>
+                <%--<label class="layui-form-label">创建时间</label>--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="date" id="createTime" name="createTime" required lay-verify="required" placeholder="创建时间"--%>
+                           <%--autocomplete="off" class="layui-input">--%>
+                <%--</div>--%>
+            <%--</div>--%>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">创建者</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="creator" name="creator" required lay-verify="required" placeholder="创建者"
+                           autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            <%--<div class="layui-form-item">--%>
+                <%--<label class="layui-form-label">分配时间</label>--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="date" id="allocateTime" name="allocateTime" required lay-verify="required" placeholder="分配时间"--%>
+                           <%--autocomplete="off" class="layui-input">--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="layui-form-item">--%>
+                <%--<label class="layui-form-label">客服人员</label>--%>
+                <%--&lt;%&ndash;<div class="layui-input-inline" style="width: 130px;">&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;&lt;%&ndash;<select id="customerStaff" lay-filter="customerStaff">&ndash;%&gt;&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;&lt;%&ndash;</select>&ndash;%&gt;&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="text" id="customerStaff" name="customerStaff" required lay-verify="required" placeholder="客服人员"--%>
+                           <%--autocomplete="off" class="layui-input" value="">--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <div>
+                <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
+                <button type="reset" class="layui-btn form-reset layui-hide"></button>
+            </div>
+        </form>
     </div>
-</div>
-<script type="text/javascript">
-    $('.tablelist tbody tr:odd').addClass('odd');
-</script>
+
+    <!--分配表单-->
+    <div id="allocate" class="div-hide">
+        <form id="AllocateForm" class="layui-form frm" lay-filter="allocate-form">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="dept" name="" lay-filter="dept" lay-verify="required">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="role" lay-filter="role" lay-verify="required">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <select id="emp" name="emp.id">
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button class="layui-btn form-save layui-hide" lay-submit lay-filter="saveAllocate"></button>
+                <button type="reset" class="layui-btn form-reset layui-hide"></button>
+            </div>
+        </form>
+    </div>
+
+    <%--查看详细信息--%>
+    <div id="viewBox" class="div-hide">
+        <form id="formtitle" class="layui-form frm" lay-filter="customerView-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户编号</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="id" lay-verify="required" placeholder="客户姓名"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">客户姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="customerName" lay-verify="required" placeholder="客户姓名"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                    <input type="text"  name="sex" required lay-verify="required" placeholder="性别"
+                       autocomplete="off" class="layui-input" readonly="readonly" style="width: 190px">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="phone" required lay-verify="required" placeholder="电话"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属公司</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="company" required lay-verify="required" placeholder="所属公司"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属区域</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="region.regionName" required lay-verify="required" placeholder="所属区域"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="status" required lay-verify="required" placeholder="状态"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">创建时间</label>
+                <div class="layui-input-inline">
+                    <input type="date" id="createTime" name="createTime" required lay-verify="required" placeholder="创建时间"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">创建者</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="creator" required lay-verify="required" placeholder="创建者"
+                           autocomplete="off" class="layui-input" value="" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">分配时间</label>
+                <div class="layui-input-inline">
+                    <input type="date"  name="allocateTime" required lay-verify="required" placeholder="分配时间"
+                           autocomplete="off" class="layui-input" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">客服人员</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="customerStaff" required lay-verify="required" placeholder="客服人员"
+                           autocomplete="off" class="layui-input" value="" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">详细地址</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="address" required lay-verify="required" placeholder="详细地址"
+                           autocomplete="off" class="layui-input" value="" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="description" required lay-verify="required" placeholder="描述"
+                           autocomplete="off" class="layui-input" value="" readonly="readonly">
+                </div>
+            </div>
+            <div>
+                <button class="layui-btn  layui-hide" lay-submit lay-filter="back" onclick="window.history.go(-1);"></button>
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>
 
