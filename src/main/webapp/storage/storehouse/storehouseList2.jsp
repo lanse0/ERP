@@ -61,7 +61,7 @@
 <!--人员表单-->
 <div id="box2" class="div-hide">
 </div>
-<ul id="detail" class="forminfo">
+<ul id="detail" class="forminfo">0
 </ul>
 <div id="box" class="div-hide">
     <form id="PersonForm" class="layui-form frm" lay-filter="person-form">
