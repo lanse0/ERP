@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>信息管理系统</title>
     <link rel="stylesheet" href="./layui/css/layui.css">
-    <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">

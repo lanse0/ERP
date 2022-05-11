@@ -12,4 +12,6 @@ public interface StorehouseDao {
     boolean updateStorehouse(Storehouse storehouse);//修改仓库
     Storehouse getStorehouseById(int id);//根据id获取仓库信息
     List<Storehouse> findAllStorehouse();//查询所有
+    List<Storehouse> getEchartsPie();//查询所有
+    List<Storehouse> getStorehouseByM(Integer id);
 }
