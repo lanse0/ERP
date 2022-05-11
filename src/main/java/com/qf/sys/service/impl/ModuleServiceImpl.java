@@ -67,4 +67,9 @@ public class ModuleServiceImpl implements ModuleService {
         }
         return f;
     }
+
+    @Override
+    public List<Module> getAllModuleAndChile() {
+        return moduleDao.getAllModuleAndChile();
+    }
 }

@@ -1,6 +1,5 @@
 package com.qf.sys.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.qf.sys.dao.RoleDao;
 import com.qf.sys.po.Role;
@@ -91,5 +90,10 @@ public class RoleServiceImpl implements RoleService {
             e.printStackTrace();
         }
         return f;
+    }
+
+    @Override
+    public int[] getModuleArray(int roleId) {
+        return roleDao.getModuleArray(roleId);
     }
 }

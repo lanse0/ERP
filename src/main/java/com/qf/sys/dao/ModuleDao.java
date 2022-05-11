@@ -11,4 +11,5 @@ public interface ModuleDao {
     public boolean addModule(Module module);
     public boolean updModule(Module module);
     public boolean updStatus(@Param("id") int id,@Param("status") String status );
+    public List<Module> getAllModuleAndChile();
 }

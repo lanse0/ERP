@@ -69,6 +69,10 @@
 </blockquote>
 <!--数据表格-->
 <table id="EmpTable" class="layui-hide" lay-filter="person-table"></table>
+<script type="text/html" id="checkStatus">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="在职|离职"
+           lay-filter="statusDemo" {{ d.status == 1 ? 'checked':''}}>
+</script>
 <!--人员表单-->
 <div id="box" class="div-hide">
     <form id="EmpForm" class="layui-form frm" lay-filter="emp-form">

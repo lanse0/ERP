@@ -11,4 +11,5 @@ public interface ModuleService {
     public boolean addModule(Module module);
     public boolean updModule(Module module);
     public boolean updStatus(int id,String status);
+    public List<Module> getAllModuleAndChile();
 }
