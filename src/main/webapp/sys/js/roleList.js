@@ -184,54 +184,60 @@ layui.use(['table', 'form', 'tree', 'util'], function () {
         return false;
     });
 
-    //赋权初始化
+    //获取模块数据
+    function getData() {
+        var data = [];
+        $.ajax({
+            url: "modules/treeload",    //后台数据请求地址
+            type: "post",
+            async: false,
+            success: function (result) {
+                data = JSON.parse(result);
+            }
+        });
+        console.log(data);
+        return data;
+    }
+    //获取角色权限数组
+    function getModuleArray(roleId){
+        var array = [];
+        $.ajax({
+            url: "/role/getModuleArray",    //后台数据请求地址
+            type: "post",
+            async: false,
+            data:{
+                roleId:roleId
+            },
+            success: function (result) {
+                array = JSON.parse(result);
+            }
+        });
+        console.log(array);
+        return array;
+    }
+    //赋值数据回显
     $('.btn-auth').on('click', function () {
+        //赋权复选框初始化
+        tree.render({
+            elem: '#test5',
+            checkChirld:false,//是否需要关联子节点 需要修改tree.js文件
+            data: getData(),
+            id: 'treeId',
+            showCheckbox: true,
+            click: function (obj) {
+                var data = obj.data;  //获取当前点击的节点数据
+                // layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+            }
+        });
         var cs = table.checkStatus('RoleTable');
         var data = cs.data;
         var i = data.length;
         if (i === 1) {
             form.val('auth-form', data[0]);
             var roleId = $('#roleId').val();
-            $.ajax({
-                url: '/modules/getAllModulesList',
-                type: 'get',
-                data: {
-                    limit: 100,
-                    page: 1
-                },
-                dataType: 'json',
-                success: function (resp) {
-                    var list = resp.data;
-                    var list2 = resp.data;
-                    console.log(list);
-                    var list_str = '';
-                    //遍历父模块
-                    $.each(list, function (i, value) {
-                        if (value.parent == null) {
-                            list_str += '<div class="layui-form-item">';
-                            list_str += '<ul>';
-                            list_str += '<a href="javaScript:void(0)"><input type="checkbox" value="' + value.id + '">' + value.moduleName + '</a>';
-                            $.each(list2, function (i, value2) {
-                                if (value2.parent != null) {
-                                    if (value2.parent.id === value.id) {
-                                        list_str += '<li>';
-                                        list_str += '<input type="checkbox" value="' + value2.id + '">' + value2.moduleName + '';
-                                        list_str += '</li>';
-                                    }
-                                }
-                            });
-                            list_str += '</ul>';
-                            list_str += '<div class="layui-form-item"></div>';
-                        }
-                        //遍历子模块
-                    });
-                    console.log(list_str);
-                    $('#authListBox').html('');
-                    $('#authListBox').append(list_str);
-                    form.render();
-                }
-            });
-
+            console.log(roleId);
+            var array = getModuleArray(roleId);
+            tree.setChecked('treeId',array);
             layer.open({
                 type: 1,
                 shift: 2,
@@ -257,15 +263,17 @@ layui.use(['table', 'form', 'tree', 'util'], function () {
             layer.msg('请选择一条信息进行修改', {icon: 5});
         }
     });
-
     //监听赋值
     form.on('submit(saveAuth)', function (data) {
-        console.log(data);
-        var id = $('#id').val(); //id的值为空时用户进行了添加操作
+        console.log(data.field);
+        var moduleData = data.field
+        // var moduleData = tree.getChecked('treeId');
+        console.log(JSON.stringify(moduleData));
+        var id = $('#id').val(); //获取操作了哪个角色
         layer.load(1);
         $.ajax({
-            url: '',
-            data: JSON.stringify(json_data),
+            url: '/role/addModuleList',
+            data: JSON.stringify(moduleData),
             type: 'post',
             dataType: 'json',
             contentType: "application/json",
@@ -273,12 +281,12 @@ layui.use(['table', 'form', 'tree', 'util'], function () {
                 layer.closeAll('loading');
                 var flag = resp.success;
                 if (flag) {
-                    table.reload('RoleTable', {
-                        where: {},
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
+                    // table.reload('RoleTable', {
+                    //     where: {},
+                    //     page: {
+                    //         curr: 1 //重新从第 1 页开始
+                    //     }
+                    // });
                     layer.msg(resp.message, {icon: 6});
                 } else {
                     layer.msg(resp.message, {icon: 5});

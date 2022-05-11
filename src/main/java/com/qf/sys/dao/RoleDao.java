@@ -1,6 +1,5 @@
 package com.qf.sys.dao;
 
-import com.qf.sys.po.Emp;
 import com.qf.sys.po.Role;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +16,7 @@ public interface RoleDao {
     //权限操作 添加权限先将该角色所有权限删除再一次性添加
     public boolean delModuleList(@Param("roleId")int roleId);
     public boolean addModuleList(@Param("roleId")int roleId,@Param("array") int[] modules);
+
+    //获取角色拥有的权限
+    public int[] getModuleArray(@Param("roleId")int roleId);
 }

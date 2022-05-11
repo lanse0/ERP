@@ -61,4 +61,7 @@
             #{roleId},#{moduleId}
         </foreach>
     </insert>
+    <select id="getModuleArray" resultType="int">
+        select moduleId from authority where roleId = #{roleId}
+    </select>
 </mapper>

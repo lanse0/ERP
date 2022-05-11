@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * FileName: RoleController
@@ -121,9 +119,27 @@ public class RoleController {
     }
     @RequestMapping("/addModuleList")
     @ResponseBody
-    public LayUIOperate addModuleList(Integer roleId, int[] modules){
+    public LayUIOperate addModuleList(@RequestBody Map<String,String> data){
+        int roleId = Integer.parseInt(data.get("id"));  //获取角色id
+        data.remove("id");  //获取成功后移除角色id(map的size-1)
+        int[] modules = new int[data.size()]; //模块数组
+        int i = 0;
+        for (String key: data.keySet()){//遍历map将模块ID添加到int数组内
+            String value = data.get(key);
+//            System.out.println(key+":"+value);
+            modules[i] = Integer.parseInt(value);
+            i++;
+        }
+        System.out.println(roleId);
+        System.out.println(Arrays.toString(modules));
+        //先清空角色权限
+        boolean f = roleService.delModuleList(roleId);
+        if (f){
+            //再添加权限
+            f = roleService.addModuleList(roleId,modules);
+        }
+        //返回layui执行结果
         LayUIOperate operate = new LayUIOperate();
-        boolean f = roleService.addModuleList(roleId,modules);
         if (f){
             operate.setSuccess(true);
             operate.setMessage("成功!");
@@ -132,5 +148,11 @@ public class RoleController {
             operate.setMessage("错误!");
         }
         return operate;
+    }
+
+    @RequestMapping("/getModuleArray")
+    @ResponseBody
+    public int[] getModuleArray(Integer roleId){
+        return roleService.getModuleArray(roleId);
     }
 }

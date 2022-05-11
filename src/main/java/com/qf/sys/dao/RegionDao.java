@@ -1,6 +1,7 @@
 package com.qf.sys.dao;
 
 import com.qf.sys.po.Emp;
+import com.qf.sys.po.Module;
 import com.qf.sys.po.Region;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,4 +15,5 @@ public interface RegionDao {
     public List<Region> getCityByPId(@Param("pId") int pId);
     //获取所有省份
     public List<Region> getProvince();
+
 }

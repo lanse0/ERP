@@ -1,6 +1,7 @@
 package com.qf.sys.po;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * FileName: Module
@@ -15,6 +16,7 @@ public class Module {
     private Date createTime;//创建时间
     private Date updateTime;//更新时间
     private String status;//状态
+    private List<Module> chileList;//子模块集合
 
     public Module() {
     }
@@ -23,6 +25,14 @@ public class Module {
         this.moduleName = moduleName;
         this.parent = parent;
         this.url = url;
+    }
+
+    public List<Module> getChileList() {
+        return chileList;
+    }
+
+    public void setChileList(List<Module> chileList) {
+        this.chileList = chileList;
     }
 
     @Override
@@ -35,6 +45,7 @@ public class Module {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", status='" + status + '\'' +
+                ", chileList=" + chileList +
                 '}';
     }
 
