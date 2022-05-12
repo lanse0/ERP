@@ -64,43 +64,45 @@ layui.use(['table', 'form'], function () {
         getRole(data.value);
     });
 
-    //表格渲染
+    //订单表格渲染
     table.render({
-        elem: '#CustomerBrowseTable',
-        url: '/market/getAllCustomerList',
+        elem: '#OrdersTable',
+        url: '/orders/findByOrdersPage',
         height: 'full-90',
         cellMinWidth: 80,
         cols: [[ //表头
             {type: 'radio'},
             {field: 'id', title: '序号',event:'detail',templet: "<div>{{d.id+'(查看详情)'}}</div>"},
-            {field: 'customerName', title: '客户姓名'},
-            {field: 'sex', title: '性别',templet:"<div>{{d.sex=='1'?'男':'女' }}</div>"},
-            {field: 'phone', title: '联系电话'},
-            {field: 'company', title: '所属公司'},
-            {field: 'regionName', title: '所属区域',templet:function (customer) {return customer.region.regionName}},
-            {field: 'allocateTime', title: '分配时间', templet: "<div>{{ layui.util.toDateString(d.allocateTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
-            {field: 'empName', title: '客服人员',templet:function (customer) {return customer.emp.empName}}
+            {field: 'ordersNo', title: '订单编号'},
+            {field: 'customerName', title: '客户姓名',templet:function (orders) {return orders.customer.customerName}},
+            {field: 'phone', title: '联系电话',templet:function (orders) {return orders.customer.phone}},
+            {field: 'amount', title: '订单金额'},
+            {field: 'orderTime', title: '订购时间', templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>"},
+            {field: 'status', title: '审核状态', templet:function (orders) { var status =orders.status;switch (status) {case "1":status="未审核";break;
+                    case "2":status="审核中";break;case "3":status="审核通过";break;case "4":statsu="审核不通过";break;} return status}}
+
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数
         , limits: [10, 20, 30] //自定义分页数据选项
-        , id: 'CustomerBrowseTable' //用于绑定模糊查询条件等等
+        , id: 'OrdersTable' //用于绑定模糊查询条件等等
         , /*done:function(res){
             var data = res.data;
         }*/
         done: function () {
-            table.resize('CustomerBrowseTable');
+            table.resize('OrdersTable');
         }
     });
+
     //查询
     $('.btn-search').on('click', function () {
-        var company = $('#company1').val();
+        var ordersNo = $('#ordersNo1').val();
         var customerName = $('#customerName1').val();
         //var dept = $('#dept').val();
         var status = $('#status1').val();
         // console.log(empNo + "," + empName + "," + dept + "," + status);
-        table.reload('CustomerBrowseTable', {
-            url: '/market/getAllCustomerList',
+        table.reload('OrdersTable', {
+            url: '/orders/findByOrdersPage',
             method: 'post',
             dataType: 'json',
             where: { //设定异步数据接口的额外参数，任意设
@@ -116,13 +118,47 @@ layui.use(['table', 'form'], function () {
     });
 
 
+    //审核
+    $('.btn-audit').on('click', function () {
+        getMaster();
+        var cs = table.checkStatus('OrdersTable');
+        var data = cs.data;
+        var i = data.length;
+        if (i === 1) {
+            console.log(data)
+            form.val('audit-form', data[0]);
+            layer.open({
+                type: 1,
+                shift: 2,
+                shade: 0,
+                title: '分配客服人员信息',
+                area: ['400px', '300px'],
+                closeBtn: false,
+                shadeClose: false,
+                content: $('#audit'),
+                btnAlign: 'c',
+                btn: ['保存', '关闭'],
+                yes: function (index, layero) {
+                    layero.find('.form-save').click();
+                    return false; //开启该代码可禁止点击该按钮关闭弹窗
+                },
+                btn2: function (index, layero) {
+                    //默认关闭弹窗
+                }
+            });
+            /* 渲染表单 */
+            form.render();
+        } else {
+            layer.msg('请选择一条人员信息进行审核', {icon: 5});
+        }
+    });
+
+
     //查看详细信息
     table.on('tool(person-table)', function(obj) {
         if (obj.event == 'detail') {
-
-
             $.ajax({
-                url: '/market/getCustomerById',
+                url: '/orders/getOrdersById',
                 type: 'post',
                 data: {
                     id: obj.data.id
@@ -135,55 +171,85 @@ layui.use(['table', 'form'], function () {
 
         }
     })
+
+
+    function getStatus(data) {
+        var status=null;
+        switch (data) {
+            case "1":status="未审核";break;
+            case "2":status="审核中";break;
+            case "3":status="审核通过";break;
+            case "4":status="审核不通过";break;
+
+        }
+        return status;
+    }
     function getSDetail(layer,data){
         $("#detail").html("");
-        $("#detail").append("     <li>\n" +
-            "            <label>客户编号</label>\n" +
+        $("#detail").append(
+            "        <li>\n" +
+            "            <label>序号</label>\n" +
             "            <cite>"+data.id+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
+            "            <label>订单编号</label>\n" +
+            "            <cite>"+data.ordersNo+"</cite>\n" +
+            "        </li>\n" +
+            "        <li>\n" +
             "            <label>客户姓名</label>\n" +
-            "            <cite>"+data.customerName+"</cite>\n" +
+            "            <cite>"+data.customer.customerName+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>性别</label>\n" +
-            "            <cite>"+(data.status==1?"男":"女")+"</cite>\n" +
+            "            <label>客户电话</label>\n" +
+            "            <cite>"+data.customer.phone+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>电话</label>\n" +
-            "            <cite>"+data.phone+"</cite>\n" +
+            "            <label>订购时间</label>\n" +
+            "            <cite>"+layui.util.toDateString(data.orderTime, 'yyyy-MM-dd HH:mm:ss')+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>所属公司</label>\n" +
-            "            <cite>"+data.company+"</cite>\n" +
+            "            <label>订购金额</label>\n" +
+            "            <cite>"+data.amount+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>所属区域</label>\n" +
-            "            <cite>"+data.region.regionName+"</cite>\n" +
+            "            <label>操作人</label>\n" +
+            "            <cite>"+data.emp.empName+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>状态</label>\n" +
-            "            <cite>"+(data.status==1?"可用":"不可用")+"</cite>\n" +
+            "            <label>审核状态</label>\n" +
+            "            <cite>"+getStatus(data.status)+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>创建时间</label>\n" +
-            "            <cite>"+layui.util.toDateString(data.createTime, 'yyyy-MM-dd HH:mm:ss')+"</cite>\n" +
+            "            <label>审核内容</label>\n" +
+            "            <cite>"+(data.auditContext==null?'':data.auditContext)+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>创建人</label>\n" +
-            "            <cite>"+data.creator+"</cite>\n" +
+            "            <label>审核时间</label>\n" +
+            "            <cite>"+layui.util.toDateString(data.auditTime, 'yyyy-MM-dd HH:mm:ss')+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>分配时间</label>\n" +
-            "            <cite>"+layui.util.toDateString(data.allocateTime, 'yyyy-MM-dd HH:mm:ss')+"</cite>\n" +
+            "            <label>商品品牌</label>\n" +
+            "            <cite>"+(data.brand==null?'':data.brand)+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>地址</label>\n" +
-            "            <cite>"+data.address+"</cite>\n" +
+            "            <label>商品类型</label>\n" +
+            "            <cite>"+(data.brandType==null?'':data.brandType)+"</cite>\n" +
             "        </li>\n" +
             "        <li>\n" +
-            "            <label>描述</label>\n" +
-            "            <cite>"+data.description+"</cite>\n" +
+            "            <label>商品型号</label>\n" +
+            "            <cite>"+(data.brandModel==null?'':data.brandModel)+"</cite>\n" +
+            "        </li>\n" +
+            "        <li>\n" +
+            "            <label>商品数量</label>\n" +
+            "            <cite>"+(data.number==null?'':data.number)+"</cite>\n" +
+            "        </li>\n" +
+            "        <li>\n" +
+            "            <label>商品价格</label>\n" +
+            "            <cite>"+(data.price==null?'':data.price)+"</cite>\n" +
+            "        </li>\n" +
+            "        <li>\n" +
+            "            <label>总金额</label>\n" +
+            "            <cite>"+data.amount+"</cite>\n" +
             "        </li>");
         layer.open({
             type: 1,
@@ -202,6 +268,49 @@ layui.use(['table', 'form'], function () {
         });
     }
 
+
+    //提交监听，submit(save)对应的是提交按钮的lay-filter属性   提交分配信息
+    form.on('submit(save)', function (data) {
+        var json_data = $("#AuditForm").serializeObject();
+        console.log(json_data);
+        var url = '-';
+        url = '/orders/auditOrders';
+        layer.load(1);
+        $.ajax({
+            url: url,
+            data: JSON.stringify(json_data),
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            success: function (resp) {
+                layer.closeAll('loading');
+                var flag = resp.success;
+                if (flag) {
+                    table.reload('OrdersTable', {
+                        where: {},
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    layer.msg(resp.message, {icon: 6});
+                } else {
+                    layer.msg(resp.message, {icon: 5});
+                }
+            },
+            error: function () {
+                layer.closeAll('loading');
+                layer.msg('系统错误，请联系管理员', {icon: 5});
+            }
+        });
+        return false;
+    });
+
+    $(function (){
+        $("input").blur(function (){
+            var sum = parseInt($("#price").val()) * parseInt($("#number").val());
+            $("#amount").val(sum);
+        })
+    })
 
     function getProvince() {
         $.ajax({
@@ -290,6 +399,18 @@ layui.use(['table', 'form'], function () {
             }
         });
     }
+
+    function today(){//构建方法
+        var today=new Date();//new 出当前时间
+        var h=today.getFullYear();//获取年
+        var m=today.getMonth()+1;//获取月
+        var d=today.getDate();//获取日
+        var H = today.getHours();//获取时
+        var M = today.getMinutes();//获取分
+        var S = today.getSeconds();//获取秒
+        return h+"-"+m+"-"+d+" "+H+":"+M+":"+S; //返回 年-月-日 时:分:秒
+    }
+
 
     //自定义serializeObject ()函数，格式化
     $.fn.serializeObject = function () {

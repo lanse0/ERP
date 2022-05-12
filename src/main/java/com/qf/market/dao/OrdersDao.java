@@ -19,4 +19,5 @@ public interface OrdersDao {
     boolean updateOrders(Orders orders);//修改订单
     Orders getOrdersById(int id);//根据id获取订单信息
     List<Orders> getAll();//分页查询订单列表
+    boolean auditOrders(Orders orders);//审核
 }

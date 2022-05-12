@@ -9,6 +9,14 @@
         <result column="orderTime" property="orderTime"/>
         <result column="amount" property="amount"/>
         <result column="status" property="status"/>
+        <result column="bid" property="bid"/>
+        <result column="brand" property="brand"/>
+        <result column="brandType" property="brandType"/>
+        <result column="brandModel" property="brandModel"/>
+        <result column="number" property="number"/>
+        <result column="price" property="price"/>
+        <result column="auditContext" property="auditContext"/>
+
         <association property="customer" javaType="Customer">
             <id property="id" column="customerId"/>
             <result property="customerName" column="customerName"/>
@@ -39,21 +47,38 @@
 
     <!--添加-->
     <insert id="addOrders" parameterType="Orders">
-        insert into orders(ordersNo,customerId,orderTime,amount,status,empId,auditTime)
-              values(#{ordersNo},#{customerId},#{orderTime},#{amount},#{emp.id},#{auditor},#{auditTime})
+        insert into orders(ordersNo,customerId,orderTime,amount,status,empId,auditTime,bid,brand,brandType,brandModel,number,price)
+              values(#{ordersNo},#{customer.id},#{orderTime},#{amount},#{status},#{emp.id},now(),#{bid},#{brand},#{brandType},#{brandModel},#{number},#{price})
     </insert>
+
+    <!--删除-->
     <delete id="delOrders" parameterType="Integer">
         delete from orders where id=#{id}
     </delete>
+
+    <!--修改-->
     <update id="updateOrders" parameterType="Orders">
-       update orders set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},
-                              amount=#{amount},status=#{status},auditor=#{auditor},auditTime=#{auditTime}
+       update orders set ordersNo=#{ordersNo},customerId=#{customerId},orderTime=#{orderTime},amount=#{amount},status=#{status},
+                            auditTime=#{auditTime},bid=#{bid},brand=#{brand},brandType=#{brandType},brandModel=#{brandModel},number=#{number},price=#{price}
        where id=#{id}
     </update>
-    <select id="getOrdersById" parameterType="int">
-        select * from orders where id={id}
+
+    <!--根据id查询所有数据-->
+    <select id="getOrdersById" parameterType="int" resultMap="ordersResultMap">
+        select o.*,c.customerName,c.phone,e.empName from orders o,customer c,emp e
+              where o.customerId=c.id and e.id=o.empId and  o.id=#{id}
     </select>
+
+
     <select id="getAll" resultType="Orders">
         select * from orders where status=1
     </select>
+
+
+    <!--审核-->
+    <update id="auditOrders" parameterType="Orders">
+      update orders set status=#{status},auditTime=now(),auditContext=#{auditContext}
+          where id=#{id}
+
+    </update>
 </mapper>
