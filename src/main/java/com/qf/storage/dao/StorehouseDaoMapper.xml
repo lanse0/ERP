@@ -62,4 +62,17 @@
     <select id="findAllStorehouse" resultType="Storehouse">
         select * from storehouse
     </select>
+    <resultMap id="getEchartsPieMap" type="Storehouse">
+        <id property="value" column="value" />
+        <association property="master" javaType="Emp">
+            <id property="id" column="eId" />
+            <result property="empName" column="empName"/>
+        </association>
+    </resultMap>
+    <select id="getEchartsPie" resultMap="getEchartsPieMap">
+        select count(s.id) value,e.empName,e.id eId from storehouse s left join emp e on s.masterId=e.id group by e.id
+    </select>
+    <select id="getStorehouseByM" resultType="Storehouse" parameterType="int">
+        select name from storehouse s left join emp e on s.masterId=e.id where e.id=#{id}
+    </select>
 </mapper>

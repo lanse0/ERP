@@ -54,8 +54,7 @@ layui.use(['table', 'form','laydate'], function () {
                 },
                 {field: 'userName', title: '出库人'},
                 {field: 'status', title: '状态',event: 'status1',
-                    templet: "<div>{{'0'==d.status?'未发货':'1'==d.status?'已发货(进行回款)':'2'==d.status?'已退货':'已回款'}}</div>"},
-                {field: 'status', title: '操作',event: 'status2',templet: "<div>{{'0'==d.status?'取消订单':'1'==d.status?'取消订单':''}}</div>"},
+                    templet: "<div>{{'0'==d.status?'未发货':'1'==d.status?'已发货':'2'==d.status?'已退货':'已回款'}}</div>"}
             ]],
             page: true //是否显示分页
             , limit: 10 //默认分页条数

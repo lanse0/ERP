@@ -118,7 +118,40 @@ layui.use(['table', 'form'], function () {
             layer.msg('请选择一条仓库信息进行修改', {icon: 5});
         }
     });
-
+    $('.btn-pie').on('click', function () {
+        $.ajax({
+            url: '/storehouse/getEchartsPie',
+            type: 'post',
+            dataType:'json',
+            async:false,
+            success: function (resp) {
+                var servicedata=[];
+                $.each(resp.data,function (i,v){
+                    var obj=new Object();
+                    obj.name=v.address;
+                    obj.value=v.value;
+                    servicedata[i]=obj;
+                })
+                getEchartsPie(servicedata);
+            }
+        });
+        layer.open({
+            type: 1,
+            shift: 2,
+            shade: 0,
+            title: '仓库饼状图',
+            area: ['620px', '488px'],
+            closeBtn: false,
+            shadeClose: false,
+            content: $('#main'),
+            btnAlign: 'c',
+            btn: ['关闭'],
+            yes: function (index, layero) {
+                $("#main").hide();
+                layer.close(index);
+            }
+        });
+    })
     //删除
     $('.btn-del').on('click', function () {
         var cs = table.checkStatus('PersonTable');

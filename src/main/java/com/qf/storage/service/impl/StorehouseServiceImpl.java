@@ -58,4 +58,13 @@ public class StorehouseServiceImpl implements StorehouseService {
 
     @Override
     public List<Storehouse> findAllStorehouse() { return storehouseDao.findAllStorehouse(); }
+
+    @Override
+    public List<Storehouse> getEchartsPie() {
+        return storehouseDao.getEchartsPie();
+    }
+    @Override
+    public List<Storehouse> getStorehouseByM(Integer id) {
+        return storehouseDao.getStorehouseByM(id);
+    }
 }

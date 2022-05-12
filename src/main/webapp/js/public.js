@@ -58,7 +58,7 @@ function storehouseT(table){
     table.render({
         elem: '#PersonTable',
         url:'/storehouse/findByPage',
-        height: 'full-200',
+        height: 'full-192',
         cellMinWidth: 80,
         cols: [[ //表头
             {type: 'radio'},
@@ -83,4 +83,35 @@ function storehouseT(table){
             table.resize('PersonTable');
         }
     })
+}
+function  getEchartsPie(obj){
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
+        title: {
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '50%',
+                data: obj,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
 }

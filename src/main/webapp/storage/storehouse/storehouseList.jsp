@@ -13,8 +13,10 @@
     <!-- 引入外部css和js文件 -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
     <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/echarts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/public.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/storehouseList.js"></script>
+
     <style>
         .layui-form-label.layui-required:after{
             content:'*';
@@ -56,12 +58,15 @@
                <button class="layui-btn layui-btn-normal btn-add"><i class="layui-icon">&#xe654;</i>添加</button>
                 <button class="layui-btn layui-btn-warm btn-edit"><i class="layui-icon">&#xe642;</i>修改</button>
                 <button class="layui-btn layui-btn-danger btn-del"><i class="layui-icon">&#xe640;</i>删除</button>
+                <button class="layui-btn layui-btn-radius btn-pie"><i class="layui-icon">&#xe62c;</i>饼状图</button>
             </td>
         </tr>
     </table>
 </blockquote>
 <!--数据表格-->
 <table id="PersonTable" class="layui-hide" lay-filter="person-table"></table>
+<!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+ <div id="main" style="width:520px;height:388px;margin:auto auto;display: none"></div>
 <!--人员表单-->
 <ul id="detail" class="forminfo"></ul>
 <div id="box" class="div-hide">

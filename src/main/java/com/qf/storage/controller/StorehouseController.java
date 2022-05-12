@@ -22,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/storehouse")
@@ -121,6 +118,26 @@ public class StorehouseController {
     @ResponseBody
     public TableData getAllStorehouse(){
         List<Storehouse> empList = storehouseService.findAllStorehouse();
+        TableData data = new TableData();
+        data.setCode(0);
+        data.setCount(empList.size());
+        data.setData(empList);
+        return data;
+    }
+    @RequestMapping("/getEchartsPie")
+    @ResponseBody
+    public TableData getEchartsPie(){
+        List<Storehouse> empList = storehouseService.getEchartsPie();
+        for(Storehouse s:empList){
+            List<Storehouse> list2=storehouseService.getStorehouseByM(s.getMaster().getId());
+            String st=s.getMaster().getEmpName()+"(";
+            for(Storehouse ss:list2){
+                st+=ss.getName()+",";
+            }
+            st=st.substring(0,st.length()-1);
+            st+=")";
+            s.setAddress(st);
+        }
         TableData data = new TableData();
         data.setCode(0);
         data.setCount(empList.size());

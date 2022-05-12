@@ -18,6 +18,7 @@ public class Storehouse {
     public String des;//仓库描述
     public String status;//仓库状态
     public Date createTime;//仓库创建时间
+    int value;
 
     public Storehouse() {
     }
@@ -109,6 +110,14 @@ public class Storehouse {
         return address;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -166,6 +175,7 @@ public class Storehouse {
                 ", des='" + des + '\'' +
                 ", status='" + status + '\'' +
                 ", createTime=" + createTime +
+                ", value=" + value +
                 '}';
     }
 }
