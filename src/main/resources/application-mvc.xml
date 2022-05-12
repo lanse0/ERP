@@ -31,7 +31,7 @@
     -->
     <context:component-scan base-package="com.qf" use-default-filters="false">
         <context:include-filter type="annotation"
-          expression="org.springframework.stereotype.Controller"></context:include-filter>
+                                expression="org.springframework.stereotype.Controller"></context:include-filter>
     </context:component-scan>
     <!-- 视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -39,13 +39,47 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
     <!--登录拦截-->
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--            <mvc:mapping path="/storehouse/*"/>-->
-<!--                        <mvc:exclude-mapping path="/storehouse/findByPage"/>-->
-<!--            <bean class="com.qf.sys.interceptor.LoginInterceptor"></bean>-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/layui/*"/>
+            <mvc:exclude-mapping path="/**/*login*"/>
+            <mvc:exclude-mapping path="/users/exit"/>
+            <mvc:exclude-mapping path="/captcha/verification"/>
+            <bean class="com.qf.sys.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--  验证码  -->
+    <bean id="defaultKaptcha" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <prop key="kaptcha.border">yes</prop>
+                        <prop key="kaptcha.color" >105, 179 , 90</prop>
+                        <prop key="kaptcha.border.thickness">1</prop>
+                        <prop key="kaptcha.noise.color">red</prop>
+                        <prop key="kaptcha.image.width">114</prop>
+                        <prop key="kaptcha.image.height">47</prop>
+                        <prop key="kaptcha.session.key">verifyCode</prop>
+                        <prop key="kaptcha.textproducer.char.string">beijingqfedu</prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                        <prop key="kaptcha.textproducer.char.space">4</prop>
+                        <prop key="kaptcha.textproducer.font.size">30</prop>
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
     <!--配置文件上传的解析器-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
     <!--静态资源访问 -->

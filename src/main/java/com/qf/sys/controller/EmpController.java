@@ -2,8 +2,8 @@ package com.qf.sys.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.code.kaptcha.Constants;
 import com.qf.storage.utils.TableData;
-import com.qf.sys.po.Department;
 import com.qf.sys.po.Emp;
 import com.qf.sys.service.EmpService;
 import com.qf.utils.LayUIOperate;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,38 @@ public class EmpController {
     @Resource
     private EmpService empService;
 
-    public void setEmpService(EmpService empService) {
-        this.empService = empService;
+    @RequestMapping("/login")
+    @ResponseBody
+    public LayUIOperate loginCheck(String userName,String password,String code,HttpServletRequest request){
+        LayUIOperate layUIOperate = new LayUIOperate();
+        HttpSession session = request.getSession();
+        String verifyCode = session.getAttribute(Constants.KAPTCHA_SESSION_KEY).toString();
+        Emp emp;
+        if (verifyCode.equals(code)){
+            emp = empService.login(userName);
+            if (emp!=null){
+                if (emp.getPassword().equals(password)){
+                    session.setAttribute("user",emp);
+                    layUIOperate.setSuccess(true);
+                }else {
+                    layUIOperate.setSuccess(false);
+                    layUIOperate.setMessage("密码错误");
+                }
+            }else {
+                layUIOperate.setSuccess(false);
+                layUIOperate.setMessage("用户名错误");
+            }
+        }else {
+            layUIOperate.setSuccess(false);
+            layUIOperate.setMessage("验证码错误！");
+        }
+        return layUIOperate;
+    }
+
+    @RequestMapping("/exit")
+    public String exit(HttpServletRequest request){
+        request.getSession().invalidate();//清空session域
+        return "login";
     }
 
     @RequestMapping("/getAllEmpList")

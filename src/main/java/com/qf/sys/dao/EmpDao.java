@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface EmpDao {
 
-    public Emp login(String name);
+    public Emp login(@Param("userName") String userName);
     public List<Emp> getAllEmpByPage(Map params);
     public List<Emp> getEmpByRole(@Param("roleId") int roleId);//根据角色获取用户
 

@@ -4,12 +4,18 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>ERP仓储管理系统</title>
-    <link href="css/style.css" rel="stylesheet" type="text/css"/>
-    <script language="JavaScript" src="js/jquery.js"></script>
-    <script src="js/cloud.js" type="text/javascript"></script>
-
+    <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/sys/js/login.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/cloud.js" type="text/javascript"></script>
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
     <script language="javascript">
         $(function () {
             $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});
@@ -21,7 +27,7 @@
 
 </head>
 
-<body style="background-color:#df7611; background-image:url(images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+<body style="background-color:#df7611; background-image:url(${pageContext.request.contextPath}/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
 
 <div id="mainBody">
     <div id="cloud1" class="cloud"></div>
@@ -43,12 +49,13 @@
             <li><input name="userName" id="userName" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/></li>
             <li><input name="password" id="password" type="password" class="loginpwd" value="123" onclick="JavaScript:this.value=''"/></li>
             <li class="yzm">
-                <span><input name="checkCode" id="checkCode" type="text" value="验证码"
-                             onclick="JavaScript:this.value=''"/></span><cite>X3D5S</cite>
+                <span>
+                    <input name="checkCode" id="checkCode" type="text" value="验证码" onclick="JavaScript:this.value=''"/>
+                </span>
+                <img id="codeImg" src="${pageContext.request.contextPath}/captcha/verification">
             </li>
             <li>
-                <input name="" type="button" class="loginbtn" value="登录"
-                       onclick="checkLogin()"/>
+                <input name="" type="button" class="loginbtn" value="登录" />
                 <label><input name="" type="checkbox" value="" checked="checked"/>记住密码</label>
                 <label><a href="#">忘记密码？</a></label>
             </li>
@@ -61,32 +68,6 @@
 
 
 <div class="loginbm">版权归北京千锋互联科技所有，仅供学习交流，勿用于任何商业用途</div>
-
-<script type="text/javascript">
-    function login() {
-        javascript:window.location='main.jsp';
-    }
-
-    //登陆表单验证
-    function checkLogin(){
-        let uf = $('#userName').val();
-        let pf = $('#password').val();
-        let cf = $('#checkCode').val();
-        if (uf===''){
-            alert("请输入账号!");
-            return;
-        }
-        if (pf===''){
-            alert("请输入密码！");
-            return;
-        }
-        if (cf===''||cf==='验证码'){
-            alert("请输入验证码!");
-            return;
-        }
-        login();
-    }
-</script>
 </body>
 
 </html>

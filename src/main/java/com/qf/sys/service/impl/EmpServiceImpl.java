@@ -20,8 +20,9 @@ public class EmpServiceImpl implements EmpService {
     @Resource //自动按照类型和名称注入
     private EmpDao empDao;
 
-    public void setEmpDao(EmpDao empDao) {
-        this.empDao = empDao;
+    @Override
+    public Emp login(String userName) {
+        return empDao.login(userName);
     }
 
     @Override

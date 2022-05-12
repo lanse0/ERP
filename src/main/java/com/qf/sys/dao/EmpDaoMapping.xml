@@ -28,7 +28,16 @@
         </association>
     </resultMap>
 
-
+    <select id="login" resultMap="EmpResultMap">
+        SELECT t.*, r.roleName
+        FROM
+            (SELECT e.*, d.deptNo, d.deptName
+            FROM emp e LEFT JOIN department d
+            ON e.deptId = d.id) t
+        LEFT JOIN role r
+        ON t.roleId = r.id
+        WHERE t.userName = #{userName}
+    </select>
     <select id="getAllEmpByPage" resultMap="EmpResultMap" parameterType="map">
         SELECT
         e.*,d.deptNo,d.deptName,r.roleName
