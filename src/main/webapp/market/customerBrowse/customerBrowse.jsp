@@ -62,14 +62,7 @@
                 </select>
             </td>
             <td width="10">&nbsp;</td>
-            <td  style="width: 100px;">
-                <select id="status1" name="status">
-                    <option value="" selected>选择状态</option>
-                    <option value="1">可用</option>
-                    <option value="2">不可用</option>
-                </select>
-            </td>
-            <td width="10">&nbsp;</td>
+
             <td>
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
 

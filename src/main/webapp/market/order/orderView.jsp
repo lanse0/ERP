@@ -1,114 +1,127 @@
 <%--
   Created by IntelliJ IDEA.
   User: AJM
-  Date: 2022/5/6
-  Time: 22:02
+  Date: 2022/5/4
+  Time: 21:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page isELIgnored="false" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar"%>
+
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>无标题文档</title>
-    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>订购单审核管理</title>
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/market/js/ordersView.js"></script>
+
+    <style>
+        .layui-form-label.layui-required:after {
+            content: '*';
+            color: red;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            left: 15px;
+        }
+
+        .frm {
+            margin-top: 20px;
+        }
+
+        .div-hide {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+
+    </script>
 </head>
 
 <body>
-<div class="place"> <span>位置：</span>
-    <ul class="placeul">
-        <li>营销管理</li>
-        <li>订购单管理</li>
-        <li>订购单详情</li>
-    </ul>
-</div>
-<div class="formbody">
-    <div class="formtitle"><span>订购单信息</span></div>
-    <ul class="forminfo">
-        <li>
-            <label>订单编号</label>
-            <cite>DJ201711180001</cite>
-        </li>
-        <li>
-            <label>客户姓名</label>
-            <cite><a href="../../market/customer/customerView.html" title="点击查看客户详细信息" class="tablelink">王金平</a></cite>
-        </li>
-        <li>
-            <label>联系电话</label>
-            <cite>17370899727</cite>
-        </li>
-        <li>
-            <label>订购时间</label>
-            <cite>2017-11-18 15:36:10</cite>
-        </li>
-        <li>
-            <label>总金额</label>
-            <cite>￥9,876,582</cite>
-        </li>
-        <li>
-            <label>操作人</label>
-            <cite>关羽</cite>
-        </li>
-        <li>
-            <label>审核状态</label>
-            <cite>已审核通过</cite>
-        </li>
-        <li>
-            <label>审核意见</label>
-            <cite>做的很详细，同意通过</cite>
-        </li>
-        <li>
-            <label>审核人</label>
-            <cite>曹操</cite>
-        </li>
-        <li>
-            <label>审核时间</label>
-            <cite>2017-01-30 12:05:05</cite>
-        </li>
-    </ul>
-    <table class="tablelist">
-        <thead>
+<blockquote class="layui-elem-quote layui-text layui-form">
+    <table>
         <tr>
-            <th>序号</th>
-            <th>品牌</th>
-            <th>类型</th>
-            <th>型号</th>
-            <th>数量</th>
-            <th>单位</th>
-            <th>单价</th>
-            <th>金额</th>
+            <td style="width: 300px;">
+                <input type="text" id="ordersNo1" placeholder="订单编号" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <td style="width: 300px;">
+                <input type="text" id="customerName1" placeholder="客户姓名" autocomplete="off" class="layui-input ipt1">
+            </td>
+            <td width="10">&nbsp;</td>
+            <%--<td  style="width: 100px;">--%>
+                <%--<select id="province1" lay-filter="province1" lay-verify="required">--%>
+                    <%--<option value="" selected>所属区域</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+            <%--<td style="width: 100px;">--%>
+                <%--<select id="city1" lay-filter="city1" lay-verify="required">--%>
+                    <%--<option value="" selected>所属区域</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+            <td width="10">&nbsp;</td>
+            <%--<td  style="width: 100px;">--%>
+                <%--<select id="status1" name="status">--%>
+                    <%--<option value="" selected>选择状态</option>--%>
+                    <%--<option value="1">可用</option>--%>
+                    <%--<option value="2">不可用</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+            <td width="10">&nbsp;</td>
+            <td>
+                <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
+
+                <button class="layui-btn layui-btn-warm btn-audit"><i class="layui-icon">&#xe642;</i>审核</button>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>联想</td>
-            <td>笔记本电脑</td>
-            <td>T470</td>
-            <td>10</td>
-            <td>台</td>
-            <td>9998</td>
-            <td>99980</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>联想</td>
-            <td>笔记本电脑</td>
-            <td>X260</td>
-            <td>5</td>
-            <td>台</td>
-            <td>5500</td>
-            <td>27500</td>
-        </tr>
-        </tbody>
     </table>
-    <div style="margin-top:20px; margin-left:20px;">
-        <input name="" type="button" class="btn" value="返回" onclick="window.history.go(-1);"/>
-    </div>
+</blockquote>
+<!--数据表格-->
+<input type="hidden" id="cId">
+<table id="OrdersTable" class="layui-hide" lay-filter="person-table"></table>
+
+
+
+<ul id="detail" class="forminfo"></ul>
+<!--分配表单-->
+<div id="audit" class="div-hide">
+    <form id="AuditForm" class="layui-form frm" lay-filter="audit-form">
+        <input type="hidden" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核状态</label>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select id="status" name="status">
+                    <option value="1"selected>未审核</option>
+                    <option value="2">审核中</option>
+                    <option value="3">审核通过</option>
+                    <option value="4">审核不通过</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核内容</label>
+            <div class="layui-input-inline" style="width: 200px;">
+                <input type="text" id="auditContext" name="auditContext" required lay-verify="required" placeholder="审核内容"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div>
+            <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
+            <button type="reset" class="layui-btn form-reset layui-hide"></button>
+        </div>
+    </form>
 </div>
-<script type="text/javascript">
-    $('.tablelist tbody tr:odd').addClass('odd');
-</script>
+
+
 </body>
 </html>
 

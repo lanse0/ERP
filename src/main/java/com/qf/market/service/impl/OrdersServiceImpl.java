@@ -7,6 +7,7 @@ import com.qf.market.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 @Service
 public class OrdersServiceImpl implements OrdersService {
-    @Autowired
+    @Resource
     private OrdersDao ordersDao;
 
     @Override
@@ -51,5 +52,10 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<Orders> getAll() {
         return ordersDao.getAll();
+    }
+
+    @Override
+    public boolean auditOrders(Orders orders) {
+        return ordersDao.auditOrders(orders);
     }
 }

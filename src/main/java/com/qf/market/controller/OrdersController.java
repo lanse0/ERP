@@ -62,7 +62,7 @@ public class OrdersController {
     @ResponseBody
     public LayUIOperate addCustomer(@RequestBody Orders Orders){
         LayUIOperate operate=new LayUIOperate();
-        System.out.println("addCustomer -->"+Orders);
+        System.out.println("addOrders -->"+Orders);
         boolean f= ordersService.addOrders(Orders);
         if(f){
             operate.setSuccess(true);
@@ -134,5 +134,22 @@ public class OrdersController {
         data.setData(customerList);
         return data;
 
+    }
+    //修改客户信息
+    @RequestMapping("/auditOrders")
+    @ResponseBody
+    public LayUIOperate auditOrders(@RequestBody Orders orders){
+        LayUIOperate operate=new LayUIOperate();
+        System.out.println("auditOrders -->"+orders);
+
+        boolean f= ordersService.auditOrders(orders);
+        if(f){
+            operate.setSuccess(true);
+            operate.setMessage("审核成功！");
+        }else{
+            operate.setSuccess(false);
+            operate.setMessage("审核失败");
+        }
+        return operate;
     }
 }

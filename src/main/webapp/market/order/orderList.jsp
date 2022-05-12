@@ -40,39 +40,41 @@
             display: none;
         }
     </style>
+    <script type="text/javascript">
 
+    </script>
 </head>
 
 <body>
 <blockquote class="layui-elem-quote layui-text layui-form">
     <table>
         <tr>
-            <td style="width: 140px;">
+            <td style="width: 300px;">
                 <input type="text" id="ordersNo1" placeholder="订单编号" autocomplete="off" class="layui-input ipt1">
             </td>
             <td width="10">&nbsp;</td>
-            <td style="width: 140px;">
+            <td style="width: 300px;">
                 <input type="text" id="customerName1" placeholder="客户姓名" autocomplete="off" class="layui-input ipt1">
             </td>
             <td width="10">&nbsp;</td>
-            <td  style="width: 100px;">
-                <select id="province1" lay-filter="province1" lay-verify="required">
-                    <option value="" selected>所属区域</option>
-                </select>
-            </td>
-            <td style="width: 100px;">
-                <select id="city1" lay-filter="city1" lay-verify="required">
-                    <option value="" selected>所属区域</option>
-                </select>
-            </td>
+            <%--<td  style="width: 100px;">--%>
+                <%--<select id="province1" lay-filter="province1" lay-verify="required">--%>
+                    <%--<option value="" selected>所属区域</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+            <%--<td style="width: 100px;">--%>
+                <%--<select id="city1" lay-filter="city1" lay-verify="required">--%>
+                    <%--<option value="" selected>所属区域</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
             <td width="10">&nbsp;</td>
-            <td  style="width: 100px;">
-                <select id="status1" name="status">
-                    <option value="" selected>选择状态</option>
-                    <option value="1">可用</option>
-                    <option value="2">不可用</option>
-                </select>
-            </td>
+            <%--<td  style="width: 100px;">--%>
+                <%--<select id="status1" name="status">--%>
+                    <%--<option value="" selected>选择状态</option>--%>
+                    <%--<option value="1">可用</option>--%>
+                    <%--<option value="2">不可用</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
             <td width="10">&nbsp;</td>
             <td>
                 <button class="layui-btn btn-search"><i class="layui-icon">&#xe615;</i>查询</button>
@@ -102,26 +104,34 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">客户姓名</label>
+            <label class="layui-form-label">客户编号</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerName" name="customerName" lay-verify="required" placeholder="客户姓名"
+                <input type="text" id="customerId" name="customer.id" lay-verify="required" placeholder="客户编号"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">联系电话</label>
+            <label class="layui-form-label">操作人编号</label>
             <div class="layui-input-inline">
-                <input type="text" id="phone" name="phone" required lay-verify="required" placeholder="联系电话"
+                <input type="text" id="empId" name="emp.id" lay-verify="required" placeholder="客户编号"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">订单金额</label>
-            <div class="layui-input-inline">
-                <input type="text" id="amount" name="amount" required lay-verify="required" placeholder="订单金额"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
+        <%--<div class="layui-form-item">--%>
+            <%--<label class="layui-form-label">客户姓名</label>--%>
+            <%--<div class="layui-input-inline">--%>
+                <%--<input type="text" id="customerName" name="customer.customerName" lay-verify="required" placeholder="客户姓名"--%>
+                       <%--autocomplete="off" class="layui-input">--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="layui-form-item">--%>
+            <%--<label class="layui-form-label">联系电话</label>--%>
+            <%--<div class="layui-input-inline">--%>
+                <%--<input type="text" id="phone" name="customer.phone" required lay-verify="required" placeholder="联系电话"--%>
+                       <%--autocomplete="off" class="layui-input">--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
         <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-inline" style="width: 130px;">
@@ -142,20 +152,57 @@
             </div>
         </div>
 
-        <%--<div class="layui-form-item">--%>
-            <%--<label class="layui-form-label">审核者</label>--%>
-            <%--<div class="layui-input-inline">--%>
-                <%--<input type="text" id="empName" name="empName" required lay-verify="required" placeholder="审核者"--%>
-                       <%--autocomplete="off" class="layui-input" value="">--%>
-            <%--</div>--%>
-        <%--</div>--%>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品序号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="Bid" name="Bid" required lay-verify="required" placeholder="商品序号"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品品牌</label>
+            <div class="layui-input-inline">
+                <input type="text" id="brand" name="brand" required lay-verify="required" placeholder="商品品牌"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品类型</label>
+            <div class="layui-input-inline">
+                <input type="text" id="brandType" name="brandType" required lay-verify="required" placeholder="商品类型"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品型号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="brandModel" name="brandModel" required lay-verify="required" placeholder="商品型号"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品单价</label>
+            <div class="layui-input-inline">
+                <input type="text" id="price" name="price" required lay-verify="required" placeholder="商品单价"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品数量</label>
+            <div class="layui-input-inline">
+                <input type="text" id="number" name="number" required lay-verify="required" placeholder="商品数量"
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
 
-        <%--<div class="layui-form-item">--%>
-            <%--<label class="layui-form-label">审核时间</label>--%>
-            <%--<div class="layui-input-inline">--%>
-            <%--<input type="text" id="auditTime" name="auditTime" required lay-verify="required" placeholder="审核时间"--%>
-            <%--autocomplete="off" class="layui-input">--%>
-        <%--</div>--%>
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-input-inline">
+                <input type="text" id="amount" name="amount" required lay-verify="required" placeholder="订单金额"
+                       autocomplete="off" class="layui-input" value="" readonly="readonly">
+            </div>
+        </div>
+
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
             <button type="reset" class="layui-btn form-reset layui-hide"></button>
@@ -189,7 +236,7 @@
             </div>
         </div>
         <div>
-            <button class="layui-btn form-save layui-hide" lay-submit lay-filter="saveAllocate"></button>
+            <button class="layui-btn form-save layui-hide" lay-submit lay-filter="save"></button>
             <button type="reset" class="layui-btn form-reset layui-hide"></button>
         </div>
     </form>

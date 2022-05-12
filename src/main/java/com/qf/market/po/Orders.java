@@ -19,10 +19,24 @@ public class Orders {
     public String status;//订单状态
     public Emp emp;//订单审核人员
     public Date auditTime;//订单创建时间
-    public String auditor;
+
+    public int bid;
+    public String brand;
+    public String brandType;
+    public String brandModel;
+    public String price;
+    public String number;
+    public String auditContext;
 
     public Orders(){}
     public Orders(int id){     this.id = id;}
+
+    public Orders(String status, Date auditTime, String auditContext) {
+        this.status = status;
+        this.auditTime = auditTime;
+        this.auditContext = auditContext;
+    }
+
     public Orders(int id, String ordersNo, Customer customer, Date orderTime, String amount, String status, String auditor, Date auditTime) {
         this.id = id;
         this.ordersNo = ordersNo;
@@ -44,13 +58,40 @@ public class Orders {
         this.auditTime = auditTime;
     }
 
-    public String getAuditor() {
-        return auditor;
+    public Orders(int id, String ordersNo, Customer customer, Date orderTime, String amount, String status, Emp emp, Date auditTime, int bid, String brand, String brandType, String brandModel, String price, String number) {
+        this.id = id;
+        this.ordersNo = ordersNo;
+        this.customer = customer;
+        this.orderTime = orderTime;
+        this.amount = amount;
+        this.status = status;
+        this.emp = emp;
+        this.auditTime = auditTime;
+        this.bid = bid;
+        this.brand = brand;
+        this.brandType = brandType;
+        this.brandModel = brandModel;
+        this.price = price;
+        this.number = number;
     }
 
-    public void setAuditor(String auditor) {
-        this.auditor = auditor;
+    public Orders(String ordersNo, Customer customer, Date orderTime, String amount, String status, Emp emp, Date auditTime, int bid, String brand, String brandType, String brandModel, String price, String number) {
+        this.ordersNo = ordersNo;
+        this.customer = customer;
+        this.orderTime = orderTime;
+        this.amount = amount;
+        this.status = status;
+        this.emp = emp;
+        this.auditTime = auditTime;
+
+        this.bid = bid;
+        this.brand = brand;
+        this.brandType = brandType;
+        this.brandModel = brandModel;
+        this.price = price;
+        this.number = number;
     }
+
 
     public int getId() {
         return id;
@@ -117,6 +158,62 @@ public class Orders {
         this.emp = emp;
     }
 
+    public int getBid() {
+        return bid;
+    }
+
+    public void setBid(int bid) {
+        this.bid = bid;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getBrandType() {
+        return brandType;
+    }
+
+    public void setBrandType(String brandType) {
+        this.brandType = brandType;
+    }
+
+    public String getBrandModel() {
+        return brandModel;
+    }
+
+    public void setBrandModel(String brandModel) {
+        this.brandModel = brandModel;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getAuditContext() {
+        return auditContext;
+    }
+
+    public void setAuditContext(String auditContext) {
+        this.auditContext = auditContext;
+    }
+
     @Override
     public String toString() {
         return "Orders{" +
@@ -128,6 +225,13 @@ public class Orders {
                 ", status='" + status + '\'' +
                 ", emp=" + emp +
                 ", auditTime=" + auditTime +
+                ", bid=" + bid +
+                ", brand='" + brand + '\'' +
+                ", brandType='" + brandType + '\'' +
+                ", brandModel='" + brandModel + '\'' +
+                ", price='" + price + '\'' +
+                ", number='" + number + '\'' +
+                ", auditContext='" + auditContext + '\'' +
                 '}';
     }
 }
