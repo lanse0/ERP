@@ -16,11 +16,12 @@
             <result property="regionShortName" column="regionShortName"/>
             <result property="regionCode" column="regionCode"/>
             <result property="regionLevel" column="regionLevel"/>
+            <result property="parentId" column="parentId"/>
         </association>
     </resultMap>
 
     <select id="getAllDeptByPage" resultMap="DeptMap" parameterType="map">
-        SELECT d.*,r.regionName,r.regionShortName,r.regionCode,r.regionLevel
+        SELECT d.*,r.regionName,r.regionShortName,r.regionCode,r.regionLevel,r.parentId
         FROM department d, region r
         WHERE 1=1
         AND d.regionId = r.id

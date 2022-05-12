@@ -88,9 +88,10 @@
     <form id="authForm" class="layui-form frm" lay-filter="auth-form">
         <input type="hidden" id="roleId" name="id">
         <!--手风琴列表-->
-        <div id="test5" class="demo-tree"></div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>角色赋权</legend>
         </fieldset>
+        <div id="test5" class="demo-tree"></div>
         <div>
             <button class="layui-btn form-save layui-hide" lay-submit lay-filter="saveAuth"></button>
             <button type="reset" class="layui-btn form-reset layui-hide"></button>

@@ -116,7 +116,10 @@ layui.use(['table', 'form', 'tree', 'util'], function () {
         var data = cs.data;
         var i = data.length;
         if (i === 1) {
+            console.log(data[0]);
             form.val('role-form', data[0]);
+            var dept = data[0].department;//data为复杂对象数据 先提取出部门
+            $('#department').val(dept.id);//数据回显 修改角色勾选部门
             layer.open({
                 type: 1,
                 shift: 2,

@@ -17,6 +17,6 @@ public interface RoleDao {
     public boolean delModuleList(@Param("roleId")int roleId);
     public boolean addModuleList(@Param("roleId")int roleId,@Param("array") int[] modules);
 
-    //获取角色拥有的权限
+    //获取角色拥有的权限数组
     public int[] getModuleArray(@Param("roleId")int roleId);
 }

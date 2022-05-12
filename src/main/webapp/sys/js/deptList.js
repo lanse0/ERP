@@ -115,6 +115,20 @@ layui.use(['table', 'form'], function () {
         var cs = table.checkStatus('DeptTable');
         var data = cs.data;
         var i = data.length;
+        //城市反显数据
+        console.log(data[0]);
+        var region = data[0].region;
+        let prov = region.regionLevel===1?region.id:region.parentId;
+        let city = region.id;
+        // console.log(prov+","+city);
+        if (prov!=null){
+            getCity(prov);
+        }else {
+            getCity(city);
+        }
+        $('#province').val(prov);
+        $('#city').val(city);
+
         if (i === 1) {
             form.val('dept-form', data[0]);
             layer.open({
@@ -136,6 +150,7 @@ layui.use(['table', 'form'], function () {
                     //默认关闭弹窗
                 }
             });
+
             /* 渲染表单 */
             form.render();
         } else {
@@ -190,6 +205,7 @@ layui.use(['table', 'form'], function () {
             url: '/area/getProvince',
             type: 'post',
             dataType: 'json',
+            async:false,
             success: function (resp) {
                 console.log(resp);
                 $(".province").append(new Option("请选择省份", 0));
@@ -208,6 +224,7 @@ layui.use(['table', 'form'], function () {
             type: 'post',
             data: {id: pId},
             dataType: 'json',
+            async:false,
             success: function (resp) {
                 $(".city").append(new Option("请选择城市", pId));
                 $.each(resp.data, function (index, value) {

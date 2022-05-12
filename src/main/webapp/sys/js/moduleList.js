@@ -17,7 +17,7 @@ layui.use(['table', 'form'], function () {
             {type: 'radio'},
             {field: 'id', title: '序号'},
             {field: 'moduleName', title: '模块名称'},
-            {field: 'parent', title: '父模块', templet:function (module) {
+            {field: 'parentName', title: '父模块', templet:function (module) {
                     if(module.parent!=null){
                         return module.parent.moduleName;
                     }
@@ -115,6 +115,10 @@ layui.use(['table', 'form'], function () {
         var i = data.length;
         if (i === 1) {
             form.val('module-form', data[0]);
+            let parent = data[0].parent!=null?data[0].parent.id:0;
+            if (parent!=null){
+                $('#parent').val(parent);
+            }
             layer.open({
                 type: 1,
                 shift: 2,
@@ -188,6 +192,7 @@ layui.use(['table', 'form'], function () {
             url: '/modules/getSelect',
             dataType: 'json',
             type: 'get',
+            async:false,
             success: function (data) {
                 $('#parent').append(new Option("请选择父模块", 0));
                 $.each(data.data, function (index, value) {

@@ -13,7 +13,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session=request.getSession();
         if(session.getAttribute("user")==null){
             request.setAttribute("error","请登录");
-            request.getRequestDispatcher("/login.html").forward(request,response);
+            request.getRequestDispatcher("/login.jsp").forward(request,response);
             return  false;
         }
         return  true;
