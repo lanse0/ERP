@@ -3,6 +3,7 @@ layui.use(['table', 'form'], function () {
         form = layui.form,
         $ = layui.jquery;
     //搜索栏下拉框初始化
+    console.log("搜索栏下拉框初始化");
     getProvince();
     //省份联动城市
     form.on('select(province)', function (data) {
