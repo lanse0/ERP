@@ -1,4 +1,5 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,9 @@
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo layui-hide-xs">
-            <a class="layui-logo" href="main.jsp" target="_parent"><img class="layui-logo" src="images/logo.png" title="系统首页"/></a>
+            <a class="layui-logo" href="main.jsp" target="_parent">
+                <img class="layui-logo" src="images/logo.png" title="系统首页"/>
+            </a>
         </div>
 
         <ul class="layui-nav layui-layout-right">
@@ -41,55 +44,22 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item"><a href="javascript:;" onclick="showBody('index.html')">首页</a></li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">营销管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('market/customer/customerList.jsp')">客户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('market/customerBrowse/customerBrowse.jsp')">客户浏览</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('market/order/orderList.jsp')">订购单管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('market/order/orderView.jsp')">订购单审核</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">仓库管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/storehouseList.jsp')">仓库管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/storehouseList2.jsp')">仓库浏览</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/exWarehouseList.jsp')">出库管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/warehouseList.jsp')">入库管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/stockList.jsp')">库存管理</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">采购管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('A_icon.html')">用户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
-                        <dd><a href="">the links</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">数据统计</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/exWarehouseStat.jsp')">出库统计</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('storage/storehouse/warehouseStat.jsp')">入库统计</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('B_layout.html')">职位管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('C_layoutAdmin.html')">模块管理</a></dd>
-                        <dd><a href="">the links</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">系统管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" onclick="showBody('sys/users/userList.jsp')">用户管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/dept/deptList.jsp')">部门管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/dept/positionList.jsp')">职位管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/modules/moduleList.jsp')">模块管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/logs/logList.html')">日志管理</a></dd>
-                        <dd><a href="javascript:;" onclick="showBody('sys/area/areaList.jsp')">区域管理</a></dd>
-                    </dl>
-                </li>
+                <c:forEach items="${sessionScope.moduleList}" var="module">
+                    <c:if test="${empty module.parent}">
+                        <li class="layui-nav-item">
+                            <a class="" href="javascript:;">${module.moduleName}</a>
+                            <c:forEach items="${sessionScope.moduleList}" var="chile">
+                                <c:if test="${module.id == chile.parent.id}">
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="javascript:;"
+                                               onclick="showBody('${chile.url}')">${chile.moduleName}</a>
+                                        </dd>
+                                    </dl>
+                                </c:if>
+                            </c:forEach>
+                        </li>
+                    </c:if>
+                </c:forEach>
             </ul>
         </div>
     </div>
@@ -131,9 +101,10 @@
             }
         });
     });
-    window.onload = function (){
+    window.onload = function () {
         $("#body").load('index.html');
     }
+
     function showBody(url) {
         $("#body").load(url);
     }

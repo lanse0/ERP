@@ -5,7 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.google.code.kaptcha.Constants;
 import com.qf.storage.utils.TableData;
 import com.qf.sys.po.Emp;
+import com.qf.sys.po.Module;
 import com.qf.sys.service.EmpService;
+import com.qf.sys.service.ModuleService;
 import com.qf.utils.LayUIOperate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,8 @@ import java.util.Map;
 public class EmpController {
     @Resource
     private EmpService empService;
+    @Resource
+    private ModuleService moduleService;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -37,11 +41,15 @@ public class EmpController {
         HttpSession session = request.getSession();
         String verifyCode = session.getAttribute(Constants.KAPTCHA_SESSION_KEY).toString();
         Emp emp;
-        if (verifyCode.equals(code)){
+        if (verifyCode.equals(code)){//验证码正确
             emp = empService.login(userName);
-            if (emp!=null){
-                if (emp.getPassword().equals(password)){
+            if (emp!=null){//用户名正确
+                if (emp.getPassword().equals(password)){//密码正确
+                    //根据用户的权限id获取用户拥有的权限
+                    List<Module> moduleList = moduleService.getEmpModules(emp.getRole().getId());
+                    System.out.println(moduleList);
                     session.setAttribute("user",emp);
+                    session.setAttribute("moduleList",moduleList);
                     layUIOperate.setSuccess(true);
                 }else {
                     layUIOperate.setSuccess(false);

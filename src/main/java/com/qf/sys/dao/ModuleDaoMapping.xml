@@ -17,7 +17,6 @@
             <result property="status" column="pstatus"></result>
         </association>
     </resultMap>
-
     <select id="getAllModuleByPage" resultMap="ModuleMap">
         SELECT
         m.*, p.moduleName pname, p.url purl, p.STATUS pstatus
@@ -61,6 +60,14 @@
         SET status = #{status}
         WHERE id = #{id}
     </update>
+    <select id="getEmpModules" resultMap="ModuleMap">
+        SELECT m.*
+        FROM role r,authority a,module m
+        WHERE r.id = a.roleId
+        AND a.moduleId = m.id
+        AND r.id = #{roleId}
+        ORDER BY m.id
+    </select>
 
     <resultMap id="ModuleMap2" type="Module">
         <id property="id" column="id"></id>
@@ -82,4 +89,5 @@
         LEFT JOIN module c ON m.id = c.parentId
         WHERE m.parentId IS NULL
     </select>
+
 </mapper>

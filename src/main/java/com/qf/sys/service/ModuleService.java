@@ -2,6 +2,7 @@ package com.qf.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import com.qf.sys.po.Module;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface ModuleService {
     public boolean updModule(Module module);
     public boolean updStatus(int id,String status);
     public List<Module> getAllModuleAndChile();
+    public List<Module> getEmpModules(int roleId);
 }

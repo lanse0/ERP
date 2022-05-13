@@ -12,4 +12,6 @@ public interface ModuleDao {
     public boolean updModule(Module module);
     public boolean updStatus(@Param("id") int id,@Param("status") String status );
     public List<Module> getAllModuleAndChile();
+    public List<Module> getEmpModules(@Param("roleId") int roleId);//获取用户拥有权限的模块
+
 }
