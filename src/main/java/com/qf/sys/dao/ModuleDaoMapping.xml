@@ -66,6 +66,7 @@
         WHERE r.id = a.roleId
         AND a.moduleId = m.id
         AND r.id = #{roleId}
+        AND m.status = '1'
         ORDER BY m.id
     </select>
 

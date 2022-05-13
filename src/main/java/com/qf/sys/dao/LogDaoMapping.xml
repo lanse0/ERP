@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.sys.dao.LogDao">
+    <resultMap id="LogResultMap" type="Log">
+        <id property="id" column="id"/>
+        <result column="createTime" property="createTime"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <association property="emp" javaType="Emp">
+            <id property="id" column="eId"/>
+            <result property="empNo" column="empNo"/>
+            <result property="empName" column="empName"/>
+        </association>
+        <association property="module" javaType="Module">
+            <id property="id" column="mId"/>
+            <result property="moduleName" column="moduleName"/>
+        </association>
+    </resultMap>
+
+    <select id="getAllLogByPage" resultMap="LogResultMap" parameterType="map">
+        SELECT l.*,e.id eid,e.empName,m.moduleName
+        FROM emp e,log l,module m
+        WHERE 1=1
+        AND l.empNo = e.empNo
+        AND l.moduleId = m.id
+        <if test="empNo!=0">
+            and l.empNo = #{empNo}
+        </if>
+        <if test="empName!=null and empName!=''">
+            and e.empName like concat('%',#{empName},'%')
+        </if>
+        <if test="content!=null and content!=''">
+            AND l.content like CONCAT('%',#{content},'%')
+        </if>
+        <if test="moduleName!=null and moduleName!=''">
+            AND m.moduleName like CONCAT('%',#{moduleName},'%')
+        </if>
+        <if test="minTime!=null and minTime!=''">
+            AND l.createTime &gt;= #{minTime}
+        </if>
+        <if test="maxTime!=null and maxTime!=''">
+            AND l.createTime &lt;= #{maxTime}
+        </if>
+    </select>
+</mapper>

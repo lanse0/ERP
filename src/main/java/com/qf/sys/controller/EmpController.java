@@ -45,12 +45,17 @@ public class EmpController {
             emp = empService.login(userName);
             if (emp!=null){//用户名正确
                 if (emp.getPassword().equals(password)){//密码正确
-                    //根据用户的权限id获取用户拥有的权限
-                    List<Module> moduleList = moduleService.getEmpModules(emp.getRole().getId());
-                    System.out.println(moduleList);
-                    session.setAttribute("user",emp);
-                    session.setAttribute("moduleList",moduleList);
-                    layUIOperate.setSuccess(true);
+                    if (emp.getStatus().equals("1")){
+                        //根据用户的权限id获取用户拥有的权限
+                        List<Module> moduleList = moduleService.getEmpModules(emp.getRole().getId());
+                        System.out.println(moduleList);
+                        session.setAttribute("user",emp);
+                        session.setAttribute("moduleList",moduleList);
+                        layUIOperate.setSuccess(true);
+                    }else {
+                        layUIOperate.setSuccess(false);
+                        layUIOperate.setMessage("用户状态异常！");
+                    }
                 }else {
                     layUIOperate.setSuccess(false);
                     layUIOperate.setMessage("密码错误");

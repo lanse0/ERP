@@ -26,9 +26,9 @@ layui.use(['table', 'form'], function () {
             {field: 'url', title: 'URL'},
             {field: 'status', title: '状态', templet:'#checkStatus', unresize:true}
         ]],
-        page: true //是否显示分页
-        , limit: 10 //默认分页条数
-        , limits: [10, 20, 30] //自定义分页数据选项
+        page: false //是否显示分页
+        , limit: 100 //默认分页条数
+        , limits: [100, 200, 300] //自定义分页数据选项
         , id: 'ModuleTable' //用于绑定模糊查询条件等等
         , /*done:function(res){
             var data = res.data;
