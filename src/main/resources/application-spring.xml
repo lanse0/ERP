@@ -9,25 +9,32 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-       <!-- 开启spring 的注解-->
+    <!-- 开启spring 的注解-->
     <context:annotation-config/>
-       <!-- 配置扫描表
-       忽略掉 所有的注解里面使用 @Controller 的类 不生成spring 工厂里面的bean
-          只负责生成  service
-       -->
+    <!-- 配置扫描表
+    忽略掉 所有的注解里面使用 @Controller 的类 不生成spring 工厂里面的bean
+       只负责生成  service
+    -->
     <context:component-scan base-package="com.qf">
         <context:exclude-filter type="annotation"
-             expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+                                expression="org.springframework.stereotype.Controller"></context:exclude-filter>
     </context:component-scan>
+    <!--基于注解的aop代理-->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-    <!-- 定义一个aop-->
-    <bean id="logAop" class="com.qf.sys.aop.LogAop"></bean>
-    <aop:config>
-        <!-- 配置一个切面-->
-        <aop:aspect ref="logAop">
-            <aop:pointcut id="logAopCut" expression="execution(* com.qf.*.service.impl.*.*(..))"></aop:pointcut>
-            <aop:around method="around" pointcut-ref="logAopCut"></aop:around>
-        </aop:aspect>
-    </aop:config>
+    <!--切面类交给spring管理-->
+    <!--    <bean id="logAop" class="com.qf.sys.aop.LogAop"></bean>-->
+    <!--    <aop:config>-->
+    <!--        &lt;!&ndash; 声明切入点&ndash;&gt;-->
+    <!--        <aop:pointcut id="logAopCut" expression="execution(* com.qf.*.*.*.*.*(..))"></aop:pointcut>-->
+    <!--        <aop:pointcut id="emp_login" expression="execution(* com.qf.sys.service.ModuleService.getEmpModules(..))"/>-->
+    <!--        &lt;!&ndash;声明logAop为切面&ndash;&gt;-->
+    <!--        <aop:aspect ref="logAop">-->
+    <!--            &lt;!&ndash;登陆日志&ndash;&gt;-->
+    <!--            <aop:after method="login" pointcut-ref="emp_login"></aop:after>-->
+
+    <!--            <aop:around method="around" pointcut-ref="logAopCut"></aop:around>-->
+    <!--        </aop:aspect>-->
+    <!--    </aop:config>-->
 </beans>
 

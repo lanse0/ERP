@@ -9,6 +9,7 @@ import com.qf.sys.po.Module;
 import com.qf.sys.service.EmpService;
 import com.qf.sys.service.ModuleService;
 import com.qf.utils.LayUIOperate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +47,9 @@ public class EmpController {
             if (emp!=null){//用户名正确
                 if (emp.getPassword().equals(password)){//密码正确
                     if (emp.getStatus().equals("1")){
+                        session.setAttribute("user",emp);
                         //根据用户的权限id获取用户拥有的权限
                         List<Module> moduleList = moduleService.getEmpModules(emp.getRole().getId());
-                        System.out.println(moduleList);
-                        session.setAttribute("user",emp);
                         session.setAttribute("moduleList",moduleList);
                         layUIOperate.setSuccess(true);
                     }else {

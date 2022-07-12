@@ -31,16 +31,17 @@ public class EmpServiceImpl implements EmpService {
         PageInfo<Emp> pageInfo = new PageInfo<Emp>(empList);
         return pageInfo;
     }
+
     @Override
-    public List<Emp> getEmpByRole(int roleId){//根据角色获取用户
+    public List<Emp> getEmpByRole(int roleId) {//根据角色获取用户
         return empDao.getEmpByRole(roleId);
     }
 
     @Override
     public boolean addEmp(Emp emp) {
-        boolean f = true;
+        boolean f;
         try {
-            empDao.addEmp(emp);
+            f = empDao.addEmp(emp);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();
@@ -50,9 +51,9 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public boolean updEmp(Emp emp) {
-        boolean f = true;
+        boolean f;
         try {
-            empDao.updEmp(emp);
+            f = empDao.updEmp(emp);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();
@@ -61,10 +62,10 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public boolean quitEmp(int id,String status) {
-        boolean f = true;
+    public boolean quitEmp(int id, String status) {
+        boolean f;
         try {
-            empDao.quitEmp(id,status);
+            f = empDao.quitEmp(id, status);
         } catch (Exception e) {
             f = false;
             e.printStackTrace();

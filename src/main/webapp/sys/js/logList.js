@@ -21,10 +21,10 @@ layui.use(['table', 'form'], function () {
                     return log.emp.empName
                 }},
             {field: 'moduleName', title: '模块名称', templet:function (log) {
-                    return log.module.moduleName
+                    if (log.module!=null){ return log.module.moduleName }else{ return "" }
                 }},
             {field: 'content', title: '日志内容'},
-            {field: 'createTime', title: '记录时间', width: 120, templet: "<div>{{ layui.util.toDateString(d.hireDate, 'yyyy-MM-dd') }}</div>" }
+            {field: 'createTime', title: '记录时间', width: 180, templet: "<div>{{ layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss') }}</div>" }
         ]],
         page: true //是否显示分页
         , limit: 10 //默认分页条数

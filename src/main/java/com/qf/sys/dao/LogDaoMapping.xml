@@ -14,17 +14,17 @@
             <result property="empName" column="empName"/>
         </association>
         <association property="module" javaType="Module">
-            <id property="id" column="mId"/>
+            <id property="id" column="moduleId"/>
             <result property="moduleName" column="moduleName"/>
         </association>
     </resultMap>
 
     <select id="getAllLogByPage" resultMap="LogResultMap" parameterType="map">
-        SELECT l.*,e.id eid,e.empName,m.moduleName
-        FROM emp e,log l,module m
+        SELECT t.*, m.moduleName
+        FROM
+        module m
+        RIGHT JOIN ( SELECT l.*,e.id eid, e.empName FROM log l LEFT JOIN emp e ON e.empNo = l.empNo ) t ON t.moduleId = m.id
         WHERE 1=1
-        AND l.empNo = e.empNo
-        AND l.moduleId = m.id
         <if test="empNo!=0">
             and l.empNo = #{empNo}
         </if>
@@ -43,5 +43,10 @@
         <if test="maxTime!=null and maxTime!=''">
             AND l.createTime &lt;= #{maxTime}
         </if>
+        ORDER BY t.createTime DESC
     </select>
+
+    <insert id="add" parameterType="Log">
+        INSERT INTO log(empNo,moduleId,content,createTime) VALUES(#{emp.empNo},#{module.id},#{content},#{createTime});
+    </insert>
 </mapper>

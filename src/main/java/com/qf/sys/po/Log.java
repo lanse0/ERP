@@ -12,7 +12,7 @@ public class Log {
     private Emp emp;//操作员工
     private Module module;//操作模块
     private String content;//日志内容
-    private Date createTime;//创建时间
+    private Date createTime=new Date();//创建时间
     private String status;
 
     public Log() {

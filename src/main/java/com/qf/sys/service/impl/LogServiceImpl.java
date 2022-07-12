@@ -26,4 +26,9 @@ public class LogServiceImpl implements LogService {
         PageInfo<Log> pageInfo = new PageInfo<Log>(logs);
         return pageInfo;
     }
+
+    @Override
+    public boolean add(Log log) {
+        return logDao.add(log);
+    }
 }
