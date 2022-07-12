@@ -15,6 +15,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
+/**
+ *
+ */
 @Component
 @Aspect
 public class LogAop {
